@@ -7,7 +7,7 @@
 # How to add a new service file (5 steps):
 pkgname=systemd-services
 # 1. bump pkgver
-pkgver=113
+pkgver=114
 pkgrel=0
 pkgdesc="Systemd service files"
 url="https://postmarketos.org"
@@ -29,6 +29,7 @@ subpackages="
 	colord-systemd:_service
 	connman-systemd:_service
 	dnsmasq-systemd:_service
+	espeakup-systemd:_service
 	fprintd-systemd:_service
 	gnome-clocks-systemd:_service
 	greetd-wlgreet-systemd:_service
@@ -80,6 +81,7 @@ _connman_sources="
 	system/connman.service
 " # From connman upstream
 _dnsmasq_sources="sysusers.d/dnsmasq.conf"  # From: https://src.fedoraproject.org/rpms/dnsmasq/blob/rawhide/f/dnsmasq-systemd-sysusers.conf
+_espeakup_sources="system/espeakup.service" # From https://github.com/linux-speakup/espeakup/blob/master/services/systemd/espeakup.service.in
 _fprintd_sources="system/fprintd.service" # From https://gitlab.freedesktop.org/libfprint/fprintd/-/blob/master/data/fprintd.service.in
 _gnome_clocks_sources="user/gnome-clocks.service"
 _greetd_wlgreet_sources="system/wlgreet.service"
@@ -138,6 +140,7 @@ source="$(flatpath \
 	$_colord_sources \
 	$_connman_sources \
 	$_dnsmasq_sources \
+	$_espeakup_sources \
 	$_fprintd_sources \
 	$_gnome_clocks_sources \
 	$_greetd_wlgreet_sources \
@@ -226,6 +229,7 @@ c10378bac1d64c0a2c767aab439c7d71bb7706b4fdc981add3ab4d5967257c0177f07448f884aeb1
 a7fd0c47858a10c263d9bc661dc955366a2acd79f7be5cf2571dc7ec3b3f5adf122b4e55e58d01b778aa7ed0c6981fc454295c93d29bd89d9145d5d2439e01a5  system-connman-wait-online.service
 9e2bb4153e97c11db7792b758a7a21bd352c7443dbdbde0f390d4dfe52d7495a4a01cb15097e842cfe69eb1214f9bca5a626fb54b4f8216e11efda1c55b89add  system-connman.service
 97887423ad5b8344786912899553cd2f2033da6a79104a9ad59ebda813505ee05bef19c9e6f46af5ecee62dd0d436773a9a0d10bad759cd92aad3f53b95e62a2  sysusers.d-dnsmasq.conf
+409ef6d882bdccac6857563fb54b7b268b4a7a2e421cd75cb9089d2ed77cfcc10c26f3fb4d2c447f5c2a82460118451397f8c31696a98b783efd64891059b96c  system-espeakup.service
 c86ffe994aa78b3d68c3956c54255c9479d832c4a2fd3905deec6ef620871bacf60f7a9cb7ef9a3dfd7993354d4590b8b5efef3159274477857c3ead614dee02  system-fprintd.service
 bc7987a001d2076788d904f1ea6d3e97a2ab905ee55302ffb90402133c2b9fb760d7ad94e06971d811b9d905048e164cb78355f8cd087219b5b8ff6dab2fbd9c  user-gnome-clocks.service
 e226bdb71f6fafe92d14046dfa19ddbccb765b579c1f90687a9ece376fa12406db9f2cf8035ff07d5a78ef77dc73615d39a8790f8722585bf65872be773888ff  system-wlgreet.service
