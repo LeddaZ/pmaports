@@ -1,7 +1,7 @@
 # Maintainer: Clayton Craft <clayton@craftyguy.net>
 pkgname=postmarketos-base-ui
 pkgver=42
-pkgrel=0
+pkgrel=2
 pkgdesc="Meta package for minimal postmarketOS UI base"
 url="https://postmarketos.org"
 arch="noarch"
@@ -24,6 +24,11 @@ depends="
 	xdg-utils
 	"
 subpackages="
+	$pkgname-accessibility-full:_accessibility_full
+	$pkgname-accessibility-graphical:_accessibility_graphical
+	$pkgname-accessibility-none:_accessibility_none
+	$pkgname-accessibility-tty-openrc:_accessibility_tty_openrc
+	$pkgname-accessibility-tty:_accessibility_tty
 	$pkgname-audio
 	$pkgname-audio-pipewire:audio_pipewire
 	$pkgname-audio-pulseaudio:audio_pulseaudio
@@ -104,11 +109,12 @@ flatpath() {
 source="$(flatpath $_source644 $_source600 $_source755)"
 
 _pmb_select="postmarketos-base-ui-wifi"
+
 package() {
-	# wifi, audio and init backends are provided by a subpackage in this
-	# APKBUILD and it won't exist when this is evaluated at the top level.
-	# It's moved into this function to work around it.
-	depends="$depends $pkgname-wifi"
+	# wifi, audio, accessibility tooling, and init backends are provided by
+	# subpackages in this APKBUILD and won't exist when this is evaluated at
+	# the top level. They're moved into this function to work around this.
+	depends="$depends $pkgname-accessibility $pkgname-wifi"
 
 	local i
 	for i in $_source644; do
@@ -297,6 +303,49 @@ flatpak() {
 	install_if="$pkgname=$pkgver-r$pkgrel flatpak"
 
 	amove usr/share/flatpak/remotes.d/flathub.flatpakrepo
+}
+
+_accessibility_full() {
+	pkgdesc="Install all accessibility tools."
+	depends="brltty espeakup orca speech-dispatcher"
+	provides="postmarketos-base-ui-accessibility=$pkgver-r$pkgrel"
+	provider_priority=100
+
+	mkdir -p "$subpkgdir"
+}
+
+_accessibility_graphical() {
+	pkgdesc="Install accessibility tools for graphical environments only."
+	depends="orca speech-dispatcher"
+	provides="postmarketos-base-ui-accessibility=$pkgver-r$pkgrel"
+	provider_priority=90
+
+	mkdir -p "$subpkgdir"
+}
+
+_accessibility_none() {
+	pkgdesc="Do not install accessibility tools."
+	provides="postmarketos-base-ui-accessibility=$pkgver-r$pkgrel"
+	provider_priority=10
+
+	mkdir -p "$subpkgdir"
+}
+
+_accessibility_tty() {
+	pkgdesc="Install accessibility tools for tty / console environments only."
+	depends="brltty espeakup speech-dispatcher"
+	provides="postmarketos-base-ui-accessibility=$pkgver-r$pkgrel"
+	provider_priority=80
+
+	mkdir -p "$subpkgdir"
+}
+
+_accessibility_tty_openrc() {
+	install_if="$pkgname-openrc=$pkgver-r$pkgrel $pkgname-accessibility-tty"
+	depends="openrc"
+	install="$subpkgname.post-install"
+
+	mkdir -p "$subpkgdir"
 }
 
 sha512sums="
