@@ -89,6 +89,7 @@ enable waydroid-container.service
 enable waydroid-sensors.service
 
 # a11y
+enable espeakup.service
 enable brltty.path
 
 # Device specifics:
