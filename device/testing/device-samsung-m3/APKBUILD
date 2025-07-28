@@ -17,7 +17,11 @@ depends="
 	"
 makedepends="devicepkg-dev"
 install="$pkgname.post-install"
-subpackages="$pkgname-nonfree-firmware:nonfree_firmware"
+_pmb_recommends="
+	firmware-samsung-midas-bluetooth
+	firmware-samsung-midas-wifi
+	linux-firmware-s5p-mfc
+	"
 source="
 	deviceinfo
 	ucm/Midas.conf
@@ -39,16 +43,6 @@ package() {
 		-t "$_midas_audio_dir"
 	install -Dm644 "$srcdir"/HiFi.conf \
 		-t "$_midas_audio_dir"
-}
-
-nonfree_firmware() {
-	pkgdesc="WiFi, Bluetooth, MFC firmware"
-	depends="
-		firmware-samsung-midas-bluetooth
-		firmware-samsung-midas-wifi
-		linux-firmware-s5p-mfc
-		"
-	mkdir "$subpkgdir"
 }
 
 sha512sums="
