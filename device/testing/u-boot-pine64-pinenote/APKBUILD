@@ -24,13 +24,14 @@ makedepends="
 	swig
 "
 _rkbin_commit="fd73dcf27702e1efc2065055215320adeaadee84"
+_commit="6417c285d59e0659361f00baed06310e5a5ec54c"
 builddir="$srcdir"/u-boot-$pkgver
 source="
 	https://ftp.denx.de/pub/u-boot/u-boot-${pkgver//_/-}.tar.bz2
 	https://github.com/m-weigand/rkbin/raw/$_rkbin_commit/bin/rk35/rk3566_ddr_1056MHz_ultra_v1.20.bin
 	https://github.com/m-weigand/rkbin/raw/$_rkbin_commit/bin/rk35/rk3568_bl31_ultra_v2.17.elf
 	https://github.com/PNDeb/pinenote-debian-image/releases/download/v20250101_01/rk356x_spl_loader_v1.12.112.bin
-	0001-board-rockchip-add-pine64-pinenote.patch
+	$pkgname-$pkgver-$_commit.patch::https://ayakael.net/forge/u-boot-pinenote/compare/$_commit..v$pkgver.patch
 	update-u-boot
 "
 
@@ -59,6 +60,6 @@ sha512sums="
 0791395e4afeb287bc3b6a33aad9ba7c913b5a9aa2259ad1c4a8ef4c667097e47e919d76c568bae64907f38b5a5f824bb16d79ee3d5467f57c6781c644e6387e  rk3566_ddr_1056MHz_ultra_v1.20.bin
 1f257e9da6a80661235c62800b4b4b0ac6a7dffe7840d5bfa423737f8bd6de9184f4a8f57cd57b31e40389f695a33fa2875c5fcd9624e44fa081d0529daa6aaf  rk3568_bl31_ultra_v2.17.elf
 386fcd19d53cf2af5bb7a704d9c6e9fc5b05bf5c1aba7d4e052dc83e57c416b4e85074b2486c7f31f7618e50931bce00fbe425e46e01445653445b0fded67537  rk356x_spl_loader_v1.12.112.bin
-276309b6917899b3cb6e061dbe6ef4635b71f785fbc2f5c09fbbc185a25773cd775dea7ede92f15ff6bd749e7294d51219b526f84454ba61e1b1defa30fc9f0e  0001-board-rockchip-add-pine64-pinenote.patch
+9ca0ffa4670ee275744ec4861cb22e084cf7f3584b616324d6d4d53308c4cb071fee5a30110c8e192c4fc4ef49528f454d92485566d1cfd33451b447dab3f578  u-boot-pine64-pinenote-2025.07-6417c285d59e0659361f00baed06310e5a5ec54c.patch
 0296588a73bdb968f1413c1e416b05da01202dd8bdeadb9fe9530ab08ed071c60ec44f6591d88453da0ea82c4d9364f85d74bb5830093c0cf97f63080f4011e5  update-u-boot
 "
