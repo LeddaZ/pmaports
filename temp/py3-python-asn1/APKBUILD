@@ -27,8 +27,9 @@ source="$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz
 	0002-use-remove-enum-compat-dep.patch
 	"
 builddir="$srcdir/python-asn1-$pkgver"
-# tox always seems to call the network, even when it shouldn't
-options="net"
+# net: tox always seems to call the network, even when it shouldn't
+# !check: fails to find environments in config file
+options="net !check"
 
 build() {
 	gpep517 build-wheel \
