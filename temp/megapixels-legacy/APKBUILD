@@ -1,0 +1,35 @@
+# Contributor: Martijn Braam <martijn@brixit.nl>
+# Maintainer: Adam Thiede <me@adamthiede.com>
+pkgname=megapixels-legacy
+_pkgname=megapixels
+pkgver=0.16.1
+pkgrel=0
+pkgdesc="GTK+3 camera app for mobile devices"
+url="https://gitlab.com/megapixels-org/Megapixels"
+arch="all"
+license="GPL-3.0-only"
+# Required by postprocess.sh
+# depends="cmd:dcraw_emu cmd:convert cmd:exiftool"
+depends="libraw-tools imagemagick exiftool"
+makedepends="glib-dev gtk+3.0-dev tiff-dev meson cmake zbar-dev"
+source="
+	$_pkgname-$pkgver.tar.gz::https://gitlab.com/megapixels-org/Megapixels/-/archive/$pkgver/Megapixels-$pkgver.tar.gz
+	gcc-15.patch
+"
+builddir="$srcdir/Megapixels-$pkgver"
+options="!check" # There's no testsuite
+
+build() {
+	abuild-meson . output
+	meson compile -C output
+}
+
+package() {
+	DESTDIR="$pkgdir" meson install --no-rebuild -C output
+}
+
+
+sha512sums="
+cfcb1ddee107c8b022e7fe83e49f753b8ded5030c465a13dd672d87bc56df724ff1ebffbd548e2235c9f29d375efbd56b362e7ae03e228b90ca47681460b0b6f  megapixels-0.16.1.tar.gz
+9dcbcc82272e2022af0d72af03e86e4c6956d9f8dca50d37da96fe785badc2c71cc0f12e57654a80f6039ac8103ad0f3a88e18cf9f53db86a5ea5c84442217a8  gcc-15.patch
+"
