@@ -2,7 +2,7 @@
 # Co-Maintainer: Jenneron <jenneron@protonmail.com>
 pkgname=linux-postmarketos-mediatek-mt8173
 pkgver=6.16.5
-pkgrel=0
+pkgrel=1
 pkgdesc="Mainline kernel fork for Mediatek MT8173 devices"
 arch="aarch64"
 _carch="arm64"
@@ -36,6 +36,7 @@ esac
 source="
 	https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-${pkgver//_/-}.tar.xz
 	$_config
+	powervr-MT8173-GPU-support.patch
 "
 builddir="$srcdir/linux-${_kernver//_/-}"
 
@@ -66,5 +67,6 @@ package() {
 
 sha512sums="
 0c08a9ac9ab69b2e7ac7c3d19807b746f706df39f5d29883d7dbf2f3d7f32f8d80611ea4168d43f3617bf203aa50e5f965b28cdb9d29d674e6a28753e948da16  linux-6.16.5.tar.xz
-4f4649d645c0d53c4c14e362d8d97ff4823f37c2962f443725c40ffc52e9c8675262e0206b0f8308004a199408e68f7dd97f3a4691ef24b29c4f27d00fdcf2e4  config-postmarketos-mediatek-mt8173.aarch64
+e5749154942ca0c6803028a2eb1404398c03d36665f0847ba09c606b2f7cb29ba400574a5661ed6c650df1607baccb775a733dd94093123a79c51e869fb02d99  config-postmarketos-mediatek-mt8173.aarch64
+19ce1a1b48d56551eb60eafe76ea93b005d3b1d97cfb35f695117ec0482602d8ce2248e10c05df8734525c56e4f6dc33454bc0f33f8072d97f2869cc1bc245fd  powervr-MT8173-GPU-support.patch
 "
