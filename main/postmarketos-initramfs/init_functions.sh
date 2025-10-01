@@ -1202,6 +1202,8 @@ hide_splash() {
 }
 
 set_framebuffer_mode() {
+	echo 16 >/sys/class/graphics/fb0/bits_per_pixel
+
 	[ -e "/sys/class/graphics/fb0/modes" ] || return
 	[ -z "$(cat /sys/class/graphics/fb0/mode)" ] || return
 

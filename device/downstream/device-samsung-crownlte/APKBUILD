@@ -1,7 +1,7 @@
 # Reference: <https://postmarketos.org/devicepkg>
 pkgname=device-samsung-crownlte
 pkgdesc="Samsung Galaxy Note 9"
-pkgver=3
+pkgver=4
 pkgrel=0
 url="https://postmarketos.org"
 license="MIT"
@@ -21,6 +21,7 @@ source="
 	stylus.conf
 	hciattach
 	10-hciattach.rules
+	00-aaa-fb0_16_bits_per_pixel.sh
 "
 subpackages="
 	$pkgname-nonfree-firmware:nonfree_firmware
@@ -33,6 +34,16 @@ build() {
 
 package() {
 	devicepkg_package $startdir $pkgname
+
+	# ????
+	# changing the bpp needs to happen before msm-fb-refresher starts,
+	# but it's hook at 00-msm-fb-* is started before our initfs hook,
+	# which devicepkg_package (main/devicepkg-dev/devicepkg_package.sh)
+	# installs at 00-$packgename = 00-samsung-crownlte-*
+	local initfsdir="$pkgdir"/usr/share/mkinitfs/
+	mkdir -p "$initfsdir"/hooks
+	install -Dm755 "$srcdir"/00-aaa-fb0_16_bits_per_pixel.sh \
+		"$initfsdir"/hooks/00-aaa-fb0_16_bits_per_pixel.sh
 }
 
 nonfree_firmware() {
@@ -60,4 +71,5 @@ ec698b3de66b051987c5442e41309398966dfc2ad5c717940e442f67fd48f5faa6e8a0b84de1aad4
 29c2f8fbd67f6aa95a34fc465798be71dc360087b4e4fddbcdc9b43a628de384f48c1b9e6a7b3d41c93954baee3b88f08972f0a827d663b0279b06a4b2908bd2  stylus.conf
 70c4d3b7af9e58729b5caca87c6c0032675c4adfd3852b0e3fc1f866675d503c4f08d3edaf1b1949bf15344840222c1a7ba00384c290fa5e1b7742e1198855a8  hciattach
 58f72bb12532ce23782389bf9e9eb8eb8afe004dd46d11d48b21b6da6a84660846f79d528d9968a1c1be57716577035fd0da59b3fcda4f197599e92f243dbb45  10-hciattach.rules
+c4d15cd27df2d2d27f5b2e2e396502749acbbe918257a187bc49ccac42d2d47304562024c5ca3d6ac09b4278170041c3aac2d6125ba1aed7ff18357c8bfa6a0b  00-aaa-fb0_16_bits_per_pixel.sh
 "
