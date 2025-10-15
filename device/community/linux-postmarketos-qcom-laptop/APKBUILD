@@ -23,12 +23,15 @@ makedepends="
 	bash
 	bc
 	bison
+	clang
 	devicepkg-dev
 	elfutils-dev
 	findutils
 	flex
 	git
 	linux-headers
+	lld
+	llvm
 	openssl-dev
 	pahole
 	perl
@@ -55,14 +58,14 @@ prepare() {
 
 	# Generate .config
 	unset LDFLAGS
-	make ARCH="$_carch" CC="${CC:-gcc}" \
+	make ARCH="$_carch" LLVM=1 \
 		KBUILD_BUILD_VERSION="$((pkgrel + 1 ))-$_flavor" \
 		"$_defconfig" qcom_laptops.config pmos.config misc.config
 }
 
 build() {
 	unset LDFLAGS
-	make ARCH="$_carch" CC="${CC:-gcc}" \
+	make ARCH="$_carch" LLVM=1 \
 		KBUILD_BUILD_VERSION="$((pkgrel + 1 ))-$_flavor"
 }
 
