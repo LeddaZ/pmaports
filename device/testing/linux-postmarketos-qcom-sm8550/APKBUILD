@@ -4,7 +4,7 @@
 
 _flavor="postmarketos-qcom-sm8550"
 pkgname=linux-$_flavor
-pkgver=6.17.0
+pkgver=6.18.0-rc2
 pkgrel=1
 pkgdesc="Mainline kernel fork for SM8550"
 arch="aarch64"
@@ -28,7 +28,7 @@ makedepends="
 "
 
 # Source
-_commit="5b3a834f4e9c4df8efaacf8b5d1ff650ebc044ec"
+_commit="29b59bac645281ba031c81916448625c5a17e07f"
 source="
 	$pkgname-$_commit.tar.gz::https://github.com/map220v/sm8550-mainline/archive/$_commit.tar.gz
 	config-postmarketos-qcom-sm8550.aarch64
