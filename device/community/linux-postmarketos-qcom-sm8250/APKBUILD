@@ -5,7 +5,7 @@
 _flavor="postmarketos-qcom-sm8250"
 pkgname=linux-$_flavor
 pkgver=6.17.0
-pkgrel=1
+pkgrel=2
 pkgdesc="Mainline kernel fork for SM8250"
 arch="aarch64"
 _carch="arm64"
@@ -28,7 +28,7 @@ makedepends="
 "
 
 # Source
-_tag="xiaomi-enuma_1"
+_tag="xiaomi-enuma_3"
 _config="config-$_flavor.$arch"
 source="
 	$pkgname-$_tag.tar.bz2::https://gitlab.postmarketos.org/wrobelda/linux/-/archive/$_tag/linux-$_tag.tar.bz2
@@ -63,6 +63,6 @@ package() {
 }
 
 sha512sums="
-6577fd3ae1784d3b9c4456c4f5d2842de38094c237563c6dcff1bebf77e5aa7f4ff0999880841d72de079624278982c8167e69a76aaa2056a2d6f0328c8f15de  linux-postmarketos-qcom-sm8250-xiaomi-enuma-1.tar.bz2
-98078220f7e2bacd14d069d30b55addd32627bcaef7e1394d185888ac16c174e0e61b2fa0a11223a33a8b56da86dd5766a9e6cea139682ff4cffefa89356fd67  config-postmarketos-qcom-sm8250.aarch64
+dc2fcafa1923b3a9a937d82fca9f2cb35ba76222de6fcd1b767aceb300444465892d01bde7609359d17e7d26bdb28a93c54e55cbde2ccb152f2aa6dd2a470919  linux-postmarketos-qcom-sm8250-xiaomi-enuma_3.tar.bz2
+4a85b3001875e0967afbf9c4fc2b2fac7bd383db187e5ff207249e7cb641c6c729f995b2c4b8085d92e246954d212f1c32286757a39e07757eb516733487084c  config-postmarketos-qcom-sm8250.aarch64
 "
