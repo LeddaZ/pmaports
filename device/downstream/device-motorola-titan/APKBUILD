@@ -1,7 +1,7 @@
 # Reference: <https://postmarketos.org/devicepkg>
 pkgname=device-motorola-titan
-pkgver=2
-pkgrel=2
+pkgver=3
+pkgrel=0
 pkgdesc="Motorola Moto G 2014"
 url="https://postmarketos.org"
 arch="armv7"
@@ -38,7 +38,7 @@ nonfree_firmware() {
 }
 
 sha512sums="
-4698a4cb0f5f9bc083798f18ff1c85c9952868817a085cb2e00c8f64fc44649538a18d6e896aa6b03f2b55bbada097590848be34927f9c1dc9c5acaefece77d1  deviceinfo
+bc3eaaca7dd83078535031fa9b595ccd928873c8cfff93f002667d2f20aff98f101fd0fa7745e2826eca9f672f60847f491f8abda80effa23e98e72a164eb6b8  deviceinfo
 8406968cd554393ea1e350967c80810d059de2b1d33ea1302e265780c1f0110d64cf15a68c2f374981a88906d0317315e0a71995c85fd5eaf93bb47ed427529c  90-android-touch-dev.rules
 d04013c17caf77a87ebea167dbe48f7efa9c9d3123c5743d359f3ea8ccc6b268fa021535a4bf8291eb4a352f0c92f6eb527da0db340421f53bc1cc439a453306  profile.sh
 "

@@ -2,8 +2,8 @@
 # Maintainer: Raymond Hackley <wonderfulShrineMaidenOfParadise@postmarketos.org>
 pkgname=device-samsung-rossa
 pkgdesc="Samsung Galaxy Core Prime LTE"
-pkgver=5
-pkgrel=1
+pkgver=7
+pkgrel=0
 url="https://postmarketos.org"
 license="MIT"
 arch="aarch64"
@@ -14,6 +14,7 @@ depends="
 	linux-postmarketos-qcom-msm8916
 	soc-qcom-msm8916
 	soc-qcom-msm8916-rproc
+	soc-samsung-msm8916-modem-workaround
 "
 makedepends="devicepkg-dev"
 source="
@@ -44,6 +45,6 @@ nonfree_firmware() {
 }
 
 sha512sums="
-3591d9b53a1ac6acef86636c78df246479c8b58d289b0d9c83e3dd91925381a56dae8fff4a5e507889a71c42783943febb9174b3ec50e1e80706f4e5b5e97fa1  deviceinfo
+d8d45352db16f5e67bf48b9d24f7776ca0a88b5973162a3cabef38b14bd1303311f2b2d5849a6aa7b83f89d7b11491048f3ab3f747e008a7526b3c4ea0ad4a96  deviceinfo
 9ead03b9e3edb69b238b25e5eecd477c99f03223237a549d124903dfb56a8be02df25ea43c8c308998d2250f9e586c8fef594007f43bc426dfb2d074a6270bba  modules-initfs
 "

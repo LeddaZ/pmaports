@@ -21,9 +21,11 @@ sh_files="
 	./main/postmarketos-initramfs/init.sh
 	./main/postmarketos-initramfs/init_functions.sh
 	./main/postmarketos-mkinitfs-hook-netboot/netboot.sh
+	./main/postmarketos-ui-os-installer/rootfs-usr-bin-pmos_setup.sh
 	./main/ttyescape/*.post-install
 	./main/unl0kr/unlock.sh
 	./device/community/soc-qcom/call_audio_idle_suspend_workaround.sh
+	./device/testing/device-apple-mac-aarch64/*.sh
 	./extra-repos/systemd/postmarketos-base-systemd/rootfs-usr-libexec-systemd-apk-trigger
 
 	$(find . -path './main/postmarketos-ui-*/*.sh')
