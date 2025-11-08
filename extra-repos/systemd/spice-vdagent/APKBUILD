@@ -1,0 +1,49 @@
+# Forked from Alpine to add systemd!
+
+pkgname=spice-vdagent
+_pkgver=0.23.0
+pkgver=999$_pkgver
+pkgrel=0
+pkgdesc="Spice guest agent for Linux"
+url="https://spice-space.org/"
+arch="all !armhf"
+license="GPL-3.0-or-later"
+makedepends="
+	spice-protocol
+	alsa-lib-dev
+	dbus-dev
+	glib-dev
+	libdrm-dev
+	libpciaccess-dev
+	libxfixes-dev
+	libxinerama-dev
+	libxrandr-dev
+	systemd-dev
+	"
+checkdepends="procps"
+subpackages="$pkgname-doc $pkgname-systemd $pkgname-udev"
+source="https://spice-space.org/download/releases/spice-vdagent-$_pkgver.tar.bz2
+	"
+options="!check" # test-session-info fails
+builddir="$srcdir/$pkgname-$_pkgver"
+
+build() {
+	./configure \
+		--prefix=/usr \
+		--localstatedir=/var \
+		--sysconfdir=/etc \
+		--with-session-info=systemd \
+		--with-init-script=systemd
+
+	make
+}
+
+package() {
+	make install DESTDIR="$pkgdir"
+	install -dm 0755 "$pkgdir"/usr/lib/modules-load.d/
+	printf 'uinput\n' >"$pkgdir"/usr/lib/modules-load.d/spice-vdagent.conf
+}
+
+sha512sums="
+ab7e6ad34d5fa8ff7aa56f26307bf20f08a3b265713a37a08588d59f224e521f602a4f43084a95f7fa32a6aa67d09f5126a6c5a01412346b8044fea6d91dad30  spice-vdagent-0.23.0.tar.bz2
+"
