@@ -1,10 +1,10 @@
 # Maintainer: Clayton Craft <clayton@craftyguy.net>
 # Co-Maintainer: Casey Connolly <kcxt@postmarketos.org>
 pkgname=linux-postmarketos-qcom-laptop
-pkgver=6.16
-pkgrel=2
+pkgver=6.17
+pkgrel=1
 # Commit from branch @ https://github.com/jhovold/linux/tree/wip/x1e80100-$pkgver
-_commit="a9cd6cda46ab81b1ec1d687d40ff0933dc6e6915"
+_commit="4a9b759f28636aa25db450062fd9453511d530d9"
 pkgdesc="Generic kernel for Qualcomm laptops"
 arch="aarch64"
 _carch="arm64"
@@ -43,13 +43,13 @@ replaces="linux-lenovo-21bx"
 # Source
 _repository="linux"
 source="
-	$pkgname-$_commit.tar.gz::https://github.com/jhovold/$_repository/archive/$_commit.tar.gz
+	$pkgname-$_commit.tar.gz::https://gitlab.com/Linaro/arm64-laptops/$_repository/-/archive/$_commit/linux-$_commit.tar.gz
 	misc.config
 	pmos.config
 "
 builddir="$srcdir/linux-$_commit"
 _outdir="out"
-_defconfig="johan_defconfig"
+_defconfig="defconfig"
 
 prepare() {
 	default_prepare
@@ -60,7 +60,7 @@ prepare() {
 	unset LDFLAGS
 	make ARCH="$_carch" LLVM=1 \
 		KBUILD_BUILD_VERSION="$((pkgrel + 1 ))-$_flavor" \
-		"$_defconfig" pmos.config misc.config
+		"$_defconfig" qcom_laptops.config pmos.config misc.config
 }
 
 build() {
@@ -87,7 +87,7 @@ package() {
 }
 
 sha512sums="
-147ff8e664ef809ad45de839947ead5ac006c67f5d63bb3199d0064102aab97671f477a1a6a0ef4df7512a1c560e40e31b2b8735990d5310c107e3ce880a35c4  linux-postmarketos-qcom-laptop-a9cd6cda46ab81b1ec1d687d40ff0933dc6e6915.tar.gz
-e7a651b3780b1cfa68ca65b9e62f77db4273cf5b9162514318c347790d961b4668d0c6eb51604aaaf15a15c9f370fe03b4b977163293af379fda9a08d5f7e73d  misc.config
-b26371a4208c79f301b7c398445e5d3503b8477be8d23d513bd5fd5746d1245980a914986203d205f986e4b58587c9a1243d8bfb1c27bc65685f1d3af186eb44  pmos.config
+af6da49af55234f0ae8c576a5e164d1d6318ffde262017b62bc13ec396628033819586b78d36e782f9fa9f3f8c04a9795c4d82a63a614c34b3f95a7b5d63fbdb  linux-postmarketos-qcom-laptop-4a9b759f28636aa25db450062fd9453511d530d9.tar.gz
+79ff10a0a1786092015a8d1ce449563c0e29e2e8ca2dbd0b4d3d1c346389920158e96010082dcd9fb910ddbf9250d279f873a9ddab22f12dc8a280e6bcf5e04b  misc.config
+e5c6b4e7d16601d399097b85bb87b0d79a5070a517ae6d644e66f2f9ab9597fda4ffb3f6135936af05038f05ef24ab22122d4ebc536e82f0f00bf4abbb0fca6c  pmos.config
 "
