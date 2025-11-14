@@ -625,6 +625,11 @@ CFI_PERMISSIVE = "n"
 LTO_CLANG_THIN = "y" # Required for CFI pre-6.1
 ["category:hardening".">=6.12.0"."x86_64 aarch64 armv7 riscv64"]
 CFI_ICALL_NORMALIZE_INTEGERS = "y" # Required for CFI with Rust
+["category:hardening".">=4.14.3"."all"]
+LSM = "lockdown" # pma!7369
+["category:hardening".">=5.1.0"."all"]
+SECURITY_LOCKDOWN_LSM = "y"
+SECURITY_LOCKDOWN_LSM_EARLY = "y" # Ensure kernel lockdown starts early in boot
 
 # Shadow Call Stack is currently only implemented on arm64 and riscv
 ["category:hardening".">=5.8.0"."aarch64"]
