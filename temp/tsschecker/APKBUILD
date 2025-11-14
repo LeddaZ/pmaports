@@ -64,6 +64,7 @@ build() {
 		--host=$CBUILD \
 		--target=$CTARGET \
 		--prefix=/usr \
+		--program-prefix=""
 	make
 }
 
