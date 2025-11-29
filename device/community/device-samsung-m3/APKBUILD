@@ -2,8 +2,8 @@
 # Maintainer: Henrik Grimler <henrik@grimler.se>
 pkgname=device-samsung-m3
 pkgdesc="Samsung Galaxy S III LTE"
-pkgver=10
-pkgrel=1
+pkgver=11
+pkgrel=0
 url="https://postmarketos.org"
 license="MIT"
 arch="armv7"
@@ -17,7 +17,11 @@ depends="
 	"
 makedepends="devicepkg-dev"
 install="$pkgname.post-install"
-subpackages="$pkgname-nonfree-firmware:nonfree_firmware"
+_pmb_recommends="
+	firmware-samsung-midas-bluetooth
+	firmware-samsung-midas-wifi
+	linux-firmware-s5p-mfc
+	"
 source="
 	deviceinfo
 	ucm/Midas.conf
@@ -41,18 +45,8 @@ package() {
 		-t "$_midas_audio_dir"
 }
 
-nonfree_firmware() {
-	pkgdesc="WiFi, Bluetooth, MFC firmware"
-	depends="
-		firmware-samsung-midas-bluetooth
-		firmware-samsung-midas-wifi
-		linux-firmware-s5p-mfc
-		"
-	mkdir "$subpkgdir"
-}
-
 sha512sums="
-7b004bf4210adce30c8cac664688ca164353eb5747c132ff4b6d7efcbc393fadd08719202aa3d96f67bcab5734f0d2011ad2e0f4b1bcacebd137ab7e2ffba8cb  deviceinfo
+4e876ca1093a8728327fd3b22a7ed263e9fd64b662560f728ced112ab7a39f6e6900a8de2cf4d58985cdaa0d1799048a4abaae3e6c6665d4f12cbab9ee4278af  deviceinfo
 caa81e8ab6753c0ca24c22fb6742288765dfbf2469b8b8c35c5789edfcee546ef1c3b14ad6e540c417f434258399300f17d312b58157635eafab134587ef94cc  Midas.conf
 21f64c9104ec5780fffde8ba7ce57583592469694d07dd5e2de4173d7c9f99ba57fb28bb5bcfbbce921be9c4ead9d31980e948533162fe12424c2037145debb1  HiFi.conf
 56a2bdffc273cb0a581192e65378ff50e71c7bc8a696af7d5e7c165a53c005aae104c4514c68afb668454c5a94ce78bd509f8a40e3401d67e16636b1ed81d051  modules-load.conf
