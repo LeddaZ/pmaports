@@ -1,15 +1,15 @@
 # Reference: <https://postmarketos.org/devicepkg>
 pkgname=device-xiaomi-raphael
 pkgdesc="Xiaomi Mi 9T Pro / Redmi K20 Pro"
-pkgver=3
-pkgrel=2
+pkgver=4
+pkgrel=0
 url="https://postmarketos.org"
 license="MIT"
 arch="aarch64"
 _carch="arm64"
 options="!check !archcheck"
 depends="
-	linux-xiaomi-raphael
+	linux-postmarketos-qcom-sm8150
 	mkbootimg
 	postmarketos-base
 	mesa-vulkan-freedreno
@@ -68,5 +68,5 @@ nonfree_firmware_openrc() {
 
 sha512sums="
 657da31ee908264f8f13fe9a15b27c2f2a7bb09828e0e3b827de2cf3c39bdc548ba7c04ef4a7c0153b74e4fac7863a7b93abd09b3264f280cbc69958e3ce8216  deviceinfo
-d81350bb2c594d1c922b4eaa5f7ddd94ff5c52d915b6b34e01be2fddc5d624dea77343fab9b168acf889b55daa80a5deace6b81366d579816d5cc73b543a6826  modules-initfs
+9e70ca686c46e2242342ec0bf073fbb39655211c4629741d0d5f5fe9910e93e2944d52f73ba68289725ee76cf701a884033639bd8442e1bd5ce618e0638628cc  modules-initfs
 "
