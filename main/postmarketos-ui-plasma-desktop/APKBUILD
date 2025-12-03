@@ -2,11 +2,12 @@
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=postmarketos-ui-plasma-desktop
 pkgver=3
-pkgrel=5
-pkgdesc="(X11/Wayland) KDE Desktop Environment (works well with tablets)"
+pkgrel=6
+pkgdesc="(Wayland) KDE Desktop Environment (works well with tablets)"
 url="https://www.kde.org"
 # armhf and riscv64 blocked by plasma
-arch="noarch !armhf !riscv64"
+# ppc64le: blocked by gwenview -> qt6-qtwebengine
+arch="noarch !armhf !ppc64le !riscv64"
 license="GPL-3.0-or-later"
 depends="
 	plasma
@@ -39,6 +40,12 @@ _pmb_recommends="$_pmb_recommends
 	"
 options="!check pmb:systemd" # No tests for a metapkg
 subpackages="$pkgname-openrc $pkgname-systemd"
+install="
+	$pkgname-openrc.post-install
+	$pkgname-openrc.post-upgrade
+	$pkgname-systemd.post-install
+	$pkgname-systemd.post-upgrade
+	"
 
 package() {
 	mkdir -p "$pkgdir"
@@ -60,7 +67,6 @@ extras() {
 
 openrc() {
 	install_if="$pkgname=$pkgver-r$pkgrel openrc"
-	install="$subpkgname.post-install $subpkgname.post-upgrade"
 	depends="openrc"
 
 	mkdir -p "$subpkgdir"
@@ -68,7 +74,6 @@ openrc() {
 
 systemd() {
 	install_if="$pkgname=$pkgver-r$pkgrel systemd"
-	install="$subpkgname.post-install $subpkgname.post-upgrade"
 
 	mkdir -p "$subpkgdir"
 }

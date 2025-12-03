@@ -16,6 +16,8 @@ community = [
 	"category:containers",
 	"category:debug",
 	"category:filesystems",
+	"category:hardening",
+	"category:immutable",
 	"category:input",
 	"category:iwd",
 	"category:netboot",
@@ -80,6 +82,7 @@ LBDAF = "y"
 # on devices that like to coerce console=null
 NULL_TTY = "m"
 ["category:default".">=5.19.0"."all"]
+FW_LOADER_COMPRESS = "y"
 FW_LOADER_COMPRESS_ZSTD = "y"
 ["category:default".">=4.20.0"."all"]
 # required for systemd-oomd
@@ -137,6 +140,10 @@ VLAN_8021Q = "m"  # prerequisite for bridge
 CROSS_MEMORY_ATTACH = "y"
 ["category:waydroid"."<5.18"."all"]
 ASHMEM = "y"
+["category:waydroid".">=6.9"."all"]
+IP_NF_IPTABLES_LEGACY = "m"
+["category:waydroid".">=6.17"."all"]
+NETFILTER_XTABLES_LEGACY = "y"
 
 # iwd: modern inet wireless daemon
 # Obtained from 'grep ADD_MISSING src/main.c' in iwd.git
@@ -148,7 +155,7 @@ CRYPTO_DES = "m"
 CRYPTO_ECB = "y"
 CRYPTO_HMAC = "y"
 CRYPTO_MD4 = "m"  # Needed for EAP MSCHAPV2 authentication
-CRYPTO_MD5 = "m"
+CRYPTO_MD5 = "y"
 CRYPTO_SHA1 = "y"
 CRYPTO_SHA256 = "y"
 CRYPTO_SHA512 = "y"
@@ -187,6 +194,11 @@ IP6_NF_TARGET_REJECT = "m"
 IP6_NF_NAT = "m"
 ["category:nftables".">=3.13.0 <5.17"."all"]
 NFT_COUNTER = "y"
+["category:nftables".">=6.9"."all"]
+IP_NF_IPTABLES_LEGACY = "m"
+IP6_NF_IPTABLES_LEGACY = "m"
+["category:nftables".">=6.17"."all"]
+NETFILTER_XTABLES_LEGACY = "y"
 
 # containers: lxc, docker, etc.
 ["category:containers".">=0.0.0"."all"]
@@ -214,6 +226,7 @@ NETFILTER_XT_TARGET_CHECKSUM = "m"  # Needed for lxc
 IP_NF_NAT = "m"
 NF_NAT = "m"
 POSIX_MQUEUE = "y"
+MD = "y" # Required for BLK_DEV_DM
 BLK_DEV_DM = "y"  # Storage Drivers
 DUMMY = "m"  # Network Drivers
 # USER_NS = "y"  # This is already in pmOS kconfig check
@@ -267,8 +280,8 @@ CGROUP_PIDS = "y"  # Optional section
 
 # zram: RAM disk with on-the-fly compression
 ["category:zram".">=0.0.0"."all"]
-ZRAM = "m"
-ZSMALLOC = "m"
+ZRAM = "y"
+ZSMALLOC = "y"
 SWAP = "y"
 
 ["category:zram"."<6.12"."all"]
@@ -317,6 +330,8 @@ USB_FUNCTIONFS = "n"
 USB_MASS_STORAGE = "n"
 USB_G_SERIAL = "n"
 # enable configfs gadgets
+USB_GADGET = "y" # Required by USB_CONFIGFS_*
+USB_CONFIGFS = "m" # Required by USB_CONFIGFS_*
 USB_CONFIGFS_ACM = "y"  # Serial gadget for debug-shell
 USB_CONFIGFS_MASS_STORAGE = "y"  # Mass storage gadget for debug-shell
 USB_CONFIGFS_NCM = "y"  # USB networking via NCM
@@ -332,6 +347,7 @@ NETWORK_FILESYSTEMS = "y"  # Required by CIFS
 CIFS = "m"  # mount SMB shares
 LEDS_TRIGGER_PATTERN = "m"  # feedbackd
 LEDS_TRIGGER_TIMER = "m"  # hfd-service
+NETFILTER_ADVANCED = "y" # Required by NETFILTER_XT_MATCH_MARK
 NETFILTER_XT_MATCH_MARK = "m"  # e.g. HashiCorp Nomad
 NETFILTER_XT_MATCH_MULTIPORT = "m"  # e.g. HashiCorp Nomad
 NETFILTER_XT_MATCH_STATISTIC = "m"  # kube-proxy
@@ -339,13 +355,14 @@ NETFILTER_XT_MATCH_TCPMSS = "m"  # change MTU e.g. for Wireguard
 NETFILTER_XT_TARGET_TCPMSS = "m"  # change MTU e.g. for Wireguard
 # TODO = Depends on SUSPEND which is not enabled for some devices
 # PM_WAKELOCKS = "y"  # Sxmo
+CPU_FREQ_GOV_SCHEDUTIL = "y" # Required by UCLAMP_TASK
 UCLAMP_TASK = "y"  # Scheduler hints
 UCLAMP_TASK_GROUP = "y"  # Scheduler hints
 RT_GROUP_SCHED = "n"  # https://gitlab.postmarketos.org/postmarketOS/pmaports/-/issues/2652
 DM_INTEGRITY = "m"  # Device-mapper integrity target
 
 # uefi: proper modern booting
-["category:uefi".">=0.0.0"."all"]
+["category:uefi".">=0.0.0"."aarch64 armv7 armhf loongarch64 riscv64 x86 x86_64"]
 EFI_STUB = "y"
 EFI = "y"
 DMI = "y"
@@ -360,7 +377,7 @@ EFI_MIXED = "y"
 ["category:uefi".">=0.0.0"."aarch64 armv7"]
 EFI_GENERIC_STUB = "y"
 EFI_PARAMS_FROM_FDT = "y"
-["category:uefi".">=6.1.0"."aarch64"]
+["category:uefi".">=6.1.0"."aarch64 riscv64"]
 # Required EFI booting compressed kernels on this arch
 EFI_ZBOOT = "y"
 # Devices that used to run windows may still want to access
@@ -369,8 +386,11 @@ EFI_ZBOOT = "y"
 NTFS3_FS = "m"
 
 ["category:input".">=0.0.0"."all"]
+BT = "m" # Required by BT_HIDP
 BT_HIDP = "m"  # Bluetooth HID
+GPIOLIB = "y" # Required by a couple of HID configs
 HIDRAW = "y"  # /dev/hidraw* support
+INPUT_MISC = "y" # Required by INPUT_UINPUT
 INPUT_UINPUT = "y"  # buffyboard
 INPUT_JOYSTICK = "y" # Required by CONFIG_JOYSTICK_XPAD_FF
 JOYSTICK_XPAD = "m"  # Xbox controller
@@ -425,6 +445,7 @@ HID_KYE = "m"
 HID_LCPOWER = "m"
 HID_LED = "m"
 HID_LETSKETCH = "m"
+LEDS_CLASS_MULTICOLOR = "m" # Required by HID_LOGITECH
 HID_LOGITECH_DJ = "m"
 HID_LOGITECH_HIDPP = "m"
 HID_LOGITECH = "m"
@@ -462,6 +483,7 @@ HID_ROCCAT = "m"
 HID_SAITEK = "m"
 HID_SAMSUNG = "m"
 HID_SEMITEK = "m"
+IIO = "y" # Required by HID_SENSOR_*
 HID_SENSOR_ACCEL_3D = "m"
 HID_SENSOR_ALS = "m"
 HID_SENSOR_CUSTOM_INTEL_HINGE = "m"
@@ -511,13 +533,8 @@ HID_GOOGLE_STADIA_FF = "m"
 ["category:input".">=6.10"."all"]
 HID_WINWING = "m"
 ["category:input".">=6.12"."all"]
+SPI = "y" # Required by HID_GOODIX_SPI
 HID_GOODIX_SPI = "m"
-["category:input".">=0.0.0"."riscv64 x86 x86_64"]
-HID_BPF = "y"
-["category:input".">=6.4.0"."aarch64"]
-HID_BPF = "y"
-["category:input".">=4.15.0"."all"]
-BPF_JIT = "y" # Required by HID_BPF
 
 ["category:usb".">=0.0.0"."all"]
 DRM_UDL = "m"  # DisplayLink - connecting displays via USB
@@ -529,6 +546,7 @@ USB_RTL8152 = "m"  # USB Ethernet
 
 ["category:virt".">=0.0.0"."all"]
 HW_RANDOM_VIRTIO = "m"
+["category:virt".">=0.0.0"."aarch64 loongarch64 ppc64le riscv64 s390x x86 x86_64"]
 KVM = "y"
 VIRTUALIZATION = "y"
 
@@ -545,8 +563,43 @@ RS9116_FLASH_MODE = "n"  # pma!2059
 LEDS_GROUP_MULTICOLOR = "y"  # pma!5991
 
 # Required for immutable image booting
-["category:immutable".">=0.0.0"."all"]
+["category:immutable".">=0.0.0"."aarch64 armv7 armhf loongarch64 riscv64 x86 x86_64"]
 EFIVAR_FS = "m"
+["category:immutable".">=0.0.0"."all"]
 DM_VERITY = "m"
 EROFS_FS = "y"
 EROFS_FS_ZIP = "y"
+
+# In 6.18+, CFI_CLANG is CFI and does not require LTO
+["category:hardening".">=6.18_rc1"."x86_64 aarch64 armv7 riscv64"]
+CFI = "y"
+CFI_PERMISSIVE = "n"
+# All older versions use CFI_CLANG
+["category:hardening".">=6.10.0 <6.18_rc1"."armv7"]
+CFI_CLANG = "y"
+LTO_CLANG_THIN = "y" # Required for CFI
+CFI_PERMISSIVE = "n"
+["category:hardening".">=6.6.0 <6.18_rc1"."riscv64"]
+CFI_CLANG = "y"
+LTO_CLANG_THIN = "y" # Required for CFI
+CFI_PERMISSIVE = "n"
+["category:hardening".">=6.1.0 <6.18_rc1"."x86_64"]
+CFI_CLANG = "y"
+LTO_CLANG_THIN = "y" # Required for CFI
+CFI_PERMISSIVE = "n"
+["category:hardening".">=5.13.0 <6.18_rc1"."aarch64"]
+CFI_CLANG = "y"
+LTO_CLANG_THIN = "y" # Required for CFI
+CFI_PERMISSIVE = "n"
+["category:hardening".">=6.12.0"."x86_64 aarch64 armv7 riscv64"]
+CFI_ICALL_NORMALIZE_INTEGERS = "y" # Required for CFI with Rust
+
+# Shadow Call Stack is currently only implemented on arm64 and riscv
+["category:hardening".">=5.8.0"."aarch64"]
+SHADOW_CALL_STACK = "y"
+["category:hardening".">=6.7.0"."riscv64"]
+SHADOW_CALL_STACK = "y"
+
+["category:rust".">=6.1.0"]
+DEBUG_INFO_BTF = "n" # Conflicts with LTO when Rust is enabled
+DEBUG_INFO_BTF_MODULES = "n" # Conflicts with LTO when Rust is enabled

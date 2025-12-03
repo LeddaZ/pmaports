@@ -1,8 +1,8 @@
 # Maintainer: Sebastian Fleer <dev@dwurp.de>
 # Contributor: Quade Curry <qc8086@qc8086.com>
 pkgname=linux-postmarketos-rockchip
-pkgver=6.12.55
-pkgrel=1
+pkgver=6.18
+pkgrel=0
 pkgdesc="Mainline kernel for rockchip devices"
 arch="aarch64"
 _carch="arm64"
@@ -13,27 +13,26 @@ options="!strip !check !tracedeps
 	pmb:cross-native
 	pmb:kconfigcheck-community
 	pmb:kconfigcheck-nftables
-	"
+"
 makedepends="
 	bash
 	bison
-	devicepkg-dev
+	clang
 	findutils
 	flex
-	postmarketos-installkernel
+	lld
+	llvm
 	openssl-dev
 	perl
-	rsync
-	gzip
+	postmarketos-installkernel
+	python3
 	xz
-	gmp-dev
-	mpc1-dev
-	mpfr-dev
-	"
+"
 
 # Source
 _config="config-$_flavor.$arch"
 case $pkgver in
+	*_rc*)	_kernver=${pkgver/_/-};;
 	*.*.*)	_kernver=${pkgver%.0};;
 	*.*)	_kernver=$pkgver;;
 esac
@@ -41,40 +40,37 @@ esac
 source="
 	https://cdn.kernel.org/pub/linux/kernel/v${_kernver%%.*}.x/linux-$_kernver.tar.xz
 	$_config
-	0001-drm-panel-kingdisplay-kd097d04-Disable-EoTp.patch
 "
 builddir="$srcdir/linux-$_kernver"
 
 prepare() {
 	default_prepare
-	REPLACE_GCCH=0 \
-		. downstreamkernel_prepare
+	cp "$srcdir/config-$_flavor.$arch" .config
 }
 
 build() {
 	unset LDFLAGS
-	make ARCH="$_carch" \
+	make ARCH="$_carch" LLVM=1 \
 		KBUILD_BUILD_VERSION="$((pkgrel + 1 ))-$_flavor"
 }
 
 package() {
-	downstreamkernel_package "$builddir" "$pkgdir" "$_carch" "$_flavor"
+	mkdir -p "$pkgdir"/boot
 
-	make -j1 modules_install dtbs_install \
+	make zinstall modules_install dtbs_install \
 		ARCH="$_carch" \
-		INSTALL_MOD_STRIP=1 \
+		LLVM=1 \
+		INSTALL_PATH="$pkgdir"/boot/ \
 		INSTALL_MOD_PATH="$pkgdir" \
+		INSTALL_MOD_STRIP=1 \
 		INSTALL_DTBS_PATH="$pkgdir/boot/dtbs"
-
-	gzip -v "$pkgdir"/boot/vmlinuz
-	mv "$pkgdir"/boot/vmlinuz.gz "$pkgdir"/boot/vmlinuz
+	rm -f "$pkgdir"/lib/modules/*/build "$pkgdir"/lib/modules/*/source
 
 	install -D "$builddir"/include/config/kernel.release \
 		"$pkgdir"/usr/share/kernel/$_flavor/kernel.release
 }
 
 sha512sums="
-dd8c633be05a1ecb126f47b3d348d5b4abaf58b5501a792416ec8f4ce509ccede7b34358ee9baae91e943135f23e8138edbe563552288c62b0c1bed06e6897b5  linux-6.12.55.tar.xz
-0fdff1692068666c11977a6092e7e6cd3d97a1abf04a32e08425538ea46fedc18a2371a9092ec5cd2682d0888b71ba6fbac7fafa1b44577d46a2db6720020f54  config-postmarketos-rockchip.aarch64
-95e544656c26376703cd14b45a3c8f996d08f550e8e1963e5f25ac8437ebaa03511865307ca7b4862c06b61ea6706eb61b7ba76beddc6c38ed166e7b09f6d094  0001-drm-panel-kingdisplay-kd097d04-Disable-EoTp.patch
+88599ffdec96d150c1feb9b261ba93bb0301a9d0e1ad6bef7aeab1f5372cbfc57d8b43c7e902bd8f76921d1dbd8189663c142ea869e51d0e2b483b150ee00fe0  linux-6.18.tar.xz
+0365f83949ec2d7823bcd1652149a1f2663d1965b709288460efdb0e773137605a9244c1db619a9d3388803efb7c746dde60054339a473e2da65321ea4ff31d3  config-postmarketos-rockchip.aarch64
 "

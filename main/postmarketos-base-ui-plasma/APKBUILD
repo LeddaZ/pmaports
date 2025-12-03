@@ -2,7 +2,7 @@
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=postmarketos-base-ui-plasma
 pkgver=2
-pkgrel=17
+pkgrel=20
 pkgdesc="Meta package for shared configuration for Plasma-based UIs"
 url="https://postmarketos.org"
 arch="noarch !armhf" # armhf is not supported
@@ -36,13 +36,14 @@ _pmb_recommends="
 	flatpak
 	kaccounts-providers
 	kde-gtk-config
-	maliit-keyboard
+	plasma-keyboard
 	plasma-camera
 	postmarketos-artwork-wallpapers
 	tuned-ppd
 	xdg-user-dirs
 	"
 subpackages="$pkgname-openrc $pkgname-systemd"
+install="$pkgname-openrc.post-install $pkgname-openrc.post-upgrade"
 source="
 	drkonqirc
 	gtk-app-wayland.sh
@@ -74,7 +75,6 @@ package() {
 
 openrc() {
 	install_if="$pkgname=$pkgver-r$pkgrel openrc"
-	install="$subpkgname.post-install $subpkgname.post-upgrade"
 	depends="
 		bluez-openrc
 		elogind
@@ -92,6 +92,7 @@ systemd() {
 	install_if="$pkgname=$pkgver-r$pkgrel systemd"
 	depends="
 		drkonqi
+		polkit-systemd
 	"
 	mkdir "$subpkgdir"
 }

@@ -1,9 +1,9 @@
 # Forked from Alpine to add systemd!
 
 pkgname=plasma-workspace
-pkgver=99996.5.2
-_pkgver=6.5.2
-pkgrel=0
+pkgver=99996.5.3
+_pkgver=6.5.3
+pkgrel=1
 pkgdesc="KDE Plasma Workspace"
 # armhf blocked by qt6-qtdeclarative
 arch="all !armhf"
@@ -117,9 +117,7 @@ subpackages="
 	$pkgname-x11
 	"
 _repo_url="https://invent.kde.org/plasma/plasma-workspace.git"
-source="https://download.kde.org/$_rel/plasma/$_pkgver/plasma-workspace-$_pkgver.tar.xz
-	0001-plasma-workspace-krunner-crash-workaround.patch
-	"
+source="https://download.kde.org/$_rel/plasma/$_pkgver/plasma-workspace-$_pkgver.tar.xz"
 builddir="$srcdir/$pkgname-$_pkgver"
 
 replaces="xdg-desktop-portal-kde<=6.1.5-r0"
@@ -210,6 +208,5 @@ x11() {
 }
 
 sha512sums="
-53d23c0b9e98a23c7189b9a83bc9a21290e94d741a5e8f8f793b5a4742d8c46b2e1fdd9e0b143e153440a26219d0edc46e55acabe93cac07b988e323f2829ecc  plasma-workspace-6.5.2.tar.xz
-8ea774b192bd79c2f03fb7e7219f352eab83f10cb9df3e6eeede236c83e22cce134e7a6ae29a18c7d45b0689e137a7df9ed67e57be3f7c9b2fd9623cfc7b7df2  0001-plasma-workspace-krunner-crash-workaround.patch
+7b504d23756b5ad8bfe5cab09a040aca2790312bd01397cf5cd9f2fffc563c9810cdbbb51467d57953f8b770b7988464ff7e1fd9b10f819050a9144bb72cebf1  plasma-workspace-6.5.3.tar.xz
 "

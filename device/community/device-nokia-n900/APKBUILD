@@ -2,7 +2,7 @@
 # Maintainer: Danct12 <danct12@disroot.org>
 pkgname=device-nokia-n900
 pkgver=51
-pkgrel=0
+pkgrel=2
 pkgdesc="Nokia N900"
 url="https://postmarketos.org"
 arch="armv7"
@@ -27,7 +27,11 @@ makedepends="
 	kbd-bkeymaps
 	postmarketos-mvcfg
 "
-install="$pkgname.post-install $pkgname.pre-upgrade"
+install="
+	$pkgname.post-install
+	$pkgname.pre-upgrade
+	$pkgname-openrc.post-install
+"
 subpackages="
 	$pkgname-foot
 	$pkgname-i3blocks
@@ -146,13 +150,13 @@ package() {
 
 	# Kernel module management
 	install -D -m644 "$srcdir"/modem-load.conf \
-		"$pkgdir"/lib/modules-load.d/10-nokia-modem.conf
+		"$pkgdir"/usr/lib/modules-load.d/10-nokia-modem.conf
 	install -D -m644 "$srcdir"/modem-opts.conf \
-		"$pkgdir"/lib/modprobe.d/nokia-modem.conf
+		"$pkgdir"/usr/lib/modprobe.d/nokia-modem.conf
 	install -D -m644 "$srcdir"/modules.blocklist \
-		"$pkgdir"/lib/modprobe.d/n900-module-blocklist.conf
+		"$pkgdir"/usr/lib/modprobe.d/n900-module-blocklist.conf
 	install -D -m644 "$srcdir"/bq27k-options.conf \
-		"$pkgdir"/lib/modprobe.d/bq27xxx-battery.conf
+		"$pkgdir"/usr/lib/modprobe.d/bq27xxx-battery.conf
 
 	postmarketos-mvcfg-package "$pkgdir" "$pkgname"
 }
@@ -202,7 +206,6 @@ upower() {
 
 openrc() {
 	install_if="$pkgname=$pkgver-r$pkgrel openrc"
-	install="$subpkgname.post-install"
 	depends="wl1251-cal-openrc"
 
 	mkdir -p "$subpkgdir"

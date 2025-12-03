@@ -1,10 +1,8 @@
 # Configuration file for the Sphinx documentation builder.
 
 import datetime
-import os
-import sys
-
-sys.path.insert(0, os.path.abspath(".."))  # Allow modules to be found
+from pathlib import Path
+import subprocess
 
 project = "pmaports"
 copyright = str(datetime.date.today().year) + ", postmarketOS contributors"
@@ -27,3 +25,12 @@ html_theme_options = {
 
 # Set the explicit title of the HTML output
 html_title = "postmarketOS Packaging"
+
+
+def run_dint_doc(app):
+    with Path(__file__).parent.joinpath("deviceinfo-reference.md").open("w") as f:
+        subprocess.call(["dint", "doc"], stdout=f)
+
+
+def setup(app):
+    app.connect("builder-inited", run_dint_doc)
