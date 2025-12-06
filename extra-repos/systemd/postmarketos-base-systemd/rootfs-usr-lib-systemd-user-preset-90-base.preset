@@ -28,3 +28,6 @@ enable cellbroadcastd.service
 
 # Plasma
 enable drkonqi-coredump-launcher.socket
+
+# a11y
+enable speech-dispatcher.socket
