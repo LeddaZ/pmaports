@@ -1,0 +1,14 @@
+#!/sbin/openrc-run
+
+depend() {
+	need localmount
+	before hostname
+}
+
+start() {
+	if [ -x /usr/lib/sysusers.d ]; then
+		ebegin "Creating system users from sysusers.d"
+		/usr/bin/systemd-sysusers --create >/dev/null 2>&1
+		eend $?
+	fi
+}

@@ -1,0 +1,15 @@
+#!/sbin/openrc-run
+
+depend() {
+	need localmount
+	want tmpfs
+	before hostname
+}
+
+start() {
+	if [ -x /usr/lib/tmpfiles.d ]; then
+		ebegin "Creating temporary files from tmpfiles.d"
+		/usr/bin/systemd-tmpfiles --create >/dev/null 2>&1
+		eend $?
+	fi
+}

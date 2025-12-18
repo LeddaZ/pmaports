@@ -9,7 +9,7 @@ maintainer="Casey Connolly <kcxt@postmarketos.org>"
 pkgname=systemd
 pkgver=259
 _pkgver="${pkgver/_/-}"
-pkgrel=2
+pkgrel=3
 pkgdesc="System and service manager"
 url="https://github.com/systemd/systemd"
 arch="all"
@@ -114,7 +114,7 @@ depends="
 # provides=openrc and openrc-settingsd to prevent those packages
 # getting pulled in, as there are some conflicts (dbus)
 provides="busctl eudev openrc-settingsd=$pkgver-r$pkgrel systemd-stage0=$pkgver-r$pkgrel"
-provider_priority=100
+provider_priority=0
 
 install="$pkgname.pre-install"
 subpackages="
@@ -148,6 +148,14 @@ subpackages="
 	$pkgname-journald-zsh-completion:journald_zcomp:noarch
 	$pkgname-journald-bash-completion:journald_bcomp:noarch
 
+	$pkgname-standalone-repart:standalone
+	$pkgname-standalone-shutdown:standalone
+	$pkgname-standalone-sysusers:standalone
+	$pkgname-standalone-tmpfiles:standalone
+
+	$pkgname-standalone-sysusers-openrc:standalone_sysusers_openrc
+	$pkgname-standalone-tmpfiles-openrc:standalone_tmpfiles_openrc
+
 	$pkgname-libs
 
 	$pkgname-bash-completion
@@ -156,6 +164,8 @@ subpackages="
 
 source="$pkgname-$pkgver.tar.gz::https://github.com/systemd/systemd/archive/refs/tags/v$_pkgver.tar.gz
 	wired.network
+	$pkgname-tmpfiles.initd
+	$pkgname-sysusers.initd
 	"
 builddir="$srcdir/systemd-$_pkgver"
 
@@ -247,6 +257,7 @@ build() {
 		\
 		-Dbpf-framework=enabled \
 		-Dvmlinux-h=disabled \
+		-Dstandalone-binaries=true \
 		build .
 	meson compile ${JOBS:+-j ${JOBS}} -C build
 }
@@ -277,6 +288,12 @@ package() {
 		echo 'disable *' > "$pkgdir"/usr/lib/systemd/"$type"-preset/99-default.preset
 	done
 
+	# install service files for standalone binaries
+	install -Dm755 "$srcdir"/systemd-tmpfiles.initd \
+		"$pkgdir"/etc/init.d/systemd-tmpfiles
+	install -Dm755 "$srcdir"/systemd-sysusers.initd \
+		"$pkgdir"/etc/init.d/systemd-sysusers
+
 	# initramfs hardcodes /sbin/init
 	mkdir -p "$pkgdir"/sbin
 	ln -sf "../usr/lib/systemd/systemd" "$pkgdir"/sbin/init
@@ -292,7 +309,7 @@ udevd() {
 
 	# NOTE: should only be udev, but packages hardcode eudev
 	provides="eudev udev eudev-libs"
-	provider_priority=100
+	provider_priority=0
 
 	amove etc/udev
 	amove usr/bin/udevadm
@@ -411,7 +428,7 @@ logind() {
 	"
 
 	provides="elogind"
-	provider_priority=100
+	provider_priority=0
 
 	amove usr/bin/loginctl
 	amove etc/systemd/logind.conf
@@ -456,6 +473,36 @@ journald_zcomp() {
 	_default_zshcomp _journalctl
 }
 
+standalone() {
+	local binary="${subpkgname##*-}"
+	pkgdesc="systemd-$binary (standalone)"
+	# shouldn't be installed with systemd proper
+	depends="!systemd"
+
+	local install_dir="usr/bin"
+	if [ "$binary" = "shutdown" ]; then
+		install_dir="usr/lib/systemd"
+	fi
+
+	amove "$install_dir"/systemd-"$binary".standalone
+	ln -s systemd-"$binary".standalone \
+		"$subpkgdir"/"$install_dir"/"$pkgname"-"$binary"
+}
+
+standalone_sysusers_openrc() {
+	pkgdesc="systemd-sysusers (standalone) (OpenRC init scripts)"
+	install_if="$pkgname-standalone-sysusers=$pkgver-r$pkgrel openrc"
+
+	amove etc/init.d/systemd-sysusers
+}
+
+standalone_tmpfiles_openrc() {
+	pkgdesc="systemd-tmpfiles (standalone) (OpenRC init scripts)"
+	install_if="$pkgname-standalone-tmpfiles=$pkgver-r$pkgrel openrc"
+
+	amove etc/init.d/systemd-tmpfiles
+}
+
 x11() {
 	pkgdesc="systemd x11"
 	install_if="$pkgname=$pkgver-r$pkgrel xorg-server-common"
@@ -465,7 +512,7 @@ x11() {
 
 dev() {
 	provides="eudev-dev udev-dev systemd-stage0-dev=$pkgver-r$pkgrel"
-	provider_priority=100
+	provider_priority=0
 
 	default_dev
 }
@@ -479,4 +526,6 @@ libs() {
 sha512sums="
 ef46b13661df43e3cfbeee1bc22f0b1eb902e8ebe39c19868c465efd08b35a199c2a2cd9d8021a6bc4d692fa0c6e0eab3f13eecd6ce24dde81d3945464a25b50  systemd-259.tar.gz
 81c897fed8a3fbfb67ec591b2398a5d65e4af1b3ef379376c157c98d71f085b707f8ebc896d5571a94f99f8fc84fd6b43e3b879ca9b0d57fc6c4596034c7a777  wired.network
+347e8836e0533fe5d435172fb85164333b13213fe5d8e907bbacf419b22275290b99cea53d477f04db11d32857874a0251c43da4c4c2179bbf39e2e9e8d6fba5  systemd-tmpfiles.initd
+2f2a1297493c4b217d082e5eda1627f72260731bd6faf0d8e6201aba5223b13eaf89211cb50345860f2126ca04227830e5328ac592ab7a98df9f053b9826a0c5  systemd-sysusers.initd
 "
