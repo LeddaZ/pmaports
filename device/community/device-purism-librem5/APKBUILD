@@ -53,6 +53,7 @@ source="
 	0001-udev-cameras-use-correct-path-for-modprobe-on-Alpine.patch
 	l5-brcm-bt-enable.initd
 	l5-brcm-bt-enable.service
+	l5-btsleep.sh
 	l5-lockdown-support.initd
 	l5-ship-mode.initd
 	modemmanager.conf
