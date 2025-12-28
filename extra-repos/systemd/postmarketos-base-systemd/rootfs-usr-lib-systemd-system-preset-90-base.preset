@@ -45,6 +45,8 @@ enable iwd.service
 enable wpa_supplicant.service
 
 # UIs:
+enable greetd.service
+
 ## plasma
 enable hfd-service.service
 enable urfkill.service
@@ -77,11 +79,6 @@ enable cosmic-greeter.service
 
 ## mate / xfce
 enable lightdm.service
-
-## niri
-# NOTE: This is a generic greeter so it can be moved under a more generic
-# header if another UI uses it.
-enable wlgreet.service
 
 # Waydroid
 enable sensorfwd.service
@@ -134,3 +131,7 @@ enable librem5-base-defaults.librem5-lockdown-support.service
 
 ## nokia n900
 enable wl1251-cal.service
+
+## pinenote
+enable pinenote-hrdl-convert-waveform.service
+enable pinenote-hrdl-extract-waveform.service
