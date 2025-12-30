@@ -4,7 +4,7 @@
 _flavor="postmarketos-mediatek-mt6768"
 pkgname=linux-$_flavor
 pkgver=6.18.0
-pkgrel=3
+pkgrel=4
 _commit="ceb5d980e3d596b603e2bdc2bedce8f36a378451"
 pkgdesc="Mainline Kernel fork for MT6768-based devices"
 arch="aarch64"

@@ -2,7 +2,7 @@
 # Maintainer: Abdullah AL Shohag <HackerShohag@outlook.com>
 pkgname=device-xiaomi-lancelot
 pkgdesc="Xiaomi Redmi 9"
-pkgver=1
+pkgver=2
 pkgrel=0
 url="https://postmarketos.org"
 license="MIT"
@@ -11,8 +11,8 @@ options="!check !archcheck"
 depends="
 	linux-postmarketos-mediatek-mt6768
 	mkbootimg
-	postmarketos-base
 	msm-fb-refresher
+	postmarketos-base
 "
 makedepends="devicepkg-dev"
 source="
