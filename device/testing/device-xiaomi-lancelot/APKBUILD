@@ -12,6 +12,7 @@ depends="
 	linux-postmarketos-mediatek-mt6768
 	mkbootimg
 	postmarketos-base
+	msm-fb-refresher
 "
 makedepends="devicepkg-dev"
 source="
