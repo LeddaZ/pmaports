@@ -174,7 +174,6 @@ package() {
 	install -Dm644 "$srcdir"/l5-brcm-bt-enable.service -t \
 		"$pkgdir"/usr/lib/systemd/system
 
-	mkdir -p "$pkgdir"/usr/lib/systemd/system-sleep
 	install -Dm744 "$srcdir"/l5-btsleep.sh \
 		"$pkgdir"/usr/lib/systemd/system-sleep
 
