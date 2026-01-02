@@ -4,7 +4,7 @@
 _flavor="postmarketos-qcom-msm8953"
 pkgname=linux-$_flavor
 pkgver=6.17.7
-pkgrel=0
+pkgrel=1
 pkgdesc="Close to mainline linux kernel for Qualcomm Snapdragon MSM8953"
 arch="aarch64"
 _carch="arm64"
@@ -14,15 +14,29 @@ options="!strip !check !tracedeps
 	pmb:cross-native
 	pmb:kconfigcheck-community
 "
+_depends_dev="
+	perl
+	gmp-dev
+	mpc1-dev
+	mpfr-dev
+	elfutils-dev
+	bash
+	flex
+	bison
+	zstd
+"
+
 makedepends="
 	bash
 	bison
+	devicepkg-dev
 	findutils
 	flex
 	openssl-dev
 	perl
 	postmarketos-installkernel
 	python3
+	mawk
 "
 
 _tag="$pkgver-r0"
@@ -31,15 +45,24 @@ source="
 	$pkgname-v$_tag.tar.gz::$url/archive/v$_tag.tar.gz
 	config-$_flavor.aarch64
 "
+subpackages="$pkgname-dev:_dev:$CBUILD_ARCH"
+
 builddir="$srcdir/linux-$_tag"
+_kernelobjectdir="$builddir/build-$_flavor"
 
 prepare() {
 	default_prepare
-	cp "$srcdir/config-$_flavor.$arch" .config
+	mkdir $_kernelobjectdir
+	cp "$srcdir/config-$_flavor.$arch" "$_kernelobjectdir/.config"
 }
 
 build() {
 	unset LDFLAGS
+	# Generate appropriate Makefiles in subdir.
+	make -C "." O="$_kernelobjectdir" ARCH="$_carch" CC="${CC:-gcc}" \
+		KBUILD_BUILD_VERSION="$((pkgrel + 1 ))-$_flavor" \
+		olddefconfig
+	cd "$_kernelobjectdir"
 	make ARCH="$_carch" CC="${CC:-gcc}" \
 		KBUILD_BUILD_VERSION="$((pkgrel + 1 ))-$_flavor"
 }
@@ -47,6 +70,7 @@ build() {
 package() {
 	mkdir -p "$pkgdir"/boot
 
+	cd "$_kernelobjectdir"
 	make zinstall modules_install dtbs_install \
 		ARCH="$_carch" \
 		INSTALL_PATH="$pkgdir"/boot \
@@ -55,9 +79,15 @@ package() {
 		INSTALL_DTBS_PATH="$pkgdir/boot/dtbs"
 	rm -f "$pkgdir"/lib/modules/*/build "$pkgdir"/lib/modules/*/source
 
-	install -Dm644 "$builddir/include/config/kernel.release" \
+	install -Dm644 "$_kernelobjectdir/include/config/kernel.release" \
 		"$pkgdir/usr/share/kernel/$_flavor/kernel.release"
 }
+
+_dev() {
+	. kernel_devsubpkg "$builddir" "$subpkgdir" "$_carch" "$_flavor" \
+	"$_kernelobjectdir" "$_depends_dev"
+}
+
 sha512sums="
 2487f0e5af708cabb3ff3604744a5781088445a74e84df87feb5c022d4c8c56bf9dac5604435b5fcbd2bbea09972267e80eaf2c52b91badfdfb296d33a9b05b2  linux-postmarketos-qcom-msm8953-v6.17.7-r0.tar.gz
 14cce140d7b7ae24e30cca1f3987ca322134939419c7533687eea641f33306642492988390aea7c476e1cb78ef46776f46792eee10ad4c478a433f1e6dcf8b30  config-postmarketos-qcom-msm8953.aarch64
