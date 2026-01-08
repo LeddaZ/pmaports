@@ -1,0 +1,47 @@
+# Forked from Alpine to test the next libssc release
+maintainer="Dylan Van Assche <dylan@postmarketos.org>"
+pkgname=libssc
+pkgver=99990.4.1
+pkgrel=0
+_commit="749be3d27a4b5b937d1c2f74a94a8d67515afe16"
+pkgdesc="Library to expose Qualcomm Sensor Core sensors"
+url="https://codeberg.org/DylanVanAssche/libssc"
+arch="all"
+license="GPL-3.0-or-later"
+makedepends="
+	eudev-dev
+	glib-dev
+	libgudev-dev
+	linux-headers
+	libqmi-dev
+	meson
+	protobuf-c-dev
+	protobuf-dev
+	python3-dev
+	py3-gobject3
+	py3-protobuf
+	qrtr-libs
+"
+subpackages="$pkgname-dbg $pkgname-dev $pkgname-pyc"
+builddir="$srcdir/$pkgname"
+source="$pkgname-$_commit.tar.gz::https://codeberg.org/dylanvanassche/libssc/archive/$_commit.tar.gz
+"
+
+build() {
+	abuild-meson \
+		-Db_lto=true \
+		. output
+	meson compile -C output
+}
+
+package() {
+	DESTDIR="$pkgdir" meson install --no-rebuild -C output
+}
+
+check() {
+	meson test --print-errorlogs -C output
+}
+
+sha512sums="
+5d965182c7b69e0a03e39b93eb7faace857cd5bb5951c32412fa1a6503ba487c9901ad295d57ac550360b56a14e3beecfc2ddb0493386f8421331094843a24eb  libssc-749be3d27a4b5b937d1c2f74a94a8d67515afe16.tar.gz
+"
