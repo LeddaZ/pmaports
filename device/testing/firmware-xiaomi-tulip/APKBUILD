@@ -1,7 +1,7 @@
 # Maintainer: m0rf30 <morf3089@gmail.com>
 pkgname=firmware-xiaomi-tulip
 pkgver=4
-pkgrel=0
+pkgrel=1
 _commit="c8f750d4cdd8c5353c4aaa423f81774c63f87d27"
 pkgdesc="Firmware files for Xiaomi Redmi Note 6 Pro"
 url="https://postmarketos.org"
@@ -21,7 +21,6 @@ package() {
 		--set-fw-api=5
 	install -Dm644 firmware-5.bin -t "$pkgdir/$_fwdir/ath10k/WCN3990/hw1.0/"
 	install -Dm644 ath10k/WCN3990/hw1.0/board-2.bin -t "$pkgdir/$_fwdir/ath10k/WCN3990/hw1.0/"
-	install -Dm644 qcom/a512_zap.elf "$pkgdir/$_fwdir/postmarketos/a512_zap.mbn"
 }
 
 sha512sums="

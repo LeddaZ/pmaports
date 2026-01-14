@@ -2,7 +2,7 @@
 pkgname=device-asus-x00td
 pkgdesc="Asus ZenFone Max Pro M1"
 pkgver=6
-pkgrel=0
+pkgrel=1
 url="https://postmarketos.org"
 license="MIT"
 arch="aarch64"
@@ -10,6 +10,7 @@ options="!check !archcheck"
 depends="
 	firmware-asus-x00td
 	firmware-qcom-adreno-a530
+	firmware-qcom-sdm660
 	linux-postmarketos-qcom-sdm660
 	mkbootimg
 	msm-firmware-loader
