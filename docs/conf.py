@@ -19,8 +19,7 @@ extensions = [
 
 html_theme = "pmos"
 html_theme_options = {
-    # FIXME: This should be main once we rename the branch
-    "source_edit_link": "https://gitlab.postmarketos.org/postmarketOS/pmaports/-/blob/master/docs/{filename}",
+    "source_edit_link": "https://gitlab.postmarketos.org/postmarketOS/pmaports/-/blob/main/docs/{filename}",
 }
 
 # Set the explicit title of the HTML output
