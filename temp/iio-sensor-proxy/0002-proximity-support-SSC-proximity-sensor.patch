@@ -1,9 +1,11 @@
-From 176a35a40b639be7d0cdbc4fd67eb681586978dc Mon Sep 17 00:00:00 2001
+From a195a1c176c759ed02f357bfa0e4fb687ed0f1d5 Mon Sep 17 00:00:00 2001
 From: Dylan Van Assche <me@dylanvanassche.be>
 Date: Sun, 23 Apr 2023 17:54:46 +0200
 Subject: [PATCH 02/10] proximity: support SSC proximity sensor
 
 Add driver for the proximity sensor exposed by libssc.
+
+Co-developed-by: Clayton Craft <craftyguy@postmarketos.org>
 ---
  src/drivers.h           |   4 ++
  src/drv-ssc-proximity.c | 128 ++++++++++++++++++++++++++++++++++++++++
@@ -160,7 +162,7 @@ index 0000000..f4aa897
 +	.close = ssc_proximity_close,
 +};
 diff --git a/src/iio-sensor-proxy.c b/src/iio-sensor-proxy.c
-index 342023c..18263c5 100644
+index 3bde650..5042fbf 100644
 --- a/src/iio-sensor-proxy.c
 +++ b/src/iio-sensor-proxy.c
 @@ -79,6 +79,9 @@ static const SensorDriver * const drivers[] = {
@@ -174,14 +176,14 @@ index 342023c..18263c5 100644
  
  static ReadingsUpdateFunc driver_type_to_callback_func (DriverType type);
 diff --git a/src/meson.build b/src/meson.build
-index 3e503de..9a74481 100644
+index aabe567..c0b3f64 100644
 --- a/src/meson.build
 +++ b/src/meson.build
 @@ -45,6 +45,12 @@ sources = [
    config_h_files,
  ]
  
-+if get_option('ssc-support')
++if get_option('ssc-support').enabled()
 +  sources = sources + [
 +    'drv-ssc-proximity.c',
 +  ]
@@ -191,5 +193,5 @@ index 3e503de..9a74481 100644
    sources,
    dependencies: deps,
 -- 
-2.47.1
+2.52.0
 

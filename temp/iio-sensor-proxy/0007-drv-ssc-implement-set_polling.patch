@@ -1,7 +1,7 @@
-From 7a195b942cf59088a298f77b00e44291c8dc67d0 Mon Sep 17 00:00:00 2001
+From bb0021679817b207f1996e4f44edde2b42a251bf Mon Sep 17 00:00:00 2001
 From: Dylan Van Assche <me@dylanvanassche.be>
 Date: Sat, 11 Jan 2025 21:11:36 +0100
-Subject: [PATCH 08/10] drv-ssc-*: implement set_polling
+Subject: [PATCH 07/10] drv-ssc-*: implement set_polling
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -426,5 +426,5 @@ index f4aa897..12570ba 100644
  	.close = ssc_proximity_close,
  };
 -- 
-2.47.1
+2.52.0
 

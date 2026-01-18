@@ -1,4 +1,4 @@
-From 861e0e9bcc1ba400648e1e4a990a331284fff6e0 Mon Sep 17 00:00:00 2001
+From 8c39bb9000619399ead19d907973d1e71f22e235 Mon Sep 17 00:00:00 2001
 From: Dylan Van Assche <me@dylanvanassche.be>
 Date: Mon, 24 Apr 2023 18:29:15 +0200
 Subject: [PATCH 05/10] compass: support SSC compass sensor
@@ -160,7 +160,7 @@ index 0000000..c6f11a9
 +	.close = ssc_compass_close,
 +};
 diff --git a/src/iio-sensor-proxy.c b/src/iio-sensor-proxy.c
-index e99f641..9e8760c 100644
+index 4453a09..c204b5c 100644
 --- a/src/iio-sensor-proxy.c
 +++ b/src/iio-sensor-proxy.c
 @@ -83,6 +83,7 @@ static const SensorDriver * const drivers[] = {
@@ -172,10 +172,10 @@ index e99f641..9e8760c 100644
  };
  
 diff --git a/src/meson.build b/src/meson.build
-index d59cfdd..1e753cc 100644
+index 020ee46..3337e24 100644
 --- a/src/meson.build
 +++ b/src/meson.build
-@@ -50,6 +50,7 @@ if get_option('ssc-support')
+@@ -50,6 +50,7 @@ if get_option('ssc-support').enabled()
      'drv-ssc-proximity.c',
      'drv-ssc-light.c',
      'drv-ssc-accel.c',
@@ -184,5 +184,5 @@ index d59cfdd..1e753cc 100644
  endif
  
 -- 
-2.47.1
+2.52.0
 
