@@ -1,4 +1,4 @@
-From 8c296891214b6b7ebbd3263550ef9296e9a9ff1f Mon Sep 17 00:00:00 2001
+From efbde839ffff697e946ff01e5ac5e50af985e3ae Mon Sep 17 00:00:00 2001
 From: Dylan Van Assche <me@dylanvanassche.be>
 Date: Mon, 24 Apr 2023 17:01:10 +0200
 Subject: [PATCH 04/10] accelerometer: support SSC accelerometer sensor
@@ -187,7 +187,7 @@ index 0000000..676303b
 +	.close = ssc_accelerometer_close,
 +};
 diff --git a/src/iio-sensor-proxy.c b/src/iio-sensor-proxy.c
-index b4eacc3..e99f641 100644
+index b05f6fa..4453a09 100644
 --- a/src/iio-sensor-proxy.c
 +++ b/src/iio-sensor-proxy.c
 @@ -82,6 +82,7 @@ static const SensorDriver * const drivers[] = {
@@ -199,10 +199,10 @@ index b4eacc3..e99f641 100644
  };
  
 diff --git a/src/meson.build b/src/meson.build
-index 2f3c1e6..d59cfdd 100644
+index 7233cf5..020ee46 100644
 --- a/src/meson.build
 +++ b/src/meson.build
-@@ -49,6 +49,7 @@ if get_option('ssc-support')
+@@ -49,6 +49,7 @@ if get_option('ssc-support').enabled()
    sources = sources + [
      'drv-ssc-proximity.c',
      'drv-ssc-light.c',
@@ -211,5 +211,5 @@ index 2f3c1e6..d59cfdd 100644
  endif
  
 -- 
-2.47.1
+2.52.0
 

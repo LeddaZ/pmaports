@@ -1,4 +1,4 @@
-From 43440a5ef95bccae67ca64f0abe060f194574da5 Mon Sep 17 00:00:00 2001
+From 12e33244bfb791b1c707bb1c41fbc10d300244e7 Mon Sep 17 00:00:00 2001
 From: Dylan Van Assche <me@dylanvanassche.be>
 Date: Mon, 24 Apr 2023 16:56:20 +0200
 Subject: [PATCH 03/10] light: support SSC light sensor
@@ -160,7 +160,7 @@ index 0000000..eb43d6c
 +	.close = ssc_light_close,
 +};
 diff --git a/src/iio-sensor-proxy.c b/src/iio-sensor-proxy.c
-index 18263c5..b4eacc3 100644
+index 5042fbf..b05f6fa 100644
 --- a/src/iio-sensor-proxy.c
 +++ b/src/iio-sensor-proxy.c
 @@ -81,6 +81,7 @@ static const SensorDriver * const drivers[] = {
@@ -172,11 +172,11 @@ index 18263c5..b4eacc3 100644
  };
  
 diff --git a/src/meson.build b/src/meson.build
-index 9a74481..2f3c1e6 100644
+index c0b3f64..7233cf5 100644
 --- a/src/meson.build
 +++ b/src/meson.build
 @@ -48,6 +48,7 @@ sources = [
- if get_option('ssc-support')
+ if get_option('ssc-support').enabled()
    sources = sources + [
      'drv-ssc-proximity.c',
 +    'drv-ssc-light.c',
@@ -184,5 +184,5 @@ index 9a74481..2f3c1e6 100644
  endif
  
 -- 
-2.47.1
+2.52.0
 
