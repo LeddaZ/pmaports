@@ -1,0 +1,32 @@
+# Reference: <https://postmarketos.org/devicepkg>
+maintainer="Ermine <mustela@erminea.space>"
+pkgname=device-asus-tinker-board
+pkgdesc="Asus Tinker Board"
+pkgver=1
+pkgrel=0
+url="https://postmarketos.org"
+license="MIT"
+arch="armv7"
+options="!check !archcheck"
+depends="
+	linux-asus-tinker-board
+	u-boot-asus-tinker-board
+	postmarketos-base
+	linux-firmware-rtlwifi
+"
+makedepends="devicepkg-dev"
+source="
+	deviceinfo
+"
+
+build() {
+	devicepkg_build $startdir $pkgname
+}
+
+package() {
+	devicepkg_package $startdir $pkgname
+}
+
+sha512sums="
+04cf03df5842b3e33ca353f50aca51f210cc55db7c368eff35b928114b776f041373a266b8044b84b8d567940edabc4a18e2b5509658134622b18c3d5c5f4b23  deviceinfo
+"

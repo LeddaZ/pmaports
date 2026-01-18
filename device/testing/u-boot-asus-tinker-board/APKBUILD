@@ -1,0 +1,40 @@
+maintainer="Ermine <mustela@erminea.space>"
+pkgname=u-boot-asus-tinker-board
+pkgver=2025.10
+pkgrel=0
+pkgdesc="U-Boot bootloader for Asus Tinker Board"
+url="https://u-boot.org"
+arch="armv7"
+license="GPL-2.0-or-later OFL-1.1 BSD-2-Clause BSD-3-Clause eCos-2.0 IBM-pibs
+	ISC LGPL-2.0-only LGPL-2.1-only X11"
+makedepends="
+	bc
+	bison
+	dtc
+	flex
+	gnutls-dev
+	py3-setuptools
+	python3-dev
+	swig
+	bash
+	openssl-dev
+"
+options="!check !tracedeps pmb:cross-native"
+source="https://ftp.denx.de/pub/u-boot/u-boot-$pkgver.tar.bz2"
+builddir="$srcdir/u-boot-$pkgver"
+
+build() {
+	ARCH=arm CROSS_COMPILE=armv7-alpine-linux-musleabihf- make \
+		tinker-rk3288_defconfig
+	ARCH=arm CROSS_COMPILE=armv7-alpine-linux-musleabihf- make
+}
+
+package() {
+	mkdir -p "$pkgdir"/usr/share/firmware/tinker-rk3288
+	install -D -m644 "$builddir"/u-boot-rockchip.bin \
+		"$pkgdir"/usr/share/firmware/tinker-rk3288/u-boot-rockchip.bin
+}
+
+sha512sums="
+01ac8b2b36bd73b7accc22afd20cf45d08ff8ece6a3d1c426ec90936d1767245add92572cc162500b2160bbc0e2ceed3e111a2a0dd35f8f3a86edbd4fc78753c  u-boot-2025.10.tar.bz2
+"
