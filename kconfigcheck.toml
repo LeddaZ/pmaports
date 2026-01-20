@@ -24,6 +24,7 @@ community = [
 	"category:nftables",
 	"category:usb_gadgets",
 	"category:waydroid",
+	"category:wine",
 	"category:wireguard",
 	"category:zram",
 ]
@@ -252,7 +253,7 @@ CHECKPOINT_RESTORE = "y"  # Needed for lxc
 MEMCG = "y"
 DM_THIN_PROVISIONING = "m"  # Storage Drivers
 SWAP = "y"
-["category:containers".">=3.6"."x86 x64_64"]
+["category:containers".">=3.6"."x86 x86_64"]
 HUGETLB_PAGE = "y"
 CGROUP_HUGETLB = "y"  # Optional section
 ["category:containers".">=3.6 <6.1_rc1"."all"]
@@ -288,6 +289,11 @@ SWAP = "y"
 CRYPTO_ZSTD = "y"
 
 ["category:zram".">=6.12"."all"]
+ZRAM_BACKEND_842 = "y"
+ZRAM_BACKEND_DEFLATE = "y"
+ZRAM_BACKEND_LZ4 = "y"
+ZRAM_BACKEND_LZ4HC = "y"
+ZRAM_BACKEND_LZO = "y"
 ZRAM_BACKEND_ZSTD = "y"
 
 # netboot: https://postmarketos.org/netboot
@@ -332,10 +338,12 @@ USB_G_SERIAL = "n"
 # enable configfs gadgets
 USB_GADGET = "y" # Required by USB_CONFIGFS_*
 USB_CONFIGFS = "m" # Required by USB_CONFIGFS_*
+USB_F_FS = "m"  # FunctionFS USB support
 USB_CONFIGFS_ACM = "y"  # Serial gadget for debug-shell
 USB_CONFIGFS_MASS_STORAGE = "y"  # Mass storage gadget for debug-shell
 USB_CONFIGFS_NCM = "y"  # USB networking via NCM
 USB_CONFIGFS_RNDIS = "y"  # USB networking via RNDIS (legacy)
+USB_CONFIGFS_F_FS = "y"  # FunctionFS support in ConfigFS
 
 # community_various: Various options that were not categorized properly due to
 # inflexibility of previous kconfigcheck related code. We should move these to
@@ -570,27 +578,25 @@ DM_VERITY = "m"
 EROFS_FS = "y"
 EROFS_FS_ZIP = "y"
 
-# In 6.18+, CFI_CLANG is CFI and does not require LTO
+# In 6.18+, CFI_CLANG is CFI
 ["category:hardening".">=6.18_rc1"."x86_64 aarch64 armv7 riscv64"]
 CFI = "y"
 CFI_PERMISSIVE = "n"
 # All older versions use CFI_CLANG
 ["category:hardening".">=6.10.0 <6.18_rc1"."armv7"]
 CFI_CLANG = "y"
-LTO_CLANG_THIN = "y" # Required for CFI
 CFI_PERMISSIVE = "n"
 ["category:hardening".">=6.6.0 <6.18_rc1"."riscv64"]
 CFI_CLANG = "y"
-LTO_CLANG_THIN = "y" # Required for CFI
 CFI_PERMISSIVE = "n"
 ["category:hardening".">=6.1.0 <6.18_rc1"."x86_64"]
 CFI_CLANG = "y"
-LTO_CLANG_THIN = "y" # Required for CFI
 CFI_PERMISSIVE = "n"
 ["category:hardening".">=5.13.0 <6.18_rc1"."aarch64"]
 CFI_CLANG = "y"
-LTO_CLANG_THIN = "y" # Required for CFI
 CFI_PERMISSIVE = "n"
+["category:hardening".">=5.13.0 <6.1_rc1"."aarch64"]
+LTO_CLANG_THIN = "y" # Required for CFI pre-6.1
 ["category:hardening".">=6.12.0"."x86_64 aarch64 armv7 riscv64"]
 CFI_ICALL_NORMALIZE_INTEGERS = "y" # Required for CFI with Rust
 
@@ -600,6 +606,10 @@ SHADOW_CALL_STACK = "y"
 ["category:hardening".">=6.7.0"."riscv64"]
 SHADOW_CALL_STACK = "y"
 
-["category:rust".">=6.1.0"]
+["category:rust".">=6.1.0"."all"]
 DEBUG_INFO_BTF = "n" # Conflicts with LTO when Rust is enabled
 DEBUG_INFO_BTF_MODULES = "n" # Conflicts with LTO when Rust is enabled
+
+# Wine / Proton support
+["category:wine".">=6.14.0"."all"]
+NTSYNC = "m"

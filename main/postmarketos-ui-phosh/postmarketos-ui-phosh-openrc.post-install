@@ -1,6 +1,5 @@
 #!/bin/sh
 
-rc-update add tinydm default
-rc-update add waked default
+rc-update add greetd default
 
 exit 0

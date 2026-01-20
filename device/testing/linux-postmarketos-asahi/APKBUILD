@@ -1,7 +1,7 @@
-# Maintainer: Clayton Craft <clayton@craftyguy.net>
+maintainer="Clayton Craft <clayton@craftyguy.net>"
 pkgname=linux-postmarketos-asahi
-pkgver=6.17.9_p1
-pkgrel=0
+pkgver=6.18.4_p1
+pkgrel=1
 _rel=${pkgver#*_p}
 _kver=${pkgver%_p*}
 _kver=${_kver//_/-}
@@ -57,6 +57,7 @@ source="
 	pmos.config
 
 	0001-nvmem-apple-spmi-nvmem-Fix-CFI-failures.patch
+	0002-fixup-iio-common-Add-AOP-sensor-drivers.patch
 "
 builddir="$srcdir/linux-asahi-$_asahiver"
 _defconfig="defconfig"
@@ -91,10 +92,11 @@ package() {
 }
 
 sha512sums="
-a8d3af18bdc3bc218b4ba7fb0994d4fae23e11e0c4bd93cea50aea36776b4b618b9d2eea8a2c14207cd5ebd4c2348dbe02e694e2727e94a6ee6712750ad5ab60  linux-postmarketos-asahi-6.17.9-1.tar.gz
-26d18cf078495206c63e433b77e358e9ce48c4e6433e2dee53388be5c3456b536a7337d21423566ca6dd3f6e4bbea32fd2066c78e15dac3b2fb0f655728319bf  config-postmarketos-asahi.aarch64
-c23c89cefc4690c69f9e18e12f542078e1231e3f3017624a1e1499bdf8ee132a95c7d8499fe4313d9b19922b043dd9ed7e743ddf046b6f298bbf4e665e4cdc7c  asahi.config
-71aa3bcdf22b81f261db9750eef5c654cbb02e2d710db99346ad4c0a646a75fb24844d89c233e9c06d27979dc7bedc31478ee7e3dea0879ba3de8c6f9419870d  misc.config
-4b82a0e9ed8cd83fcef897c665dd1b386ae1d6d0cbce09d059f39197d899e694e004890712b57a93598e077b59d5b7e460f9190c651666879336e7e3f2035638  pmos.config
-5c07c59405356d1a14adbb98adbd9efde8352c1f07ab791d15a208c8fe262ce0dd47820694cb4b371b68b05917f19ec248c4c506d74b206e25a90acf7c070ded  0001-nvmem-apple-spmi-nvmem-Fix-CFI-failures.patch
+432adee3cd8415b2d1d29836eba028338fa19e479ee219677ce2649bcfc19ef6ae786f81957352b44db92acc6c5d0020dd5d175641357c3e8a722590d7385531  linux-postmarketos-asahi-6.18.4-1.tar.gz
+f7846dae1d24091ea2b0e305ddb030f23345c533b75053bd7087a9d4ba3223f2f501aa3eab78148bcaeacfcf1c0680ba3bc83e982dcea4862ca4df86db7032e3  config-postmarketos-asahi.aarch64
+c3efedc043588c9c23e69b82e97819f8d92f69e34aaa5223f340baa67f45f2e2acc0ad64fbdc646761ba263a70e068446286043878cb84ed2a5afb8f86a1e921  asahi.config
+0f9b91bcaf66a7004268e31a14d0e05a9d63da20a5a027cbcbaeb75453de4edf41abf34c422d04616a0f233cc86497a8939ab1f455e697990653a7a740ea46ef  misc.config
+e75e7e80cd26dc22cf34ef8b8c969de4b8c44c4d16b6b2c8e4a7d919f4688569675e428a9c2bbdaa22a6df0bfced04012d5645650c2383317e450a7da7662967  pmos.config
+8d205300cfabe192b53ed1cc644b087e76421eb973e1b2a31d657e4f2676badebdfcf6b0865569c43b4b904935435f6e729c3a8d4a6221fb5792e40ec1017a0f  0001-nvmem-apple-spmi-nvmem-Fix-CFI-failures.patch
+d89ae23b1e51e3a928487a533ef22a61d9bb56a274d10f0f5fa9e92684b110a69be09cf9dffe33b8d55da7e550030a0de00c9fcd32927b9fe9e182752ca01787  0002-fixup-iio-common-Add-AOP-sensor-drivers.patch
 "

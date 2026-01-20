@@ -1,9 +1,9 @@
 # Reference: <https://postmarketos.org/devicepkg>
-# Maintainer: Minecrell <minecrell@minecrell.net>
-# Co-Maintainer: Oliver Smith <ollieparanoid@postmarketos.org>
+# Co-Maintainer: Achill Gilgenast <achill@achill.org>
+maintainer="Oliver Smith <ollieparanoid@postmarketos.org>"
 pkgname=device-qemu-amd64
-pkgver=12
-pkgrel=0
+pkgver=15
+pkgrel=1
 pkgdesc="Simulated device in QEMU (x86_64)"
 url="https://postmarketos.org"
 arch="x86_64"
@@ -20,10 +20,10 @@ subpackages="
 	$pkgname-kernel-virt:kernel_virt
 	$pkgname-kernel-stable:kernel_stable
 	$pkgname-kernel-none:kernel_none
+	$pkgname-pmtest
 	"
 source="
 	deviceinfo
-	modules-initfs
 	"
 options="!check !archcheck"
 
@@ -60,7 +60,13 @@ kernel_stable() {
 	devicepkg_subpackage_kernel $startdir $pkgname $subpkgname
 }
 
+pmtest() {
+	install_if="$pkgname=$pkgver-r$pkgrel postmarketos-mkinitfs-hook-ci"
+	depends="postmarketos-test-unl0kr"
+
+	mkdir -p "$subpkgdir"
+}
+
 sha512sums="
-b20a759253fc39d19bd2bebc36616e628b2bd1d7c879c60addfe5315b4b0174c8029aaf67c215ba253493a4c47e975c6dbb582f631e59fa4237fa4478eb92676  deviceinfo
-29766094e64a7ce881c8e96433203ea538057b8fd1d577fc69b9add6bc1217af04ddf60cbcf82333811c627897eda7537b0b1f862899e1fdfd93403b3f6425d7  modules-initfs
+4e6437e7e5a76b1e599b2497049fa2e92614c48c45b91b4310221615b2116c408c946143fb69cb5f93812363eb3829ace3d1dad09a4c5388504ab942fc1acd9a  deviceinfo
 "

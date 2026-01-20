@@ -1,17 +1,21 @@
 # Reference: https://postmarketos.org/uipkg
-# Maintainer: Bart Ribbers <bribbers@disroot.org>
+maintainer="Bart Ribbers <bribbers@disroot.org>"
 pkgname=postmarketos-ui-plasma-mobile
 pkgver=6
-pkgrel=4
+pkgrel=6
 pkgdesc="(Wayland) Mobile variant of KDE Plasma"
 url="https://wiki.postmarketos.org/wiki/Plasma_Mobile"
-arch="noarch !armhf !x86 !ppc64le" # armhf: pmaports#75, x86: aports#11807, ppc64le: no angelfish
+# armhf blocked by pmaports#75
+# x86 blocked by aports#11807
+# riscv64 blocked by qt6-qtwebengine -> angelfish,koko
+arch="noarch !armhf !x86 !riscv64"
 license="GPL-3.0-or-later"
 depends="
 	callaudiod
 	feedbackd
 	plasma-mobile
 	postmarketos-base-ui-plasma
+	postmarketos-usb-moded
 	udisks2
 	"
 _pmb_recommends="
@@ -89,7 +93,7 @@ systemd() {
 	default_systemd
 
 	install -Dm755 "$srcdir"/system-generators-plasma-mobile-user-override \
-		-t "$subpkgdir"/usr/ĺib/systemd/system-generators
+		-t "$subpkgdir"/usr/lib/systemd/system-generators
 }
 
 sha512sums="

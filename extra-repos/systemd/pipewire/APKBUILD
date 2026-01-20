@@ -1,9 +1,9 @@
 # Forked from Alpine to rebuild with systemd support
-
+maintainer="Achill Gilgenast <achill@achill.org>"
 pkgname=pipewire
 _pkgver=1.4.9
 pkgver=999$_pkgver
-pkgrel=1
+pkgrel=2
 _so_ver=0.3
 pkgdesc="Multimedia processing graphs"
 url="https://pipewire.org/"
@@ -144,7 +144,7 @@ pulse() {
 		pipewire-session-manager
 		pulseaudio-utils
 		"
-	provides="pulseaudio=$pkgver-r$pkgrel pulseaudio-bluez=$pkgver-r$pkgrel"
+	provides="pulseaudio=0.$pkgver-r$pkgrel pulseaudio-bluez=0.$pkgver-r$pkgrel"
 	provider_priority=1
 
 	amove usr/bin/pipewire-pulse
@@ -161,7 +161,7 @@ pulse_systemd() {
 
 	# We can't just call default_systemd because that would take
 	# all the systemd unit files!
-	install_if="systemd pipewire-pulse=$pkgver-r$pkgrel"
+	install_if="systemd pipewire-pulse=0.$pkgver-r$pkgrel"
 }
 
 jack() {

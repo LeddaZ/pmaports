@@ -8,20 +8,32 @@ rules, but with the following changes.
 
 Most MRs, those not considered critical or trivial require approval by the
 package maintainer, and by another team member with approval and merge
-rights. If there is no package maintainer, then 2 any approvals are required.
+rights. If the author of the merge request is the sole maintainer of a package
+it is sufficient to solely have the approval a team member.
+
+If there is no package maintainer or the package maintainer does not
+reply within 2 weeks from the time the MR was opened, then any 2 approvals are
+required.
+
+If there are multiple maintainers, an approval from any maintainer is sufficient
+to satisfy the "approval by the package maintainer" criteria (i.e., not every
+maintainer needs to approve it—only one). However, when a maintainer submits a
+merge request for a package with multiple maintainers, co-maintainers must be
+given a 48-hour review window (starting when they're notified, typically via the
+automated GitLab ping). After this window expires, the merge request can proceed
+with any 2 approvals from team members. The submitting maintainer may choose to
+block the merge request to wait for co-maintainer review beyond the 48-hour
+window if desired.
 
 ## Move device from category
 
 Moving devices from category is a special operation, see
 [device categorization](./device-categorization).
 
-## Enable kernel options across multiple kernels
+## Changing kconfigcheck requirements
 
-Enable kernel options across multiple kernels can be done in one merge request,
-and requires 2 any approvals from the team, but does not need approvals from
-package maintainers. The reason is that would be too much effort to enable
-kernel options across all kernels. It can be reverted afterwards if there is a
-good reason.
+Changes to `kconfigcheck.toml` are a special operation, see
+[kconfigcheck](./kconfigcheck).
 
 ## Testing requirements
 
@@ -38,10 +50,9 @@ cases, before merging, in addition to the regular approvals, it is required to:
 Backporting features from edge to stable is done at request of the MR author or
 package maintainer. All patches for stable branches must go through edge first
 and get backported from there to get additional testing before they potentially
-breaks something in stable. The only exception are patches for failures that
-only happen on stable.
+breaks something in stable, and should be tested in the MR too. The only
+exception are patches for failures that only happen on stable.
 
-Only some members of the team are allowed to push to stable branches. To get a
-patch backported to stable, label the MR with the corresponding `backport-to-v*`
-label, and request a Core Contributor to cherry-pick it. Cherry-picking should
-be done using `-x` option, to make sure that the original commit is mentioned.
+While backporting patches to stable, label the MR with the corresponding
+`backport-to-v*` label, and cherry-pick the commits with the `-x` option, to
+make sure that the original commit is mentioned.

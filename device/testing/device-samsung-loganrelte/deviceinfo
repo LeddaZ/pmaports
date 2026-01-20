@@ -16,11 +16,10 @@ deviceinfo_chassis="handset"
 deviceinfo_external_storage="true"
 # deviceinfo_screen_width="800"
 # deviceinfo_screen_height="480"
-deviceinfo_no_framebuffer="true" # Screen not mainlined yet.
-deviceinfo_keyboard="false"
+# Screen not mainlined yet.
+deviceinfo_no_framebuffer="true"
 
 # Bootloader related
-deviceinfo_generate_bootimg="false"
 deviceinfo_kernel_cmdline="console=ttyMSM0,115200"
 deviceinfo_generate_extlinux_config="true"
 deviceinfo_flash_method="fastboot"

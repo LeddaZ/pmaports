@@ -16,12 +16,12 @@ fi
 sh_files="
 	./main/mdss-fb-init-hack/mdss-fb-init-hack.sh
 	./main/postmarketos-base-ui/rootfs-usr-lib-NetworkManager-dispatcher.d-50-dns-filter.sh
-	./main/postmarketos-base-ui/rootfs-usr-lib-NetworkManager-dispatcher.d-50-tethering.sh
 	./main/postmarketos-installkernel/installkernel-pmos
 	./main/postmarketos-initramfs/init.sh
 	./main/postmarketos-initramfs/init_functions.sh
 	./main/postmarketos-mkinitfs-hook-netboot/netboot.sh
 	./main/postmarketos-ui-os-installer/rootfs-usr-bin-pmos_setup.sh
+	./main/postmarketos-usb-moded/rootfs-usr-lib-systemd-system-generators-umtprd-config-generator
 	./main/ttyescape/*.post-install
 	./main/unl0kr/unlock.sh
 	./device/community/soc-qcom/call_audio_idle_suspend_workaround.sh

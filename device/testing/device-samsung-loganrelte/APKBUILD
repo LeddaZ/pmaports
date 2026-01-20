@@ -1,20 +1,21 @@
-# Maintainer: User0 <user0thenyancat@proton.me>
 # Reference: <https://postmarketos.org/devicepkg>
+maintainer="User0 <user0thenyancat@proton.me>"
 pkgname=device-samsung-loganrelte
 pkgdesc="Samsung Galaxy Ace 3 LTE"
-pkgver=2
+pkgver=5
 pkgrel=0
 url="https://postmarketos.org"
 license="MIT"
 arch="armv7"
 options="!check !archcheck"
 depends="
-	linux-postmarketos-qcom-msm8930
+	linux-postmarketos-qcom-msm8227
 	postmarketos-base
 "
 makedepends="devicepkg-dev"
 source="
 	deviceinfo
+	modules-load.conf
 "
 
 build() {
@@ -26,5 +27,6 @@ package() {
 }
 
 sha512sums="
-081543d99e9981c0ae81bbe98f28bf49e07c859cff6dbe11d7d52c99e97b818932efdc85dcc07f8c8e10a136ee3a5208b8ead04a3c040b6434bb72946f612e2e  deviceinfo
+f319080b7a04fcce7c8d2d7cf28d5fcba99312f7d29820d3bedba20c798de0b3e0607394ad8ce0b01d1024b45ee745da940f4a17dc9af511ce97ce6fa76beb80  deviceinfo
+d4552ba82b860350c798ee35cbeee37d3dabd597094ce7f675a80086d0932dbd7612c0bd919b697fdc04d557b490970518f8574ee6824c5c6ad4954ec5a845e7  modules-load.conf
 "

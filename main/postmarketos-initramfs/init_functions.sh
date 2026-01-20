@@ -360,8 +360,8 @@ mount_subpartitions() {
 		partitions="$android_parts $(grep -v "loop\|ram" < /proc/diskstats |\
 			sed 's/\(\s\+[0-9]\+\)\+\s\+//;s/ .*//;s/^/\/dev\//')"
 		for partition in $partitions; do
-		    # Skip whole disks - only check partitions for subpartitions
-			[ -e "/sys/class/block/$(basename "$partition")/partition" ] || continue
+		    # Skip whole disks - only check partitions and logical device-mapper devices for subpartitions
+			[ -e "/sys/class/block/$(basename "$partition")/partition" ] || [ -d "/sys/class/block/$(basename "$partition")/dm" ] || continue
 			case "$(kpartx -l "$partition" 2>/dev/null | wc -l)" in
 				2)
 					echo "Mount subpartitions of $partition"
@@ -535,7 +535,13 @@ check_filesystem() {
 			if [ $? -gt 4 ]; then
 				status="fail"
 			fi
-
+			;;
+		xfs)
+			echo "Auto-repair and check 'xfs' filesystem ($partition)"
+			fsck.xfs -p "$partition"
+			if [ $? -gt 4 ]; then
+				status="fail"
+			fi
 			;;
 		*)	echo "WARNING: fsck not supported for '$type' filesystem ($partition)." ;;
 	esac
@@ -581,6 +587,9 @@ mount_boot_partition() {
 			modprobe ext4
 			# ext2 might be handled by the ext2 or ext4 kernel module
 			# so let mount detect that automatically by omitting -t
+			;;
+		xfs)
+			modprobe xfs
 			;;
 		vfat)
 			modprobe vfat
@@ -680,11 +689,15 @@ mount_root_partition() {
 	type="$(get_partition_type "$partition")"
 	info "Detected $type filesystem"
 
-	if ! { [ "$type" = "ext4" ] || [ "$type" = "f2fs" ] || [ "$type" = "btrfs" ]; } then
-		echo "ERROR: Detected unsupported '$type' filesystem ($partition)."
-		show_splash "ERROR: unsupported '$type' filesystem ($partition)\\nhttps://postmarketos.org/troubleshooting"
-		fail_halt_boot
-	fi
+	case "$type" in
+		btrfs|ext4|f2fs|xfs)
+			;;
+		*)
+			echo "ERROR: Detected unsupported '$type' filesystem ($partition)."
+			show_splash "ERROR: unsupported '$type' filesystem ($partition)\\nhttps://postmarketos.org/troubleshooting"
+			fail_halt_boot
+			;;
+	esac
 
 	if ! modprobe "$type"; then
 		info "Unable to load module '$type' - assuming it's built-in"

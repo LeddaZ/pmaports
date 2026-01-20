@@ -1,12 +1,13 @@
 # Forked from Alpine to add systemd!
-
+maintainer=""
 pkgname=kwin
-pkgver=99996.5.3
-_pkgver=6.5.3
+pkgver=99996.5.5
+_pkgver=6.5.5
 pkgrel=0
 pkgdesc="An easy to use, but flexible, composited Window Manager"
 # armhf blocked by qt6-qtdeclarative
-arch="all !armhf"
+# riscv64 and x86 blocked by out-of-sync builder in Alpine
+arch="all !armhf !riscv64 !x86"
 url="https://kde.org/plasma-desktop/"
 license="GPL-2.0-or-later AND (GPL-2.0-only OR GPL-3.0-only) AND LGPL-2.1-only"
 depends="
@@ -118,5 +119,5 @@ package() {
 	DESTDIR="$pkgdir" cmake --install build
 }
 sha512sums="
-943d60f326d8ccb65020e4edaa7b889d56b93953d9404f811bffd4611821c8e6f5a79fd60c049132dd98c2bb63f9939e74ec68f2bf96464976590bd52e6f97aa  kwin-6.5.3.tar.xz
+c336a116ad3f6946aabc5ccb793cd7a4dbad75c0333ab0b487b8e1bcddd3bdf99e056346cc29359c4ff58ce5ca7ce60302d03aea5dac1885ac3f1cf2514229a0  kwin-6.5.5.tar.xz
 "

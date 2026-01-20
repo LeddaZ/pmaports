@@ -1,11 +1,9 @@
-# Maintainer: Henrik Grimler <henrik@grimler.se>
-# Co-Maintainer: Jenneron <jenneron@protonmail.com>
 # Kernel config based on: arch/arm/configs/exynos_defconfig
 # and Hardkernel's odroidxu4_defconfig
-
+maintainer="Henrik Grimler <henrik@grimler.se>"
 pkgname=linux-postmarketos-exynos5
-pkgver=6.12.53
-pkgrel=3
+pkgver=6.12.63
+pkgrel=0
 pkgdesc="Mainline kernel fork for Samsung Exynos5 devices"
 arch="armv7"
 _carch="arm"
@@ -69,6 +67,6 @@ package() {
 }
 
 sha512sums="
-64d8d36e50859bff47e6c92ab469c36e21d2e730a485e39655b5c469fce8c7c80987f210950d19c811eafff1f90fb4beb3e3e3cad1f01ba3941901837dc8f2c6  linux-postmarketos-exynos5-v6.12.53-exynos5-lts.tar.bz2
-59ce40512c75be4d258a3f21b0bbeccc850623e2c0d45f2f299a0fbad5d859edf48b1a11ac724d68756f3eaa6ffe4009ae59d55b687b2078beab4fa791fc19b3  config-postmarketos-exynos5.armv7
+eeb07d2c0e1169888f7d7be97e18f4095540d96bfa77744d4e80bf32b04989104b859e2d01daaac243025ba90f597753ee6350b4eb18c86d8c988ef81a0a3929  linux-postmarketos-exynos5-v6.12.63-exynos5-lts.tar.bz2
+5808e9cbc7596f63a4061646c1712d69aa6dabb504910f2019cf64fde2f3f466de78e25bdc0ea75d95413d431231ac31325cc81965ecf5b6f9ad8ad6fa80a23d  config-postmarketos-exynos5.armv7
 "

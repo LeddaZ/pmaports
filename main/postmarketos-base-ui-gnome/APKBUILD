@@ -1,9 +1,9 @@
-# Maintainer: Newbyte <newbyte@postmarketos.org>
 # Co-Maintainer: Pablo Correa Gomez <pabloyoyoista@postmarketos.org>
 # Co-Maintainer: Achill Gilgenast <achill@achill.org>
+maintainer="Newbyte <newbyte@postmarketos.org>"
 pkgname=postmarketos-base-ui-gnome
-pkgver=9
-pkgrel=0
+pkgver=10
+pkgrel=2
 pkgdesc="Meta package for shared configuration for GNOME-based UIs"
 url="https://postmarketos.org"
 arch="noarch"
@@ -11,8 +11,11 @@ license="GPL-3.0-or-later"
 depends="
 	dnsmasq
 	gcr-ssh-agent
+	glycin-loaders-all
+	glycin-thumbnailer
 	gnome-bluetooth
 	gnome-keyring
+	gst-thumbnailers
 	iio-sensor-proxy
 	modemmanager
 	postmarketos-artwork-wallpapers
@@ -28,13 +31,13 @@ depends="
 source="
 	00_postmarketos-base-ui-gnome.gschema.override
 	10_postmarketos-green-accent.gschema.override
+	10_mutter-fractional-scaling.gschema.override
 	"
 options="!check"
 subpackages="$pkgname-openrc"
 
 _pmb_recommends="
 	decibels
-	ffmpegthumbnailer
 	firefox-esr
 	flatpak
 	fprintd
@@ -53,11 +56,7 @@ _pmb_recommends="
 	gst-plugins-bad
 	gst-plugins-good
 	gst-plugins-rs-dav1d
-	gvfs-afp
-	gvfs-dav
-	gvfs-goa
-	gvfs-nfs
-	gvfs-smb
+	gvfs-full
 	loupe
 	nautilus
 	papers
@@ -91,4 +90,5 @@ openrc() {
 sha512sums="
 39b5bb5e669756e2a308ab61b7901e76a9eff9e37c82d50bd9ff77800e72c19b580256f617a2ad0949c1746ab4e163e5ce009c134ab77f8a32f758b1b963862e  00_postmarketos-base-ui-gnome.gschema.override
 c255b0914043f09ef5cc56d50c26e9c8885af128abc3ed5494606bd304eefdeb761ed3bc2d5f86f7c3bfb16f7fc21ca1a6d954c8d21e73e7a5e7612a84a78b7c  10_postmarketos-green-accent.gschema.override
+7c73a011332305a7e811df5dca1b819b41e4cab737384ecb211e88cf6e4aa1027a75ce33163562e839847d6be006cf74d71083de4c3efc78f432355d9a6df20b  10_mutter-fractional-scaling.gschema.override
 "

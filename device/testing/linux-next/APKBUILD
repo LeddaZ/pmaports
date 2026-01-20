@@ -1,9 +1,8 @@
-# Maintainer: Casey Connolly <kcxt@postmarketos.org>
 # Kernel config based on: arch/arm64/configs/defconfig
-
+maintainer="Casey Connolly <kcxt@postmarketos.org>"
 pkgname=linux-next
-pkgver=6.18_git20251203
-pkgrel=0
+pkgver=6.19_git20251215
+pkgrel=1
 _nextver="${pkgver#*_git}"
 pkgdesc="Linux next kernel"
 arch="armv7 aarch64"
@@ -91,7 +90,7 @@ package() {
 }
 
 sha512sums="
-6fad3a30ebe41e66d51fa61a0ff623568ddf8d8effafa5df09a05868494614a1dd6e1fab37ed4e592df34168c39b649ab5b9f0b6e3b98ac499935c004fb8629d  linux-next-next-20251203.tar.gz
-95155055a8234cc50c0b221d5fcfe8141ee957155fe77ae172d6cfd36863a831561bf38cfb8183472e5f2707ee1c1fa2a28ab21ed985c2be58483633266c1d4f  devices.config
-ea219f10f6509193d1940f34a92627bf7d6d6b21c2c43f4cbd2c733bdf3e5bcb6b9b39d5bcc3f597f207c6e729a4ca118529fe0cf4d2805e16059de225e3c354  pmos.config
+ba5629cb92a2c3e17fef5354b9393ed421db23153e9c3bc7b9651d9e75683e33f7c3e5ec368dc26284f29f9b011a0ed8c314b6941f0e229abf2e4c83eb38b42c  linux-next-next-20251215.tar.gz
+9b97849df749c6051503b4f4522db72bc6d5ec718a65a24f99132138a9262b6a473a33bc02e5f09fdb721066d3f6e6a0577de363cdd8a0e38ee99c9e3b08d01d  devices.config
+25c07558cc7dc82485957c82246bbf1eef4a4188f007546b27336fcd84507b387c8afc3d0feb2a2760e90ccde804ff7d7112be38831bba92d5a1988780a42cdd  pmos.config
 "
