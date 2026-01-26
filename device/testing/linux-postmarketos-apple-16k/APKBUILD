@@ -4,7 +4,7 @@ maintainer="Nick Chan <towinchenmi@gmail.com>"
 _flavor="postmarketos-apple-16k"
 pkgname=linux-$_flavor
 pkgver=6.18.1
-pkgrel=0
+pkgrel=1
 pkgdesc="Mainline kernel fork for Apple iPhone and iPad devices (16K)"
 arch="aarch64"
 _carch="arm64"
@@ -44,32 +44,17 @@ builddir="$srcdir/linux-$_tag"
 
 prepare() {
 	default_prepare
-	cp "$srcdir/config-$_flavor.$arch" .config
+	. mainlinekernel_prepare
 }
 
 build() {
 	unset LDFLAGS
 	make ARCH="$_carch" LLVM=1 \
-		KBUILD_BUILD_VERSION="$((pkgrel + 1 ))-postmarketOS"
+		KBUILD_BUILD_VERSION="$((pkgrel + 1 ))-$_flavor"
 }
 
 package() {
-	mkdir -p "$pkgdir"/boot
-
-	install -Dm644 "$builddir/arch/$_carch/boot/vmlinuz" \
-		"$pkgdir/boot/vmlinuz"
-
-	make modules_install dtbs_install \
-		ARCH="$_carch" \
-		LLVM=1 \
-		INSTALL_PATH="$pkgdir"/boot/ \
-		INSTALL_MOD_PATH="$pkgdir" \
-		INSTALL_MOD_STRIP=1 \
-		INSTALL_DTBS_PATH="$pkgdir/boot/dtbs"
-	rm -f "$pkgdir"/lib/modules/*/build "$pkgdir"/lib/modules/*/source
-
-	install -D "$builddir"/include/config/kernel.release \
-		"$pkgdir"/usr/share/kernel/$_flavor/kernel.release
+	mainlinekernel_package "$builddir" "$pkgdir" "$_carch" "$_flavor" "$_outdir"
 }
 
 sha512sums="
