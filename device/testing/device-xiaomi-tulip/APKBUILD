@@ -3,14 +3,15 @@ maintainer="m0rf30 <morf3089@gmail.com>"
 pkgname=device-xiaomi-tulip
 pkgdesc="Xiaomi Redmi Note 6 Pro"
 pkgver=3
-pkgrel=0
+pkgrel=1
 url="https://postmarketos.org"
 license="MIT"
 arch="aarch64"
 options="!check !archcheck"
 depends="
-	firmware-xiaomi-tulip
 	firmware-qcom-adreno-a530
+	firmware-qcom-sdm660
+	firmware-xiaomi-tulip
 	linux-postmarketos-qcom-sdm660
 	mkbootimg
 	msm-firmware-loader

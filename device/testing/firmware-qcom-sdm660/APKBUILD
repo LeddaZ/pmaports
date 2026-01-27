@@ -1,0 +1,92 @@
+# Maintainer: m0rf30 <morf3089@gmail.com>
+pkgname=firmware-qcom-sdm660
+pkgver=1
+pkgrel=1
+pkgdesc="Firmware files for Qualcomm SDM630/SDM636/SDM660 devices"
+url="https://postmarketos.org"
+arch="aarch64"
+license="proprietary"
+options="!strip !check !archcheck !spdx !tracedeps pmb:cross-native"
+
+_asus_x00td_commit="6e89e98d8d347b779ce1bcfdb42665e853314e09"
+_bbry_athena_commit="6bf215b0946a9a1055dfa222d901b967cb771bf0"
+_nokia_sdm660_commit="815817196ac8115d445305ed52409b2457b4bcb2"
+_xiaomi_jasmine_commit="785f4c95ad84bd1daa747bd71211fdd419c0af01"
+_xiaomi_lavender_commit="36a0f45ed788aa7cb532e72687d6adbdcc627faa"
+_xiaomi_platina_commit="d3c57407b34d03ff3597f67129c2bb0bdcac3005"
+_xiaomi_tulip_commit="466518cfbaa8dfc70f3cd83adbc989537cbe48f8"
+_xiaomi_whyred_commit="59e6cff428b177a448dc5952089a9aad0c362295"
+
+source="
+	firmware-asus-x00td-$_asus_x00td_commit.tar.gz::https://github.com/TheMuppets/proprietary_vendor_asus_X00TD/archive/$_asus_x00td_commit.tar.gz
+	firmware-bbry-athena-$_bbry_athena_commit.tar.gz::https://github.com/BlackberryOpenSource/proprietary_vendor_blackberry_athena/archive/$_bbry_athena_commit.tar.gz
+	firmware-nokia-sdm660-$_nokia_sdm660_commit.tar.gz::https://github.com/TheMuppets/proprietary_vendor_nokia/archive/$_nokia_sdm660_commit.tar.gz
+	firmware-xiaomi-jasmine-$_xiaomi_jasmine_commit.tar.gz::https://github.com/TheMuppets/proprietary_vendor_xiaomi_wayne-common/archive/$_xiaomi_jasmine_commit.tar.gz
+	firmware-xiaomi-lavender-$_xiaomi_lavender_commit.tar.gz::https://github.com/TheMuppets/proprietary_vendor_xiaomi_lavender/archive/$_xiaomi_lavender_commit.tar.gz
+	firmware-xiaomi-platina-$_xiaomi_platina_commit.tar.gz::https://github.com/TheMuppets/proprietary_vendor_xiaomi_platina/archive/$_xiaomi_platina_commit.tar.gz
+	firmware-xiaomi-tulip-$_xiaomi_tulip_commit.tar.gz::https://github.com/M0Rf30/postmarketos-vendor-xiaomi-tulip/archive/$_xiaomi_tulip_commit.tar.gz
+	firmware-xiaomi-whyred-$_xiaomi_whyred_commit.tar.gz::https://github.com/TheMuppets/proprietary_vendor_xiaomi_whyred/archive/$_xiaomi_whyred_commit.tar.gz
+"
+
+_basefwdir="/lib/firmware"
+
+package() {
+	# Asus ZenFone Max Pro M1 (x00td) - SDM636
+	asus_x00td_dir="$srcdir/proprietary_vendor_asus_X00TD-$_asus_x00td_commit/proprietary/vendor/firmware"
+	install -Dm644 "$asus_x00td_dir/a512_zap.b02" -t "$pkgdir/$_basefwdir/qcom/sdm636/asus/x00td"
+	install -Dm644 "$asus_x00td_dir/a512_zap.mdt" -t "$pkgdir/$_basefwdir/qcom/sdm636/asus/x00td"
+
+	# BlackBerry KEY2 (athena) - SDM660
+	bbry_athena_dir="$srcdir/proprietary_vendor_blackberry_athena-$_bbry_athena_commit/proprietary/vendor/firmware"
+	install -Dm644 "$bbry_athena_dir/a512_zap.b02" -t "$pkgdir/$_basefwdir/qcom/sdm660/athena"
+	install -Dm644 "$bbry_athena_dir/a512_zap.mdt" -t "$pkgdir/$_basefwdir/qcom/sdm660/athena"
+
+	# BlackBerry KEY2 LE (luna) - SDM636 - uses athena firmware (same Adreno 512)
+	install -Dm644 "$bbry_athena_dir/a512_zap.b02" -t "$pkgdir/$_basefwdir/qcom/sdm636/luna"
+	install -Dm644 "$bbry_athena_dir/a512_zap.mdt" -t "$pkgdir/$_basefwdir/qcom/sdm636/luna"
+
+	# Nokia 6.1 (pl2) - SDM630
+	nokia_sdm660_dir="$srcdir/proprietary_vendor_nokia-$_nokia_sdm660_commit/sdm660-common/proprietary/vendor/firmware"
+	install -Dm644 "$nokia_sdm660_dir/a508_zap.b02" -t "$pkgdir/$_basefwdir/qcom/sdm630/nokia/pl2"
+	install -Dm644 "$nokia_sdm660_dir/a508_zap.mdt" -t "$pkgdir/$_basefwdir/qcom/sdm630/nokia/pl2"
+
+	# Xiaomi Mi Pad 4 (clover) - SDM660 - shares firmware with tulip
+	xiaomi_tulip_dir="$srcdir/postmarketos-vendor-xiaomi-tulip-$_xiaomi_tulip_commit/qcom"
+	install -Dm644 "$xiaomi_tulip_dir/a512_zap.b02" -t "$pkgdir/$_basefwdir/qcom/sdm660/xiaomi/clover"
+	install -Dm644 "$xiaomi_tulip_dir/a512_zap.mdt" -t "$pkgdir/$_basefwdir/qcom/sdm660/xiaomi/clover"
+
+	# Xiaomi Mi A2 (jasmine) - SDM660
+	xiaomi_jasmine_dir="$srcdir/proprietary_vendor_xiaomi_wayne-common-$_xiaomi_jasmine_commit/proprietary/vendor/firmware"
+	install -Dm644 "$xiaomi_jasmine_dir/a512_zap.b02" -t "$pkgdir/$_basefwdir/qcom/sdm660/xiaomi/jasmine"
+	install -Dm644 "$xiaomi_jasmine_dir/a512_zap.mdt" -t "$pkgdir/$_basefwdir/qcom/sdm660/xiaomi/jasmine"
+
+	# Xiaomi Redmi Note 7 (lavender) - SDM660
+	xiaomi_lavender_dir="$srcdir/proprietary_vendor_xiaomi_lavender-$_xiaomi_lavender_commit/proprietary/vendor/firmware"
+	install -Dm644 "$xiaomi_lavender_dir/a512_zap.b02" -t "$pkgdir/$_basefwdir/qcom/sdm660/xiaomi/lavender"
+	install -Dm644 "$xiaomi_lavender_dir/a512_zap.mdt" -t "$pkgdir/$_basefwdir/qcom/sdm660/xiaomi/lavender"
+
+	# Xiaomi Mi 8 Lite (platina) - SDM660
+	xiaomi_platina_dir="$srcdir/proprietary_vendor_xiaomi_platina-$_xiaomi_platina_commit/proprietary/vendor/firmware"
+	install -Dm644 "$xiaomi_platina_dir/a512_zap.b02" -t "$pkgdir/$_basefwdir/qcom/sdm660/xiaomi/platina"
+	install -Dm644 "$xiaomi_platina_dir/a512_zap.mdt" -t "$pkgdir/$_basefwdir/qcom/sdm660/xiaomi/platina"
+
+	# Xiaomi Redmi Note 6 Pro (tulip) - SDM636
+	install -Dm644 "$xiaomi_tulip_dir/a512_zap.b02" -t "$pkgdir/$_basefwdir/qcom/sdm636/xiaomi/tulip"
+	install -Dm644 "$xiaomi_tulip_dir/a512_zap.mdt" -t "$pkgdir/$_basefwdir/qcom/sdm636/xiaomi/tulip"
+
+	# Xiaomi Redmi Note 5 Pro (whyred) - SDM636
+	xiaomi_whyred_dir="$srcdir/proprietary_vendor_xiaomi_whyred-$_xiaomi_whyred_commit/proprietary/vendor/firmware"
+	install -Dm644 "$xiaomi_whyred_dir/a512_zap.b02" -t "$pkgdir/$_basefwdir/qcom/sdm636/xiaomi/whyred"
+	install -Dm644 "$xiaomi_whyred_dir/a512_zap.mdt" -t "$pkgdir/$_basefwdir/qcom/sdm636/xiaomi/whyred"
+}
+
+sha512sums="
+973a0ea3b4996201681955e1a481777bbcc60dad309c9d492f834a62454a6d174f6b6dd7708965bf3127fd52d0807c577ef364b7b3bbe88c4b65b80ec15d9735  firmware-asus-x00td-6e89e98d8d347b779ce1bcfdb42665e853314e09.tar.gz
+9e03f3d57bd3faa2d04a560b026a3c7659d64779db518d30b751bc58550529f6f882c9bbbb2e30c20f86658a585ba1e22f57611d90c0abefc1d9b28ab347155b  firmware-bbry-athena-6bf215b0946a9a1055dfa222d901b967cb771bf0.tar.gz
+d60cb15983ab3512e0efede90a8bb534e2bc772afa1fcb877ef067706988d9c22d3826e84fcbf49f55a9e67e760447b98132f213b22dc93393711f7b4f3326a7  firmware-nokia-sdm660-815817196ac8115d445305ed52409b2457b4bcb2.tar.gz
+051887752ec2c792558c4fb310331a672dc76607bdf48b72cfdbe250a5de40928d401827ca7e7b78bf788eedbdcde6f39bd9099cd6796636da83abd60ca1023b  firmware-xiaomi-jasmine-785f4c95ad84bd1daa747bd71211fdd419c0af01.tar.gz
+2fa30958ea2a3684b12b6bbaa34a3d9a2334bfbe558279624361f7a3e65a76c7ef47f88fb9ad198e2a3629ac805d8599dc6ea182ada7bb776ad746e36b87ba81  firmware-xiaomi-lavender-36a0f45ed788aa7cb532e72687d6adbdcc627faa.tar.gz
+e2c597740a6a166d0e606e29e009a7617c18b5f58b69ab35be8088d3bd38b5483f1d6312efdb2229d7fa03168ca6c711d454198e12fadd2f2f27ec0f6c6336ff  firmware-xiaomi-platina-d3c57407b34d03ff3597f67129c2bb0bdcac3005.tar.gz
+1d564832ac727a6d021c7cc7ed23d8eb347867fa2d3cdaede59d947daa130c15310a10b34ac450ab6a0c41590a3e61042b3a69e31680811fc98528e917abbf38  firmware-xiaomi-tulip-466518cfbaa8dfc70f3cd83adbc989537cbe48f8.tar.gz
+8018fa5c85bbf0ec9f2c7378874cee12736eda3d51c1ab668b0af749eb236b1d90eb0bed4a51a6e7aba3c15390e0940f96ac5a618c8f14246aab870b144a77d7  firmware-xiaomi-whyred-59e6cff428b177a448dc5952089a9aad0c362295.tar.gz
+"

@@ -3,16 +3,19 @@ maintainer="Sid Pranjale <sidpranjale127@protonmail.com>"
 pkgname=device-nokia-pl2
 pkgdesc="HMD Global Nokia 6.1"
 pkgver=1
-pkgrel=0
+pkgrel=1
 url="https://postmarketos.org"
 license="MIT"
 arch="aarch64"
 options="!check !archcheck"
 depends="
+	firmware-qcom-sdm660
 	linux-postmarketos-qcom-sdm660
 	mkbootimg
-	postmarketos-base
 	msm-firmware-loader
+	postmarketos-base
+	soc-qcom-sdm660
+	soc-qcom-sdm660-rproc
 "
 makedepends="devicepkg-dev"
 source="
