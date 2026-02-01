@@ -3,7 +3,7 @@
 maintainer="WeirdTreeThing <bradyn127@protonmail.com>"
 pkgname=linux-postmarketos-mediatek-mt81
 pkgver=6.12.57
-pkgrel=4
+pkgrel=5
 pkgdesc="Mainline kernel for mediatek mt8183/mt8192/mt8195/mt8186"
 arch="aarch64"
 _flavor="${pkgname#linux-}"
@@ -126,5 +126,5 @@ e09b8fc578742b0efcfb7e4419b30de39feecf3303def62576110c98e3a7101c68c78d1276f885e5
 994f51fe70b49e324325b2d3d27b994c25af23210b579852424cc1c772f2189811cd51def49ab1be8f35b77e8bd1e387993f621238cc07dad4b805dab9e2f86b  mt8186-ASoC-mediatek-mt8186-make-FE-nonatomic-and-no_pcm.patch
 7582a86506ec1ff0a08ae52d249fa465f436439b01b592fe01f7aaa2fbdb3b2ae989473cd5cd9d39e6e9dac60d847063fa66ef36b808be695aa62b512d722d2b  mt8195-adsp.patch
 c61890785079aa67a4b92a30955cc7b2b1e1f8460255f2391b3d11f76c0e9568fe7dc9710e542392d42bf0a4426e1d47d7287621166e0cc9aa0333382ebd2cd2  mt8195-dvfsrc.patch
-40375dac7f716b3f76882b0096a2a4c930f49b60df037e9ab27557eb9d3d168e2e9515a63728d362ce8d032335103aa9c1cc416d9bc88703d9c6c99a5133fcfd  config-postmarketos-mediatek-mt81.aarch64
+068ad46d7563ce045f31ae58622feb15f91b4903f282ddcb6f4ffbc986be4460111665e231cf6e1ec31be77b1f97932d9776edac80ef76a96f59ba8c2d081694  config-postmarketos-mediatek-mt81.aarch64
 "
