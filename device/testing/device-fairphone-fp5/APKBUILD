@@ -2,7 +2,7 @@
 maintainer="Luca Weiss <luca@lucaweiss.eu>"
 pkgname=device-fairphone-fp5
 pkgdesc="Fairphone 5"
-pkgver=14
+pkgver=15
 pkgrel=0
 url="https://postmarketos.org"
 license="MIT"
@@ -23,7 +23,7 @@ depends="
 	firmware-qcom-adreno-a660
 	hexagonrpcd>=0.3.2-r3
 	linux-firmware-ath11k
-	linux-postmarketos-qcom-sc7280
+	linux-postmarketos-fairphone-fp5
 	make-dynpart-mappings
 	mkbootimg
 	postmarketos-base
@@ -41,6 +41,7 @@ source="
 	81-libssc-fairphone-fp5.rules
 	deviceinfo
 	modules-initfs
+	q6voiced.conf
 	"
 build() {
 	devicepkg_build $startdir $pkgname
@@ -54,6 +55,9 @@ package() {
 
 	install -Dm644 "$srcdir"/52-fairphone-fp5.conf \
 		-t "$pkgdir"/usr/share/wireplumber/wireplumber.conf.d
+
+	install -Dm644 "$srcdir"/q6voiced.conf \
+		"$pkgdir"/etc/conf.d/q6voiced
 }
 
 openrc() {
@@ -69,4 +73,5 @@ f6fb26e0e75b15cf727e8a20f34e4132cf357025fff1427cf63729776aedce6e647f9f81f1ec13d0
 2c16ba75e0077b2b1eaefa4c73b287475505a1aeb291ec29316d41cc094277320f9d2aaabfd91eb1dc0f488ab2d61a94faef16e7afe0f1e226779113761b9a37  81-libssc-fairphone-fp5.rules
 5b7f9ecfb9aee656c19e04a417b8a8bc20bf8b1efb8abd0e6fffbf9ea8d9bbf10a62e3ee96ce7968da91c0c56f0c941bc89939715089cd21b95e86d27f30aff6  deviceinfo
 6280b66b9d4843ef78d0029c31d267b0bf59ea669bc3f2c268edfddf4edb3cec62d40b97c8204c85d1350759ad56e1ac2a5ba8ddc691f73c35c7385350ef12ee  modules-initfs
+fe8e6da4fc062f3802e8f6a0deddb603761cb36d2be0f9c3d5877e6be6efd7e56cc59b1b2c7f1cd4286b67ee7f51eb796e3f8f2f2f16af33fdf325a64f91e024  q6voiced.conf
 "
