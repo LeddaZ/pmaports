@@ -1,7 +1,7 @@
 # Co-Maintainer: Achill Gilgenast <achill@achill.org>
 maintainer="Clayton Craft <clayton@craftyguy.net>"
 pkgname=postmarketos-base
-pkgver=54
+pkgver=55
 pkgrel=0
 pkgdesc="Meta package for minimal postmarketOS base"
 url="https://postmarketos.org"
@@ -37,6 +37,8 @@ subpackages="
 	$pkgname-core
 	$pkgname-fwupd
 	$pkgname-grub
+	$pkgname-lockdown-integrity:lockdown_integrity:noarch
+	$pkgname-lockdown-none:lockdown_none:noarch
 	$pkgname-mesa
 	$pkgname-nftables
 	$pkgname-nftables-openrc:nftables_openrc
@@ -79,6 +81,8 @@ _source644="
 	usr/lib/apk/config
 	usr/lib/os-release
 	usr/lib/kernel-cmdline.d/00-base.conf
+	usr/lib/kernel-cmdline.d/10-lockdown-integrity.conf
+	usr/lib/kernel-cmdline.d/10-lockdown-none.conf
 	usr/lib/sysctl.d/90-disable-rp-filter.conf
 	usr/lib/sysctl.d/90-steam.conf
 	usr/lib/udev/rules.d/20-imagis-input.rules
@@ -168,6 +172,22 @@ grub() {
 	install_if="$pkgname=$pkgver-r$pkgrel grub"
 
 	amove etc/update-grub.conf
+}
+
+lockdown_integrity() {
+	pkgdesc="Downgrade kernel lockdown to integrity mode"
+	# Both packages supply the same cmdline option
+	depends="!$pkgname-lockdown-none"
+
+	amove usr/lib/kernel-cmdline.d/10-lockdown-integrity.conf
+}
+
+lockdown_none() {
+	pkgdesc="Downgrade kernel lockdown to none"
+	# Both packages supply the same cmdline option
+	depends="!$pkgname-lockdown-integrity"
+
+	amove usr/lib/kernel-cmdline.d/10-lockdown-none.conf
 }
 
 mesa() {
@@ -267,6 +287,8 @@ e4576c58c35f80bedddb1e89e186f37d31a186d3e9eb046581b8c5d7b7d435e18924539e851d3e67
 224d58717f7f95851c91914753f4aefaf8964a2e62350ed898783c295c509cdadd85c325ee00baceb21ff2763ca2f4c7b1478a5638eb7d86836f91336b739376  rootfs-usr-lib-apk-config
 6593a61cb4cbb5d557bdd0f98ce09bf91a6e076cfe0023fe3f495e17044c8d586708328a0fae52b58b3ff008a347b1f63a222a2a4d4f3f4d95777531f8a5c1a8  rootfs-usr-lib-os-release
 5784bfcad14d1bec82af4319edcf237e3a5b23fc464c80d82c0762b83dd6d672313cbfdce1f6f726b6d2ec280efe7cbc2d6dc0390d2c0837cd7b54de3fd6021a  rootfs-usr-lib-kernel-cmdline.d-00-base.conf
+4c80d2a9169c2c90f7c2822104a2a83a635f1cd35eb3148ea6088cd714d43810bb4172e157ffe374d2bc529f0642d55b5a36187228dd8bb07f604e236e61befa  rootfs-usr-lib-kernel-cmdline.d-10-lockdown-integrity.conf
+2cce44b62402d736320d26e5502eb2a215524641c4ba9397ed14f5fac9c4cda2ac138eac37b64a0d2096ecbeb751200e758767db17129d5fb3f06ebe77aaf1a1  rootfs-usr-lib-kernel-cmdline.d-10-lockdown-none.conf
 b70ee1b39b5f33c9a3e6bf4259158519691c82c8cefb700d4df49eb749a2cce208082e00d4905b9eea2c4f75b6da62f73931931c92157b4132adb35dcf0e0a6f  rootfs-usr-lib-sysctl.d-90-disable-rp-filter.conf
 6b16fd00756926c6fdc6f01960f59c854c90920dd9c0e67c19506a90fd26ac887a8dbfd5b1ec2712fff91f0369ddc5b91d56041360018d4d0c4d78e49733b644  rootfs-usr-lib-sysctl.d-90-steam.conf
 560d30c08856714f4bec805ca95fad767330d6fb3760096ffebdf35cad42d4ebea7dd2f5ee2e4d88596743e6717ca6ac2339d4d753feb3ca28e0090c585bf81e  rootfs-usr-lib-udev-rules.d-20-imagis-input.rules
