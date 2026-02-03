@@ -5,7 +5,7 @@
 deviceinfo_format_version="0"
 deviceinfo_name="Qualcomm SDM845 device"
 deviceinfo_manufacturer="Qualcomm"
-deviceinfo_codename="qualcomm-sdm845"
+deviceinfo_codename="qcom-sdm845"
 deviceinfo_year="2023"
 deviceinfo_arch="aarch64"
 
