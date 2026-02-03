@@ -9,13 +9,16 @@ license="MIT"
 arch="aarch64"
 options="!check !archcheck"
 depends="
+	alsa-ucm-conf-sdm845
+	firmware-oneplus-sdm845
+	firmware-xiaomi-beryllium
 	fwupd>=1.8.6
-	linux-firmware-qcom
+	hexagonrpcd
 	linux-firmware-ath10k
+	linux-firmware-qcom
 	linux-postmarketos-qcom-sdm845
 	mkbootimg
 	postmarketos-base
-	alsa-ucm-conf-sdm845
 	soc-qcom
 	soc-qcom-modem
 	soc-qcom-pd-mapper
@@ -24,11 +27,13 @@ depends="
 	unl0kr-fbforcerefresh
 "
 makedepends="devicepkg-dev"
+subpackages="$pkgname-udev"
 source="
+	81-libssc-180-degrees.rules
 	deviceinfo
 	kernel-cmdline.conf
-	q6voiced.conf
 	modules-initfs
+	q6voiced.conf
 "
 
 build() {
@@ -38,12 +43,17 @@ build() {
 package() {
 	devicepkg_package $startdir $pkgname
 
-	install -Dm644 q6voiced.conf "$pkgdir"/etc/conf.d/q6voiced
+	install -Dm644 "$srcdir"/q6voiced.conf \
+		"$pkgdir"/etc/conf.d/q6voiced
+
+	install -Dm644 "$srcdir"/81-libssc-180-degrees.rules -t \
+		"$pkgdir"/usr/lib/udev/rules.d
 }
 
 sha512sums="
-92423b4adf179088976a1563159b9a2809bebe9d4e196a83e24a7b20f743893647293c483f17be36fc2180c6d4d80d8d10912c5eaea2a9bdfd5222635c4e0223  deviceinfo
+2c16ba75e0077b2b1eaefa4c73b287475505a1aeb291ec29316d41cc094277320f9d2aaabfd91eb1dc0f488ab2d61a94faef16e7afe0f1e226779113761b9a37  81-libssc-180-degrees.rules
+d290fdc861faf081d9d0114f7ec64e41fa1e3a343006e987829fbf277dde693d4563e122816832aa5f17bb52f4e0b54610b7d7bec232ef959be073387a4bc1a8  deviceinfo
 441cc0ae3fddf8026df58b0e0611024d321f2435d8be874a908f0670083676f2301596a2d789651dc3afb6b819905812eefa761503668d5f46fdd59e0de4e8ed  kernel-cmdline.conf
-5f3e1c286baea16a5b0a4a34cef7ad774d3aa5cc384e1deb4fba40d1f9372a708baf3b587e3edac69edcf04b5513f0111c1976b649b424cc721733ce4ddabc19  q6voiced.conf
 3bbacc8c260e2c0af509b9b123218f830610ac7aef82efc9b117fc62ccda4155e588be718dcb399102b5534a25900e53840083add166a7ac5b399ddc702de904  modules-initfs
+5f3e1c286baea16a5b0a4a34cef7ad774d3aa5cc384e1deb4fba40d1f9372a708baf3b587e3edac69edcf04b5513f0111c1976b649b424cc721733ce4ddabc19  q6voiced.conf
 "
