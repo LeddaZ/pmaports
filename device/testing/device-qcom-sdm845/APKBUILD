@@ -2,7 +2,7 @@
 maintainer="Casey Connolly <casey.connolly@linaro.org>"
 pkgname=device-qcom-sdm845
 pkgdesc="Generic device package for Qualcomm SDM845 devices"
-pkgver=1
+pkgver=2
 pkgrel=0
 url="https://postmarketos.org"
 license="MIT"
@@ -53,7 +53,7 @@ package() {
 sha512sums="
 2c16ba75e0077b2b1eaefa4c73b287475505a1aeb291ec29316d41cc094277320f9d2aaabfd91eb1dc0f488ab2d61a94faef16e7afe0f1e226779113761b9a37  81-libssc-180-degrees.rules
 d290fdc861faf081d9d0114f7ec64e41fa1e3a343006e987829fbf277dde693d4563e122816832aa5f17bb52f4e0b54610b7d7bec232ef959be073387a4bc1a8  deviceinfo
-441cc0ae3fddf8026df58b0e0611024d321f2435d8be874a908f0670083676f2301596a2d789651dc3afb6b819905812eefa761503668d5f46fdd59e0de4e8ed  kernel-cmdline.conf
+b8dec553c4924c76ebdeb17005f0f4b4941359bd6913cab186f352664e10ab0e0ea433f2a41d9a88245e311ed5b840eb23750be9e00e645b21c6b7e910005f8f  kernel-cmdline.conf
 3bbacc8c260e2c0af509b9b123218f830610ac7aef82efc9b117fc62ccda4155e588be718dcb399102b5534a25900e53840083add166a7ac5b399ddc702de904  modules-initfs
 5f3e1c286baea16a5b0a4a34cef7ad774d3aa5cc384e1deb4fba40d1f9372a708baf3b587e3edac69edcf04b5513f0111c1976b649b424cc721733ce4ddabc19  q6voiced.conf
 "
