@@ -1,44 +1,41 @@
-# Kernel config based on: arch/arm64/configs/defconfig
-maintainer="Casey Connolly <kcxt@postmarketos.org>"
+# Co-Maintainer: Achill Gilgenast <achill@achill.org>
+maintainer="Aelin <aelin@postmarketos.org>"
 pkgname=linux-next
-pkgver=6.19_git20251215
-pkgrel=1
+pkgver=6.19_git20260205
+pkgrel=0
 _nextver="${pkgver#*_git}"
 pkgdesc="Linux next kernel"
-arch="armv7 aarch64"
-case "$CARCH" in
-	aarch64) _carch="arm64";_defconfig="defconfig";;
-	# FIXME: We should not be using qcom_defconfig. Instead we should be using multi_v7_defconfig.
-	# The problem is two-fold:
-	# - We need to reduce the amount of mainline kernels.
-	# - We need to find a way to not duplicate upstream defconfigs into our repo.
-	# Please see: https://gitlab.postmarketos.org/postmarketOS/pmaports/-/merge_requests/6133#note_468011
-	armv7) _carch="arm";_defconfig="qcom_defconfig";;
-esac
-_flavor="generic-trailblazer"
+# armhf: pmbootstrap cannot dynamically choose a defconfig, so it ends up using multi_v7_defconfig which isn't correct
+# s390x: kconfigcheck is not ready for it yet
+arch="all !armhf !s390x"
+_flavor="next"
 url="https://kernel.org"
 license="GPL-2.0-only"
-# FIXME: kconfigcheck isn't supported since we use fragments
-options="!strip !check !tracedeps pmb:cross-native"
-source="
-	https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/snapshot/linux-next-next-$_nextver.tar.gz
-	devices.config
-	pmos.config
+options="
+	!check
+	!strip
+	!tracedeps
+	pmb:cross-native
+	pmb:generic-kernel
+	pmb:kconfigcheck-community
+	pmb:kconfigcheck-immutable
+	pmb:kconfigcheck-rust
+	pmb:kconfigcheck-uefi
+	pmb:kconfigcheck-virt
 "
 makedepends="
-	bash
-	bc
 	bison
 	clang
 	clang-libclang
-	devicepkg-dev
+	diffutils
 	elfutils-dev
 	findutils
 	flex
-	git
+	linux-headers
 	lld
 	llvm
 	openssl-dev
+	pahole
 	perl
 	postmarketos-installkernel
 	python3
@@ -46,38 +43,60 @@ makedepends="
 	rust-bindgen
 	rust-src
 	rustfmt
+	sed
 	zstd
 "
+
+# Source
+# fuse patch fixes compilation for 32-bit systems: https://lore.kernel.org/all/20260113192243.73983-1-david.laight.linux@gmail.com/
+source="
+	https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/snapshot/linux-next-next-$_nextver.tar.gz
+
+	20260113_david_laight_linux_fuse_fix_min_signedness_error_in_fuse_wr_pages.patch
+
+	config-next.aarch64
+	config-next.armv7
+	config-next.loongarch64
+	config-next.ppc64le
+	config-next.riscv64
+	config-next.x86
+	config-next.x86_64
+"
 builddir="$srcdir/linux-next-next-$_nextver"
+_defconfig="defconfig"
+
+case "$CARCH" in
+	aarch64*) _carch="arm64" ;;
+	arm*) _carch="arm" ;;
+	loongarch*) _carch="loongarch" ;;
+	ppc*) _carch="powerpc" ;;
+	riscv*) _carch="riscv" ;;
+	s390x) _carch="s390" ;;
+	x86) _carch="i386" ;;
+	x86_64) _carch="x86_64" ;;
+esac
 
 prepare() {
 	default_prepare
-	cp "$srcdir/pmos.config" "$builddir"/arch/"$_carch"/configs/
-	cp "$srcdir/devices.config" "$builddir"/arch/"$_carch"/configs/
-
-	# Generate .config
-	unset LDFLAGS
-	make ARCH="$_carch" LLVM=1 \
-		KBUILD_BUILD_VERSION="$((pkgrel + 1 ))-next-$_nextver" \
-		"$_defconfig" pmos.config devices.config
+	cp "$srcdir/config-$_flavor.$CARCH" .config
 }
 
 build() {
 	unset LDFLAGS
-	make O="$_outdir" ARCH="$_carch" LLVM=1 \
-		KBUILD_BUILD_VERSION="$((pkgrel + 1 ))-postmarketOS"
+	make ARCH="$_carch" LLVM=1 \
+		KBUILD_BUILD_VERSION="$((pkgrel + 1 ))-$_flavor"
 }
 
 package() {
-	if [ "$CARCH" != "armv7" ]; then
-		install -Dm644 "$builddir/arch/$_carch/boot/vmlinuz.efi" \
-			"$pkgdir/boot/linux.efi"
-	fi
+	local _install
+	case "$CARCH" in
+		arm*|aarch64|riscv*) _install="zinstall dtbs_install" ;;
+		*) _install="install" ;;
+	esac
 
-	mkdir -p "$pkgdir"/boot
-
-	make LLVM=1 zinstall modules_install dtbs_install \
+	make modules_install $_install \
 		ARCH="$_carch" \
+		LLVM=1 \
 		INSTALL_PATH="$pkgdir"/boot/ \
 		INSTALL_MOD_PATH="$pkgdir" \
 		INSTALL_MOD_STRIP=1 \
@@ -86,11 +105,18 @@ package() {
 	rm -f "$pkgdir"/lib/modules/*/build "$pkgdir"/lib/modules/*/source
 
 	install -D "$builddir"/include/config/kernel.release \
-		"$pkgdir"/usr/share/kernel/next-"$_nextver"/kernel.release
+		"$pkgdir"/usr/share/kernel/$_flavor/kernel.release
 }
 
+
 sha512sums="
-ba5629cb92a2c3e17fef5354b9393ed421db23153e9c3bc7b9651d9e75683e33f7c3e5ec368dc26284f29f9b011a0ed8c314b6941f0e229abf2e4c83eb38b42c  linux-next-next-20251215.tar.gz
-08ec500bd2f40c1c80e56ebd938d4e54af71972fdf00c4dfe8a911cf094e1c296766276010470bfa26c68093c90bcae01266acc5e59fa0ec4620d4becc2c53d4  devices.config
-25c07558cc7dc82485957c82246bbf1eef4a4188f007546b27336fcd84507b387c8afc3d0feb2a2760e90ccde804ff7d7112be38831bba92d5a1988780a42cdd  pmos.config
+ea2a7b9b11ca2c5fa664a3338095a8e67a6af7f55b9cba7cf2fe51c702b0d7799e20828dfc66767b505d64d90ef33a894c3ed8f2b97a35fa070f9f0fbda2f71c  linux-next-next-20260205.tar.gz
+5c047fab8872ed9fae3634861cba64c6d6cbea770f90256dcdbaef8642ef334fc21abb79acfc8d917054a1306588145be512a3bd2ae33fc109a41e2ff0e31bcc  20260113_david_laight_linux_fuse_fix_min_signedness_error_in_fuse_wr_pages.patch
+c5f4f827cde02dbda5acf515235cce4e95e8c82f8c7744c30d8704df25a070908c21aa2fc6d4835f34ff8a31769d080c9d75dc57339b53963700904b8dfd32ff  config-next.aarch64
+c5a8f7e446250cba59e0a9070521c250ef24b3e721d4fd572a59fe65adfab1efa9dfe2cea12e5ec8df1f9ab866eb26e80db0d5662f8af887dc4a70b709686460  config-next.armv7
+a34a337b5cc03e028977d84c4a7c2b908121f05c5bad14d084f854126c61ab837a9094bf7e55492c6f4461464ea46e8cd5f4f2099268c09d2828702d9eee6905  config-next.loongarch64
+9b96baa8f2b8a1a5d811659b72e04b10e5ad49cc390d33caf4305a3f562028c29a929e0239f5c2366a46da005474db003d36dcf5c29e6a46f832a624acfa49ac  config-next.ppc64le
+caa29916503efdebe8edfae18f15b2e453cd3a695ae19d9dc206b7d917f71fd969786953d507177062987684afefd223ecdfc498753b542da8be560f24b666b4  config-next.riscv64
+1a96dd2c99d8094ec0e691b9b9eb773aa97ac19b5186d316468a0aad4b45a154e3930a00e658dc15d8b8b7681d2c12269885b8cd308b7ed5c46a37296bf6b8a3  config-next.x86
+cbc87ce1bde62268d23adc851d35a9269b3b033f67ecddaac30d3308d677f7d641bb5a90a118bad55bff1e78ab34b3cba539e786df66f7692a1ec2f024f8afc2  config-next.x86_64
 "
