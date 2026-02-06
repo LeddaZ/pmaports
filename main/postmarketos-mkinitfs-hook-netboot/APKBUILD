@@ -1,16 +1,18 @@
-maintainer=""
+maintainer="Aster Boese <asterboese@mailbox.org>"
 pkgname=postmarketos-mkinitfs-hook-netboot
-pkgver=4.2.0
+pkgver=4.3.0
 pkgrel=1
-pkgdesc="Netboot postmarketOS using nbd feature"
+pkgdesc="Netboot postmarketOS using nbd feature (only works with systemd)"
 url="https://postmarketos.org"
-depends="devicepkg-utils postmarketos-mkinitfs !usb-moded"
+depends="devicepkg-utils postmarketos-mkinitfs"
 source="
+	disable-usb-moded.preset
 	netboot.sh
 	netboot.modules
 	"
 arch="noarch"
 license="GPL-2.0-or-later"
+subpackages="$pkgname-systemd"
 options="!check" # No tests
 
 package() {
@@ -18,9 +20,12 @@ package() {
 		"$pkgdir"/usr/share/mkinitfs/hooks/netboot.sh
 	install -Dm644 "$srcdir"/netboot.modules \
 		"$pkgdir"/usr/share/mkinitfs/modules/30-netboot.modules
+	install -Dm644 "$srcdir"/disable-usb-moded.preset \
+		"$pkgdir"/usr/lib/systemd/system-preset/70-"$pkgname".preset
 }
 
 sha512sums="
+90aa4b79f54615a4e8da8958b5969742cc93a0af28952a318a92ce8aaec10daf138a268c8383fafb982d4e11bb4678c77a6c0d8b7d504d0602425a21ec1e46aa  disable-usb-moded.preset
 c681d0c39eecd9fe5d284e07f9c6f79e41085628abe1c645b8ea3cc4e621fd603fca9db4a555fa689a3268925cb6d23c12baa98986baed452375acd1e3fe26b1  netboot.sh
 3c9c812a6cd25640e6cf4d722cff6c6356d5666ec6009b4c65f89e62211cc406d2cd09e0fdda6b1c1906ee32c3854988ab701cee8811208e3ef666f09e638568  netboot.modules
 "
