@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Description: lint with various python tests
 # Options: native
-# Use 'native' because it requires pmbootstrap.
+# Use 'native' because it requires running pmbootstrap.
 # https://postmarketos.org/pmb-ci
 
 if [ "$(id -u)" = 0 ]; then
@@ -27,6 +27,6 @@ pmbootstrap config aports "$pmaports"
 pmbootstrap -q shutdown
 
 # Needed to import "common"
-export PYTHONPATH=".ci/lib"
+export PYTHONPATH="$PYTHONPATH:.ci/lib"
 # Run testcases
 pytest -vv --tb=native "$pmaports/.ci/testcases" "$@"

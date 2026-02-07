@@ -6,10 +6,7 @@
 import glob
 import logging
 import os
-import pytest
-import sys
 
-import add_pmbootstrap_to_import_path
 import pmb.parse
 import pmb.parse._apkbuild
 import pmb.parse.apkindex
@@ -100,6 +97,9 @@ def test_aports_unreferenced_files():
             rel_file_path = os.path.relpath(file, dirname)
             # Skip APKBUILDs and directories
             if rel_file_path in ["APKBUILD", "gitlab-ci.yml.j2"] or os.path.isdir(file):
+                continue
+            # Skip kernel fragments in linux-* packages
+            if os.path.basename(rel_file_path).endswith(".config") and apkbuild["pkgname"].startswith("linux-"):
                 continue
 
             if os.path.basename(rel_file_path) not in sources_chk \

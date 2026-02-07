@@ -3,7 +3,7 @@
 maintainer="Casey Connolly <kcxt@postmarketos.org>"
 pkgname=device-postmarketos-trailblazer
 pkgdesc="postmarketOS Trailblazer generic ARM64"
-pkgver=17
+pkgver=19
 pkgrel=0
 url="https://postmarketos.org"
 license="MIT"
@@ -36,6 +36,7 @@ install="$pkgname.pre-upgrade"
 makedepends="devicepkg-dev"
 subpackages="
 	$pkgname-kernel-next:kernel_next
+	$pkgname-kernel-mainline:kernel_mainline
 	$pkgname-kernel-lts:kernel_lts
 	$pkgname-kernel-stable:kernel_stable
 	$pkgname-kernel-postmarketos-qcom-laptop:kernel_postmarketos_qcom_laptop
@@ -43,6 +44,7 @@ subpackages="
 "
 source="
 	deviceinfo
+	kernel-cmdline.conf
 	modules-initfs
 "
 
@@ -57,6 +59,12 @@ package() {
 kernel_next() {
 	pkgdesc="Unstable next kernel (linux-next)"
 	depends="linux-next"
+	devicepkg_subpackage_kernel $startdir $pkgname $subpkgname
+}
+
+kernel_mainline() {
+	pkgdesc="Mainline postmarketOS kernel (linux-postmarketos-mainline)"
+	depends="linux-postmarketos-mainline"
 	devicepkg_subpackage_kernel $startdir $pkgname $subpkgname
 }
 
@@ -87,6 +95,7 @@ kernel_postmarketos_amlogic() {
 }
 
 sha512sums="
-04f251f4b160f95da2a61ae71ef56a44c2ce751114a488e0acc04fa455b075ff64455b73cf1dedcf4a18c6ff4fe21a6911c7321ee259162d86be39a19208cd38  deviceinfo
+3f361d9a3993b7e17d213db848882fa6aa3ad51873b613a8633c97fdf3e9ec542f70b0d4c280a1208736f660d8681ad714dc8307ec01e4528170a2219edabd27  deviceinfo
+81492d13da96e7718ca546a6e879c54fc105e4b1dc4316b6e91f8c51cfbc816bbb0673222579afb5ce5a38fad91d8be7639aa938e0e8f77ff29a8d5d301d4949  kernel-cmdline.conf
 e26948d1f5005b16fefcaa51985010a5e55adef9ba3ed9d1f3d046c4b8928afbdd317123d0ca2fb0904e5431536c0d995144f66ad9025c7937ff0aae0537dfef  modules-initfs
 "

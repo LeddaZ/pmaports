@@ -6,13 +6,8 @@
     version in all packages. We scan all packages, categorize them by URL
     and then compare the versions of all packages in each category. """
 
-import glob
 import logging
-import os
-import pytest
-import sys
 
-import add_pmbootstrap_to_import_path
 import pmb.config
 import pmb.parse
 from pmb.core.pkgrepo import pkgrepo_iter_package_dirs

@@ -10,11 +10,10 @@ deviceinfo_arch="loongarch64"
 
 # Device related
 deviceinfo_drm="true"
-deviceinfo_chassis="desktop"
 deviceinfo_external_storage="true"
 deviceinfo_getty="ttyS0;115200"
+deviceinfo_disable_dhcpd="true"
 
 # Bootloader related
-deviceinfo_kernel_cmdline="console=tty0 console=ttyS0,115200 PMOS_FORCE_PARTITION_RESIZE"
 deviceinfo_boot_filesystem="fat32"
 deviceinfo_generate_systemd_boot="true"

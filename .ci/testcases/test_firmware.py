@@ -2,12 +2,10 @@
 # Copyright 2021 Johannes Marbach
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import glob
 import os
 
-import add_pmbootstrap_to_import_path
 import pmb.parse
-from pmb.core.pkgrepo import pkgrepo_default_path, pkgrepo_iglob
+from pmb.core.pkgrepo import pkgrepo_iglob
 
 
 def test_aports_firmware():

@@ -3,15 +3,13 @@
 # Co-Maintainer: Achill Gilgenast <achill@achill.org>
 maintainer="Newbyte <newbyte@postmarketos.org>"
 pkgname=mutter-mobile
-pkgver=99948.0
 _pkgver=48.0
-pkgrel=2
+pkgver=9999$_pkgver
+pkgrel=0
 pkgdesc="clutter-based window manager and compositor"
 url="https://wiki.gnome.org/Projects/Mutter/"
-# ricsv64: doesn't build currently:
-# https://builds.sr.ht/~postmarketos/job/869829#task-pmbootstrap_build-1224
 # armhf: pmb#2618
-arch="all !riscv64 !armhf"
+arch="all !armhf"
 license="GPL-2.0-or-later"
 depends="
 	gnome-settings-daemon-mobile

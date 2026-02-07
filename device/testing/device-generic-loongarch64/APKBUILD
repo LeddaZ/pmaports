@@ -1,8 +1,9 @@
 # Reference: <https://postmarketos.org/devicepkg>
+# Co-Maintainer: Achill Gilgenast <achill@achill.org>
 maintainer="Aelin <aelin@postmarketos.org>"
 pkgname=device-generic-loongarch64
-pkgver=3
-pkgrel=1
+pkgver=6
+pkgrel=0
 pkgdesc="Generic loongarch64 system"
 url="https://postmarketos.org"
 arch="loongarch64"
@@ -15,12 +16,14 @@ depends="
 	"
 makedepends="devicepkg-dev"
 subpackages="
-	$pkgname-kernel-lts:kernel_lts
 	$pkgname-kernel-stable:kernel_stable
+	$pkgname-kernel-lts:kernel_lts
+	$pkgname-kernel-mainline:kernel_mainline
 	"
 
 source="
 	deviceinfo
+	kernel-cmdline.conf
 	modules-initfs
 	"
 options="!check !archcheck"
@@ -33,19 +36,26 @@ package() {
 	devicepkg_package $startdir $pkgname
 }
 
-kernel_lts() {
-	pkgdesc="Alpine LTS kernel (recommended)"
-	depends="linux-lts"
+kernel_stable() {
+	pkgdesc="Stable kernel (recommended, best balance between stability and features)"
+	depends="linux-postmarketos-stable"
 	devicepkg_subpackage_kernel $startdir $pkgname $subpkgname
 }
 
-kernel_stable() {
-	pkgdesc="Alpine Stable kernel"
-	depends="linux-stable"
+kernel_lts() {
+	pkgdesc="Long-term maintainance kernel (most stability, not all security fixes & new features)"
+	depends="linux-postmarketos-lts"
+	devicepkg_subpackage_kernel $startdir $pkgname $subpkgname
+}
+
+kernel_mainline() {
+	pkgdesc="Upstream development kernel (regular breakage, latest features)"
+	depends="linux-postmarketos-mainline"
 	devicepkg_subpackage_kernel $startdir $pkgname $subpkgname
 }
 
 sha512sums="
-79372b03a6faf04b7d1e053e698fe898f08e725ff57fc0248389119ac102b8f89e756544524629eb5733335928a1792ce7dfbc39a6c9f7e73a35792116792463  deviceinfo
+1eb994913893442dedfa1a3f2b9159bc815f3c294a69e85f77bd16ae90fb74f2cf7b1a984a2f7ce27276df8ddf76de67416e173659c65ec1f65b675ece223baa  deviceinfo
+eb8f9fd9e4b58c7c2cd810ae6449e836d0fa095f6eaa2da661481df6eb40d452998613b3d032f0477f0ac32559689db48eb3da189495c16bd016b8eac3b67b16  kernel-cmdline.conf
 2acfb32ce5d9c43956a49f48113bdfca6558a8c67a5ffd52aa30e35fc281abd7eff5808f8ae47707f4ba6d75d18acbd013813127263e8eb7529660380e9c3e85  modules-initfs
 "

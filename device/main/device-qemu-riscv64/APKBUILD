@@ -2,8 +2,8 @@
 # Co-Maintainer: Achill Gilgenast <achill@achill.org>
 maintainer="Luca Weiss <luca@lucaweiss.eu>"
 pkgname=device-qemu-riscv64
-pkgver=9
-pkgrel=1
+pkgver=11
+pkgrel=4
 pkgdesc="Simulated device in QEMU (riscv64)"
 url="https://postmarketos.org"
 arch="riscv64"
@@ -11,13 +11,17 @@ license="MIT"
 depends="
 	postmarketos-base
 	postmarketos-qemu-common
+	systemd-boot
 	"
 makedepends="devicepkg-dev"
 subpackages="
 	$pkgname-kernel-stable:kernel_stable
+	$pkgname-kernel-lts:kernel_lts
+	$pkgname-kernel-mainline:kernel_mainline
 	"
 
 source="
+	kernel-cmdline.conf
 	deviceinfo
 	"
 options="!check !archcheck"
@@ -31,13 +35,24 @@ package() {
 }
 
 kernel_stable() {
-	pkgdesc="Alpine Stable kernel"
-	depends="linux-stable linux-firmware-none"
-	provides="$pkgname-kernel-edge=$pkgver-r$pkgrel"
-	replaces="$pkgname-kernel-edge"
+	pkgdesc="Stable kernel (recommended, best balance between stability and features)"
+	depends="linux-postmarketos-stable linux-firmware-none"
+	devicepkg_subpackage_kernel $startdir $pkgname $subpkgname
+}
+
+kernel_lts() {
+	pkgdesc="Long-term maintainance kernel (most stability, not all security fixes & new features)"
+	depends="linux-postmarketos-lts linux-firmware-none"
+	devicepkg_subpackage_kernel $startdir $pkgname $subpkgname
+}
+
+kernel_mainline() {
+	pkgdesc="Upstream development kernel (regular breakage, latest features)"
+	depends="linux-postmarketos-mainline linux-firmware-none"
 	devicepkg_subpackage_kernel $startdir $pkgname $subpkgname
 }
 
 sha512sums="
-0f6c30def83bfdfea7da0a9786f28e81bfbca9a51f224f206b13a36f659faac82ca5192cc3663f493a7a18ad788c2ee7cca51ca1ad61efd2966e405aad0dc036  deviceinfo
+8411587834a64f96673e890195d7e6d7451e0316a69126197a4d6a1522e36c7c5a8a522647f1712038653803d19cf27916a66c6f0e409bd41ddca19f6ff1cda9  kernel-cmdline.conf
+d9edefbfba3d9892981d0278e4867bd743fbe86c58300d0aeb66d751c8714f40d63f915e9d9a5d32b736924d28e9cfacfac155972c619e696b53b96eac92bfad  deviceinfo
 "

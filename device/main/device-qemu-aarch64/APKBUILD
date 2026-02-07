@@ -2,8 +2,8 @@
 # Co-Maintainer: Achill Gilgenast <achill@achill.org>
 maintainer="Oliver Smith <ollieparanoid@postmarketos.org>"
 pkgname=device-qemu-aarch64
-pkgver=14
-pkgrel=0
+pkgver=15
+pkgrel=5
 pkgdesc="Simulated device in QEMU (aarch64)"
 url="https://postmarketos.org"
 arch="aarch64"
@@ -15,14 +15,15 @@ depends="
 	"
 makedepends="devicepkg-dev"
 subpackages="
-	$pkgname-kernel-lts:kernel_lts
-	$pkgname-kernel-virt:kernel_virt
 	$pkgname-kernel-stable:kernel_stable
+	$pkgname-kernel-lts:kernel_lts
+	$pkgname-kernel-mainline:kernel_mainline
 	$pkgname-pmtest
 	"
 
 source="
 	deviceinfo
+	kernel-cmdline.conf
 	"
 options="!check !archcheck"
 
@@ -53,23 +54,21 @@ x11() {
 		"$subpkgdir"/usr/share/X11/xorg.conf.d/10-resolution-qemu-X11.conf
 }
 
-kernel_virt() {
-	pkgdesc="Alpine Virt kernel (minimal, no audio)"
-	depends="linux-virt"
+kernel_stable() {
+	pkgdesc="Stable kernel (recommended, best balance between stability and features)"
+	depends="linux-postmarketos-stable linux-firmware-none"
 	devicepkg_subpackage_kernel $startdir $pkgname $subpkgname
 }
 
 kernel_lts() {
-	pkgdesc="Alpine LTS kernel"
-	depends="linux-lts linux-firmware-none"
+	pkgdesc="Long-term maintainance kernel (most stability, not all security fixes & new features)"
+	depends="linux-postmarketos-lts linux-firmware-none"
 	devicepkg_subpackage_kernel $startdir $pkgname $subpkgname
 }
 
-kernel_stable() {
-	pkgdesc="Alpine Stable kernel"
-	depends="linux-stable linux-firmware-none"
-	provides="$pkgname-kernel-edge=$pkgver-r$pkgrel"
-	replaces="$pkgname-kernel-edge"
+kernel_mainline() {
+	pkgdesc="Upstream development kernel (regular breakage, latest features)"
+	depends="linux-postmarketos-mainline linux-firmware-none"
 	devicepkg_subpackage_kernel $startdir $pkgname $subpkgname
 }
 
@@ -81,5 +80,6 @@ pmtest() {
 }
 
 sha512sums="
-47ec1ad6851e6025d02158bdf466491e6100b489dd3ff57b82774a6c3eb24504c6f5bc8381686edd36a7d6cceebfadc978a1da08cc93cb6d587a6bc0cfe488d8  deviceinfo
+295b72c50f5900fde4075c3975affa863bc4334ec446b5a18021b3c4643bd0e6d1d6edcb61f17a56383f2e5ef38e2dc0935d560487b3987b8d0c883ba055bb91  deviceinfo
+fb390f6dadd302f9747a305947a2002375fba56a7584206d30fd8fc723c10494786b49f9cc3fa14a3109ed140341dcd9cc6c2b8ccb4e011911b83a871eaa721d  kernel-cmdline.conf
 "

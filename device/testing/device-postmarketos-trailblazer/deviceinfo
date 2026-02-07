@@ -10,10 +10,8 @@ deviceinfo_year="2024"
 deviceinfo_arch="aarch64"
 
 # Device related
-deviceinfo_chassis="handset"
 deviceinfo_drm="true"
 
-deviceinfo_kernel_cmdline="earlycon clk_ignore_unused pd_ignore_unused"
 
 # Bootloader related
 deviceinfo_boot_filesystem="fat32"

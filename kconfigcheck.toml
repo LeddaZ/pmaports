@@ -22,6 +22,7 @@ community = [
 	"category:iwd",
 	"category:netboot",
 	"category:nftables",
+	"category:usb",
 	"category:usb_gadgets",
 	"category:waydroid",
 	"category:wine",
@@ -54,6 +55,8 @@ CRYPTO_AES = "y"
 CRYPTO_XTS = "y"
 DEVTMPFS = "y"
 DM_CRYPT = "y"
+DRM_FBDEV_EMULATION = "y"
+FB = "y"
 INPUT_EVDEV = "m"
 KINETO_GAN = "n"
 PFT = "n"
@@ -82,6 +85,11 @@ LBDAF = "y"
 # Provide a proper dummy null console to improve compatibility
 # on devices that like to coerce console=null
 NULL_TTY = "m"
+["category:default".">=5.13.0"."all"]
+MODULE_COMPRESS = "y"
+MODULE_COMPRESS_ZSTD = "y"
+["category:default".">=5.17.0"."all"]
+MODULE_DECOMPRESS = "y"
 ["category:default".">=5.19.0"."all"]
 FW_LOADER_COMPRESS = "y"
 FW_LOADER_COMPRESS_ZSTD = "y"
@@ -363,6 +371,7 @@ NETFILTER_XT_MATCH_TCPMSS = "m"  # change MTU e.g. for Wireguard
 NETFILTER_XT_TARGET_TCPMSS = "m"  # change MTU e.g. for Wireguard
 # TODO = Depends on SUSPEND which is not enabled for some devices
 # PM_WAKELOCKS = "y"  # Sxmo
+CPU_FREQ = "y"
 CPU_FREQ_GOV_SCHEDUTIL = "y" # Required by UCLAMP_TASK
 UCLAMP_TASK = "y"  # Scheduler hints
 UCLAMP_TASK_GROUP = "y"  # Scheduler hints
@@ -545,11 +554,16 @@ SPI = "y" # Required by HID_GOODIX_SPI
 HID_GOODIX_SPI = "m"
 
 ["category:usb".">=0.0.0"."all"]
+DRM = "y" # Dependency of DRM_UDL
 DRM_UDL = "m"  # DisplayLink - connecting displays via USB
 SND_USB_AUDIO = "m"  # USB audio devices
+SND_USB_AUDIO_MIDI_V2 = "y" # USB MIDI devices
+USB_SERIAL = "m" # USB serial consoles
 USB_SERIAL_CP210X = "m"  # USB serial console
 USB_SERIAL_SIMPLE = "m" # USB serial console
 USB_STORAGE = "m"  # USB mass storage devices
+USB_UAS = "m"  # USB Attached SCSI (faster storage access)
+USB_USBNET = "m"  # USB Ethernet
 USB_RTL8152 = "m"  # USB Ethernet
 
 ["category:virt".">=0.0.0"."all"]

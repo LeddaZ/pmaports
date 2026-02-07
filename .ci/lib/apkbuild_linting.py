@@ -14,7 +14,7 @@ custom_valid_options = [
     "pmb:cross-native",
     "pmb:cross-native2",
     "pmb:drm",
-    "pmb:gpu-accel",  # deprecated
+    "pmb:generic-kernel",
     "pmb:strict",
     "pmb:systemd",
     "pmb:systemd-never",
@@ -42,7 +42,7 @@ if __name__ == "__main__":
     custom_valid_options += kconfigcheck_categories
     os.environ["CUSTOM_VALID_OPTIONS"] = " ".join(custom_valid_options)
 
-    apkbuilds = {file for file in common.get_changed_files(removed=False)
+    apkbuilds = {file for file in common.get_changed_files()
                  if os.path.basename(file) == "APKBUILD"}
     if len(apkbuilds) < 1:
         print("No APKBUILDs to lint")

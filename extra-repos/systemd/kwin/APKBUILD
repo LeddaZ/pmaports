@@ -1,13 +1,12 @@
 # Forked from Alpine to add systemd!
-maintainer=""
+maintainer="Bart Ribbers <bribbers@disroot.org>"
 pkgname=kwin
-pkgver=99996.5.5
 _pkgver=6.5.5
-pkgrel=0
+pkgver=9999$_pkgver
+pkgrel=3
 pkgdesc="An easy to use, but flexible, composited Window Manager"
 # armhf blocked by qt6-qtdeclarative
-# riscv64 and x86 blocked by out-of-sync builder in Alpine
-arch="all !armhf !riscv64 !x86"
+arch="all !armhf"
 url="https://kde.org/plasma-desktop/"
 license="GPL-2.0-or-later AND (GPL-2.0-only OR GPL-3.0-only) AND LGPL-2.1-only"
 depends="
@@ -76,6 +75,7 @@ makedepends="$depends_dev
 	kpipewire-dev
 	libcap-utils
 	libdisplay-info-dev
+	libei-dev
 	plasma-wayland-protocols
 	qt6-qttools-dev
 	samurai
