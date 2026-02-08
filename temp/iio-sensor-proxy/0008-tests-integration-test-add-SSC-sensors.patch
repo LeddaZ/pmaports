@@ -1,7 +1,7 @@
-From 15f095b67722ffdeb6d8f04d12b9f569d256aa2f Mon Sep 17 00:00:00 2001
+From 920a8e39982a97d7202351a1062e5fca3ee28f05 Mon Sep 17 00:00:00 2001
 From: Dylan Van Assche <me@dylanvanassche.be>
 Date: Sun, 12 Jan 2025 20:59:16 +0100
-Subject: [PATCH 09/10] tests: integration-test: add SSC sensors
+Subject: [PATCH 08/10] tests: integration-test: add SSC sensors
 
 Test all 4 sensors provided by libssc.
 ---
@@ -12,7 +12,7 @@ Test all 4 sensors provided by libssc.
  create mode 100755 tests/ssc-test.py
 
 diff --git a/tests/integration-test.py b/tests/integration-test.py
-index 4751505..60bbd31 100755
+index 95b9da3..23bf623 100755
 --- a/tests/integration-test.py
 +++ b/tests/integration-test.py
 @@ -56,6 +56,7 @@ class Tests(dbusmock.DBusTestCase):
@@ -24,7 +24,7 @@ index 4751505..60bbd31 100755
              cls.daemon_path = os.path.join(builddir, 'src', 'iio-sensor-proxy')
              cls.monitor_sensor_path = os.path.join(builddir, 'src', 'monitor-sensor')
 diff --git a/tests/meson.build b/tests/meson.build
-index e51e90f..5c19964 100644
+index e51e90f..3ce4a37 100644
 --- a/tests/meson.build
 +++ b/tests/meson.build
 @@ -16,3 +16,17 @@ foreach ut: unit_tests
@@ -32,7 +32,7 @@ index e51e90f..5c19964 100644
          )
  endforeach
 +
-+if get_option('ssc-support')
++if get_option('ssc-support').enabled()
 +    r = run_command(unittest_inspector, files('ssc-test.py'), check: true)
 +    unit_tests = r.stdout().strip().split('\n')
 +    foreach ut: unit_tests
@@ -425,5 +425,5 @@ index 0000000..72e24f0
 +
 +    unittest.main()
 -- 
-2.47.1
+2.52.0
 
