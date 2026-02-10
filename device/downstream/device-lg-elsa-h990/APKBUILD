@@ -1,0 +1,31 @@
+# Reference: <https://postmarketos.org/devicepkg>
+maintainer="Nardo45 <@nardo45:matrix.org>"
+pkgname=device-lg-elsa-h990
+pkgdesc="LG V20 (elsa)"
+pkgver=4
+pkgrel=0
+url="https://postmarketos.org"
+license="MIT"
+arch="aarch64"
+options="!check !archcheck"
+depends="
+	linux-lg-elsa-h990
+	msm-fb-refresher
+	mkbootimg
+	postmarketos-base
+"
+makedepends="devicepkg-dev"
+source="deviceinfo kernel-cmdline.conf"
+
+build() {
+	devicepkg_build $startdir $pkgname
+}
+
+package() {
+	devicepkg_package $startdir $pkgname
+}
+
+sha512sums="
+e599a811cacdfdb45063a3a1b81f1c98ecc69f5e2619a71e18d97e59931c06160ae9235b8bec32b971eb93fcf4254633d83f6915d300d6778a78b79885f32399  deviceinfo
+3e8b13c70c96f1887f4846f15ff9e0df8544518bda161851692a7813649b7ac939212e337fb52ca12c3dd12316fc4313ebd8276fa3422936787c516ae4bc5803  kernel-cmdline.conf
+"
