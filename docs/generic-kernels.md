@@ -1,8 +1,8 @@
 # Generic Kernels
 
 postmarketOS includes a couple of generic kernel packages in the `main` device
-category: `linux-postmarketos-mainline`, `linux-postmarketos-stable` and
-`linux-postmarketos-lts`.
+category: `linux-postmarketos-mainline`, `linux-postmarketos-stable`,
+`linux-postmarketos-lts` and `linux-next`.
 
 These are kernels intended to work on a wide variety of devices and are the
 postmarketOS equivalents to Alpine kernels such as `linux-stable` or
@@ -10,8 +10,47 @@ postmarketOS equivalents to Alpine kernels such as `linux-stable` or
 control over the kernel configuration and build process, which allows us to
 integrate them with our [kernel configuration checks](./kconfigcheck).
 
+## Device packages
+
 In the long term, all devices using Alpine kernels should be migrated to the
 postmarketOS generic kernels.
+
+The intended idea is for the user being able to choose between `lts`, `stable`
+(default), `mainline`, depending on the user's usecase.
+
+A template for device packages might look like:
+
+```
+# NOTE: first kernel-package is the default
+subpackages="
+  $pkgname-kernel-stable:kernel_stable
+  $pkgname-kernel-lts:kernel_lts
+	$pkgname-kernel-mainline:kernel_mainline
+	"
+...
+
+kernel_stable() {
+	pkgdesc="Stable kernel (recommended, best balance between stability and features)"
+	depends="linux-postmarketos-stable"
+	devicepkg_subpackage_kernel $startdir $pkgname $subpkgname
+}
+
+kernel_lts() {
+	pkgdesc="Long-term maintainance kernel (most stability, not all security fixes & new features)"
+	depends="linux-postmarketos-lts"
+	devicepkg_subpackage_kernel $startdir $pkgname $subpkgname
+}
+
+kernel_mainline() {
+	pkgdesc="Upstream development kernel (regular breakage, latest features)"
+	depends="linux-postmarketos-mainline"
+	devicepkg_subpackage_kernel $startdir $pkgname $subpkgname
+}
+```
+
+The `linux-next` kernel doesn't have to be part of device packages, and is only
+intended with a opt-in approuch: Device packages that want to enable it can, but
+don't have to.
 
 ## Configuration
 
