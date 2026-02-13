@@ -1,0 +1,2 @@
+/sbin/dmsetup
+/usr/share/initramfs/init_functions_joined_partitions.sh:/init_functions_joined_partitions.sh

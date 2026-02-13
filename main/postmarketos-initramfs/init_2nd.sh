@@ -7,6 +7,7 @@
 
 # The set -a in init.sh only exports variables, not functions
 . /init_functions.sh
+[ "$HAS_JOINED_PARTITIONS" = "true" ] && . /init_functions_joined_partitions.sh
 . /init_functions_2nd.sh
 
 # Handle halt/poweroff/reboot
@@ -43,6 +44,10 @@ if [ "$debug_shell" = "y" ]; then
 fi
 
 check_keys
+
+# Join multiple partitions if the device has it set up
+# No-op if in initramfs-extra (joined-partitions is already present)
+[ "$HAS_JOINED_PARTITIONS" = "true" ] && setup_joined_partitions "${deviceinfo_joined_partitions:=}"
 
 # If running from initramfs-extra this will be a no-op since it was
 # called before to mount the boot partition

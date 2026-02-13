@@ -17,8 +17,11 @@ trap 'reboot -f' TERM
 
 [ -e /hooks/05-ci.sh ] && IN_CI="true"
 
+[ -e ./init_functions_joined_partitions.sh ] && HAS_JOINED_PARTITIONS="true"
+
 [ -e /etc/unudhcpd.conf ] && . /etc/unudhcpd.conf
 . ./init_functions.sh
+[ "$HAS_JOINED_PARTITIONS" = "true" ] && . ./init_functions_joined_partitions.sh
 . /usr/share/misc/source_deviceinfo
 [ -e /etc/os-release ] && . /etc/os-release
 # provide a default for os-release's VERSION in case the file doesn't exist
@@ -57,6 +60,9 @@ if [ "$IN_CI" = "false" ]; then
 	setup_framebuffer
 	show_splash "Loading..."
 fi
+
+# Join multiple partitions if the device has it set up
+[ "$HAS_JOINED_PARTITIONS" = "true" ] && setup_joined_partitions "${deviceinfo_joined_partitions:=}"
 
 # Discover the partitions if they're "subpartitions"
 # (where the whole disk image is flashed to a partition)
