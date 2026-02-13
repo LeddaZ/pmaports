@@ -11,6 +11,7 @@ options="!check !archcheck"
 depends="
 	linux-postmarketos-mediatek-mt6768
 	mkbootimg
+	msm-fb-refresher
 	postmarketos-base
 "
 makedepends="devicepkg-dev"

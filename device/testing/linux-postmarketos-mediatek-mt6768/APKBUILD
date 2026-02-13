@@ -3,9 +3,9 @@
 maintainer="Abdullah AL Shohag <HackerShohag@outlook.com>"
 _flavor="postmarketos-mediatek-mt6768"
 pkgname=linux-$_flavor
-pkgver=6.16.0
-pkgrel=3
-_commit="781287a2e573dc9bb85a1bc90b86a94f58671853"
+pkgver=6.18_rc6
+pkgrel=0
+_commit="ceb5d980e3d596b603e2bdc2bedce8f36a378451"
 pkgdesc="Mainline Kernel fork for MT6768-based devices"
 arch="aarch64"
 _carch="arm64"
@@ -65,6 +65,6 @@ package() {
 }
 
 sha512sums="
-4dbce2873a545d35199a6b328915f3bb548ff4df41ebf1d5530cbfeb68faa802b028605a707f6aef806f3bfdb1d965f87b6c82b2fb25530fbd88e8fb36554ac6  linux-781287a2e573dc9bb85a1bc90b86a94f58671853.tar.gz
-4d30e11ef402a4b19f84fd07b2e60c9c5a3abe20b9ca10f5802877f58c814a141d8690e6790caf68351b9c8b60f6e1c0fff49a5b611228b5089dac3171230b58  config-postmarketos-mediatek-mt6768.aarch64
+4368167653309c85befeb0c37c329595c4b9277a04f53520e1c8219c28f4a8065a98b0e4915c6cb6e7515483dd745d2cd1b07f353b6a7e0f712a86d3b13e2ae7  linux-ceb5d980e3d596b603e2bdc2bedce8f36a378451.tar.gz
+5548043b7755e7518b1536e6de267276877fc95f99ab238c2972c05a04c4212e70e11fe3f7dccd09567ceacb7169a8678d3f8f46a0bf16663ac89894e95969f9  config-postmarketos-mediatek-mt6768.aarch64
 "
