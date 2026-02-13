@@ -352,7 +352,7 @@ mount_subpartitions() {
 	if [ -n "$PMOS_ROOT" ] && [ -n "$PMOS_BOOT" ]; then
 		return
 	fi
-	try_parts="/dev/disk/by-partlabel/userdata /dev/disk/by-partlabel/system* /dev/mapper/system*"
+	try_parts="/dev/mapper/joined-partitions /dev/disk/by-partlabel/userdata /dev/disk/by-partlabel/system* /dev/mapper/system*"
 	android_parts=""
 	for x in $try_parts; do
 		[ -e "$x" ] && android_parts="$android_parts $x"
@@ -370,8 +370,10 @@ mount_subpartitions() {
 		partitions="$android_parts $(grep -v "loop\|ram" < /proc/diskstats |\
 			sed 's/\(\s\+[0-9]\+\)\+\s\+//;s/ .*//;s/^/\/dev\//')"
 		for partition in $partitions; do
+			# Get block ID to handle various different formats of partition names
+			block_id=$(printf "%d:%d\n" "0x$(stat -Lc "%t" $partition)" "0x$(stat -Lc "%T" $partition)")
 		    # Skip whole disks - only check partitions and logical device-mapper devices for subpartitions
-			[ -e "/sys/class/block/$(basename "$partition")/partition" ] || [ -d "/sys/class/block/$(basename "$partition")/dm" ] || continue
+			[ -e "/sys/dev/block/$block_id/partition" ] || [ -d "/sys/dev/block/$block_id/dm" ] || continue
 			local part_count
 			part_count="$(fdisk -l "$partition" 2>/dev/null | grep -c '^ *[0-9]')"
 			# It's probably the right "disk" if it has 2 partitions on it
@@ -1080,6 +1082,8 @@ debug_shell() {
 	cat <<-EOF > /etc/profile
 	cat /README
 	. /init_functions.sh
+	[ "$HAS_JOINED_PARTITIONS" = "true" ] && . /init_functions_joined_partitions.sh
+
 	EOF
 
 	cat <<-EOF > /sbin/pmos_getty

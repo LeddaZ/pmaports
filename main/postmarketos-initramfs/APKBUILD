@@ -1,7 +1,7 @@
 # Co-Maintainer: Clayton Craft <clayton@craftyguy.net>
 maintainer="Casey Connolly <kcxt@postmarketos.org>"
 pkgname=postmarketos-initramfs
-pkgver=3.9.1
+pkgver=3.9.2
 pkgrel=0
 pkgdesc="Base files for the postmarketOS initramfs / initramfs-extra"
 url="https://postmarketos.org"
@@ -48,14 +48,21 @@ source="
 	00-default-extra.modules
 	00-initramfs-base.dirs
 	00-initramfs-base.files
+	00-initramfs-base-joined-partitions.files
 	00-initramfs-extra-base.files
 	init.sh
 	init_functions.sh
+	init_functions_joined_partitions.sh
 	init_2nd.sh
 	init_functions_2nd.sh
 	mdev.conf
 	unudhcpd.conf
 	"
+
+subpackages="
+	$pkgname-joined-partitions:joined_partitions
+	"
+
 arch="noarch"
 license="GPL-2.0-or-later"
 
@@ -113,15 +120,25 @@ package() {
 	mkdir -p "$pkgdir"/etc/mkinitfs/hooks-extra
 }
 
+joined_partitions() {
+	pkgdesc="Additional files to handle joined partitions"
+	install -Dm644 "$srcdir/init_functions_joined_partitions.sh" \
+		"$subpkgdir/usr/share/initramfs/init_functions_joined_partitions.sh"
+	install -Dm644 "$srcdir"/00-initramfs-base-joined-partitions.files \
+		-t "$subpkgdir"/usr/share/mkinitfs/files/
+}
+
 sha512sums="
 22cdd663c8d153781284511140b7c994cd60f0231a2819dafa67f5a11e2963ac6e392e8f7a9e3b75e7fe5d6d7b0b5e262e1ff1a695637354a124560a5ec3ed8d  00-default.modules
 ace852ba267b3408998970df6042603c8bec1d033066d1c30ed65f1be955fee8644b57882898f10228ec43b912f8f03718b34ddd741b431e5a5c2e76f060a494  00-default-extra.modules
 9c0e8f6f61d5da191e03a1aa9d5d0ceb5baf1eae6dbb9bfb0af59817783525119ac8394b135f303f7b6434a3eab0b49185fb90379e06823db847a4999c75ce33  00-initramfs-base.dirs
 26e391a2c45e4317549153630d7398f01cf374d9a95e2587f0f7153017c50b6640950af60eab3b3fcadef2e8826295445ac1f45567716d3bd5d12e9c87df599b  00-initramfs-base.files
+48549e5d7e5393f9631fc163bbfaa696701ad6529354bf23e05abb5b5bb10bbeb3bf5443da9a2fec9b7629d0eef74f2ac05567354c8f2f6f87538868bebd1f75  00-initramfs-base-joined-partitions.files
 cc4db00caba184ad78062505415b3dadb8a32a94fe8484e4860bb6e63cd8700c8450066ce1242c496d9f063234bbab0fa40668f9c5112f3baeee30c5d405a1eb  00-initramfs-extra-base.files
-e90596540805662211bd2a2e427ce7cc38f6a30023267f902e23f2bae136b6cd8f4f4716b8fb611be9d671a964edd2ecce03fa32bc8024e29b8375b0097fde0c  init.sh
-040fbdfc412fd7e5857351c1af848933110f47e20f7dd3edbcdc46a8f7fdad390aed923e0ca10e619c2eb572d1b50f9f323815b42b4f774d62cbf70314b61184  init_functions.sh
-6b4881f9b43c90ebcc70d7b7a192d26a2e3ce01c43b8536fe900c2ffaf74ef035803b9aa083e7a9d5c49c75be8ba6ff22997a037ae4f399e6ee5e1978c4b3f9c  init_2nd.sh
+1794478c1ddb42ceaa9fed4dd22fbe858d9a5605651421e45b8330ed828c8f4d2373ae0c8bfc21729c597f69220cf65013119ce7d7092c95148f8c1d5252fe09  init.sh
+d316367a1e569c42e840b8b39f80afcc85107f953393c4eab89833c8f02c274d99aee9aed4a237ba9fe03e2efe74cb52429b311ea7e28aa99e8196bf1eab91c9  init_functions.sh
+da9fd3b2e1046c4c27c14aa85813cd527a36a360e6abcf67a4111979c33850bf2e84e65faaf8d6ce2106eed3e5b96ee744c0481e69131193dfc794bb49b1ff0f  init_functions_joined_partitions.sh
+0eb6515cc30ac4501269bd7477da5163acca257a8398dee38ee45f538acee8900ec09c1e33fd3712b0d244908628d0ced449382dc48a509a5fccab65decc2ef3  init_2nd.sh
 61acb470a163fb50ad46752781b5ccc5dba6db9170e4250b4dcdfc7572d0316a7a36bc5a383026887a7a59364ee30917790e429b3fce9de590543d1d8410589c  init_functions_2nd.sh
 675e7d5bee39b2df7d322117f8dcaccc274d61beaf4d50ead19bbf2109446d64b1c0aa0c5b4f9846eb6c1c403418f28f6364eff4537ba41120fbfcbc484b7da7  mdev.conf
 ba3275a9af788c7c782322a22a0f144d5e50e3498ea6886486a29331f23ae89cd32d500a3635cfa7cab369afba92edc18aeca64ccbf0cd589061cce23d15b46c  unudhcpd.conf
