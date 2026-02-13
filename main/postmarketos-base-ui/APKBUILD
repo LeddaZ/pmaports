@@ -1,7 +1,7 @@
 maintainer="Clayton Craft <clayton@craftyguy.net>"
 pkgname=postmarketos-base-ui
 pkgver=45
-pkgrel=0
+pkgrel=1
 pkgdesc="Meta package for minimal postmarketOS UI base"
 url="https://postmarketos.org"
 arch="noarch"
@@ -38,6 +38,7 @@ subpackages="
 	$pkgname-modemmanager-openrc:modemmanager_openrc
 	$pkgname-openrc
 	$pkgname-openrc-settingsd:openrc_settingsd
+	$pkgname-polkit
 	$pkgname-qt-tweaks:qt_tweaks
 	$pkgname-qt-wayland:qt_wayland
 	$pkgname-tinydm
@@ -156,6 +157,17 @@ openrc() {
 		openrc
 		util-linux-openrc
 	"
+
+	mkdir -p "$subpkgdir"
+}
+
+polkit() {
+	provides="polkit=9999.$pkgver-r$pkgrel polkit-elogind=9999.$pkgver-r$pkgrel"
+	# Don't allow polkit-openrc because it conflicts with the dbus service
+	depends="
+		!polkit-openrc
+		polkit-elogind
+		"
 
 	mkdir -p "$subpkgdir"
 }
