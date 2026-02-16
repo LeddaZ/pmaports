@@ -38,6 +38,9 @@ builddir="$srcdir/sm8550-mainline-$_commit"
 prepare() {
 	default_prepare
 	cp "$srcdir/config-postmarketos-qcom-sm8550.aarch64" .config
+	cp "$srcdir/nanosic_authhack.patch" nanosic_authhack.patch
+	git apply nanosic_authhack.patch
+	git diff --stat
 }
 
 build() {
