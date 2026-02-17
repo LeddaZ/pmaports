@@ -2,7 +2,7 @@ maintainer="Luca Weiss <luca@lucaweiss.eu>"
 _flavor="postmarketos-qcom-sc7280"
 pkgname=linux-$_flavor
 pkgver=6.19.0
-pkgrel=1
+pkgrel=2
 pkgdesc="Mainline Kernel fork for SC7280/SM7325/QCM6490 devices"
 arch="aarch64"
 _carch="arm64"
@@ -51,13 +51,19 @@ build() {
 }
 
 package() {
-	# ZBOOT EFI decompressor for EFI booting
-	install -Dm644 "$builddir/arch/$_carch/boot/vmlinuz.efi" \
-		"$pkgdir/boot/linux.efi"
+	if [ -e "$builddir/arch/$_carch/boot/vmlinuz.efi" ]; then
+		# ZBOOT EFI decompressor for EFI booting
+		install -Dm644 "$builddir/arch/$_carch/boot/vmlinuz.efi" \
+			"$pkgdir/boot/linux.efi"
 
-	# Old GZIP'd kernel image for boot.img compatibility
-	install -Dm644 "$builddir/arch/$_carch/boot/vmlinuz" \
-		"$pkgdir/boot/vmlinuz"
+		# Old GZIP'd kernel image for boot.img compatibility
+		install -Dm644 "$builddir/arch/$_carch/boot/vmlinuz" \
+			"$pkgdir/boot/vmlinuz"
+	else
+		echo "WARNING: CONFIG_ZBOOT not enabled!"
+		install -Dm644 "$builddir/arch/$_carch/boot/Image.gz" \
+			"$pkgdir/boot/vmlinuz"
+	fi
 
 	make modules_install dtbs_install \
 		ARCH="$_carch" \
