@@ -3,7 +3,7 @@ maintainer=""
 pkgname=device-acer-picasso
 pkgdesc="Acer Iconia Tab A500"
 pkgver=4
-pkgrel=0
+pkgrel=2
 url="https://postmarketos.org"
 license="MIT"
 arch="armv7"
@@ -13,6 +13,7 @@ makedepends="devicepkg-dev"
 source="deviceinfo modules-initfs"
 subpackages="
 	$pkgname-nonfree-firmware:nonfree_firmware
+	$pkgname-udev
 "
 
 build() {

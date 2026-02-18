@@ -3,7 +3,7 @@ maintainer="Luca Weiss <luca@lucaweiss.eu>"
 pkgname=device-htc-memul
 pkgdesc="HTC One Mini 2"
 pkgver=9
-pkgrel=0
+pkgrel=1
 url="https://postmarketos.org"
 license="MIT"
 arch="armv7"
@@ -20,6 +20,7 @@ depends="
 	soc-qcom-msm8226
 	"
 makedepends="devicepkg-dev"
+subpackages="$pkgname-udev"
 source="
 	deviceinfo
 	kernel-cmdline.conf

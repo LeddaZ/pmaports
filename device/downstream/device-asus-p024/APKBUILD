@@ -2,7 +2,7 @@
 pkgname=device-asus-p024
 pkgdesc="ASUS ZenPad 8.0"
 pkgver=4
-pkgrel=0
+pkgrel=1
 url="https://postmarketos.org"
 license="MIT"
 arch="armv7"
@@ -14,6 +14,7 @@ depends="
 	msm-fb-refresher
 "
 makedepends="devicepkg-dev"
+subpackages="$pkgname-udev"
 source="
 	deviceinfo
 	kernel-cmdline.conf
