@@ -69,19 +69,21 @@ index fc760e6b68d1..5573aec2fe83 100644
 +#define TRACE_INCLUDE_PATH ../../drivers/soc/qcom/
  #undef TRACE_INCLUDE_FILE
  #define TRACE_INCLUDE_FILE tracer_pkt_private
- diff --git a/drivers/nfc/pn548/pn548.c b/drivers/nfc/pn548/pn548.c
- index dca56a309437..b5f1462e34c2 100644
- --- a/drivers/nfc/pn548/pn548.c
- +++ b/drivers/nfc/pn548/pn548.c
- @@ -40,7 +40,7 @@
-  #include <linux/wakelock.h>
-  #include <linux/kthread.h>
 
- -#include <pn548.h>
- +#include "pn548.h"
+diff --git a/drivers/nfc/pn548/pn548.c b/drivers/nfc/pn548/pn548.c
+index dca56a309437..b5f1462e34c2 100644
+--- a/drivers/nfc/pn548/pn548.c
++++ b/drivers/nfc/pn548/pn548.c
+@@ -40,7 +40,7 @@
+ #include <linux/wakelock.h>
+ #include <linux/kthread.h>
 
-  #define MAX_BUFFER_SIZE 512
-  #define _A1_PN66T_
+-#include <pn548.h>
++#include "pn548.h"
+
+ #define MAX_BUFFER_SIZE 512
+ #define _A1_PN66T_
+
 diff --git a/include/trace/events/msm_cam.h b/include/trace/events/msm_cam.h
 index 9a5dd158b4b8..4c1b4659e91e 100644
 --- a/include/trace/events/msm_cam.h
@@ -163,5 +165,5 @@ index f4f2e427972f..1c3f305c2144 100644
  #include <soc/qcom/subsystem_restart.h>
  #include <soc/qcom/subsystem_notif.h>
  #include <linux/esoc_client.h>
---
+-- 
 2.24.1

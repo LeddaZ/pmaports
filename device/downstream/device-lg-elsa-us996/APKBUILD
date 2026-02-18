@@ -1,7 +1,6 @@
-# Archived: Kernel does not build anymore
 # Reference: <https://postmarketos.org/devicepkg>
 maintainer="Uclydde <julianbraha@gmail.com>"
-pkgname=device-lg-us996
+pkgname=device-lg-elsa-us996
 pkgdesc="LG V20"
 pkgver=4
 pkgrel=0
@@ -10,7 +9,7 @@ license="MIT"
 arch="aarch64"
 options="!check !archcheck"
 depends="
-	linux-lg-us996
+	linux-lg-elsa-us996
 	msm-fb-refresher
 	mkbootimg
 	postmarketos-base
@@ -27,6 +26,6 @@ package() {
 }
 
 sha512sums="
-0d9a483cee79e1b2664a28918a857c0e1690b41a85ea3fdd2fc4244e1318c37653d4baa1f164947e7e3074eca011786c7e59f6f246e5449d9c0c30f18bdeea70  deviceinfo
+5388abaf640a02c05d8f147333933696535c7625e7c27e9093d4c8b87afcf89e911f034c294be53f6727de55a3f6a420ad5c1501a4225461d31d6f1bdf41bc35  deviceinfo
 4651a3b003e812b08facae42d5bd9c9f6089ed2481da8804ba2f98f75bd910b36551b2a8f2de437cfe8fea257746c904841dac3ae5e8278819dfb7b813f9ddd2  kernel-cmdline.conf
 "
