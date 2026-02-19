@@ -30,7 +30,6 @@ build() {
 }
 
 package() {
-	mkdir -p "$pkgdir"/usr/share/firmware/tinker-rk3288
 	install -D -m644 "$builddir"/u-boot-rockchip.bin \
 		"$pkgdir"/usr/share/firmware/tinker-rk3288/u-boot-rockchip.bin
 }
