@@ -9,7 +9,7 @@ license="MIT"
 arch="armv7"
 options="!check !archcheck"
 depends="
-	linux-asus-tinker-board
+	linux-postmarketos-mainline
 	u-boot-asus-tinker-board
 	postmarketos-base
 	linux-firmware-rtlwifi
