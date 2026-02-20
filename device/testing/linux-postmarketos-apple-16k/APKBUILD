@@ -3,8 +3,8 @@
 maintainer="Nick Chan <towinchenmi@gmail.com>"
 _flavor="postmarketos-apple-16k"
 pkgname=linux-$_flavor
-pkgver=6.18.1
-pkgrel=1
+pkgver=6.19.0
+pkgrel=0
 pkgdesc="Mainline kernel fork for Apple iPhone and iPad devices (16K)"
 arch="aarch64"
 _carch="arm64"
@@ -79,6 +79,6 @@ package() {
 }
 
 sha512sums="
-15ca1734320fdfbd839f7d154c2365928f9fb7a1d3d370e6f649ca3cb8516baf7f887a99737909246d84454524658f21fd76064852bdec8e15ea5ef4fce0812f  hoolock-6.18.tar.gz
-067b3cfb07dc2bdede8e110cc34a3b6acf32fbdcefed0575c6ddff8c73f550267770b670eeb36159614051810422ccacff538105e66ae3755f100bf5f6636c50  config-postmarketos-apple-16k.aarch64
+f27eac038be9ece21b5b569afde3af967f87a015a46b5158551744a1b68cac306bf15a159f8c8337409ae3b54d24845cfdf524c97e53a951a5d7fdad055edf48  hoolock-6.19.tar.gz
+8c61a09da397af29f1915d94cbb043f5d7c5772fd8575825d5950066bd6d8d3e8cbcef75ccf66406d9a43ec0b6850bcb641d22a87284aa2298e1b3d26aeb6f78  config-postmarketos-apple-16k.aarch64
 "
