@@ -46,7 +46,10 @@ makedepends="
 	sed
 	zstd
 "
-replaces="linux-lts"
+replaces="
+	linux-lts
+	linux-postmarketos-qcom-sc7180
+"
 
 # Source
 source="
