@@ -9,7 +9,7 @@ maintainer="Casey Connolly <kcxt@postmarketos.org>"
 pkgname=systemd
 pkgver=259.1
 _pkgver="${pkgver/_/-}"
-pkgrel=2
+pkgrel=3
 pkgdesc="System and service manager"
 url="https://github.com/systemd/systemd"
 # armhf: no linux-stable
@@ -276,6 +276,10 @@ package() {
 	# initramfs hardcodes /sbin/init
 	mkdir -p "$pkgdir"/sbin
 	ln -sf "../usr/lib/systemd/systemd" "$pkgdir"/sbin/init
+
+	# TODO: This is an upstream packaging bug. Drop on the next release. See:
+	# https://github.com/systemd/systemd/commit/9013347ba956c0c2f34f011c54f421a13912b7ab
+	rm -r "$pkgdir"/var
 }
 
 udevd() {
@@ -439,7 +443,6 @@ journald() {
 	amove usr/lib/systemd/systemd-journal*
 	amove usr/lib/sysusers.d/systemd-journal.conf
 	amove usr/lib/tmpfiles.d/journal-nocow.conf
-	amove var/log/journal
 }
 
 journald_bcomp() {
