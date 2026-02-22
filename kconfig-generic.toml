@@ -69,3 +69,19 @@ POWER8_CPU = "y"
 OPAL_PRD = "y"
 PPC_SUBPAGE_PROT = "y"
 
+# V4L devices (codecs, ISPs)
+["category:video".">=0.0.0"."aarch64 armv7"]
+VIDEO_ROCKCHIP_RGA = "m"
+VIDEO_ROCKCHIP_CIF = "m"
+VIDEO_ROCKCHIP_ISP1 = "m"
+["category:video".">=6.17.0"."aarch64 armv7"]
+VIDEO_ROCKCHIP_VDEC = "m"
+
+# Audio devices
+["category:audio".">=0.0.0"."aarch64 armv7"]
+SND_SOC_RK3288_HDMI_ANALOG = "m"
+
+# Staging drivers
+["category:staging".">=0.0.0"."aarch64 armv7"]
+# Asus Tinker board has RTL8723BS Wi-Fi chip, supported by staging driver
+RTL8723BS = "m"
