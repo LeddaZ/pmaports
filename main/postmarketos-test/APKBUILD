@@ -1,11 +1,11 @@
 maintainer="Casey Connolly <kcxt@postmarketos.org>"
 pkgname=postmarketos-test
 pkgver=1.0.0
-pkgrel=0
+pkgrel=1
 pkgdesc="Common test utilities for postmarketOS"
 url="https://postmarketos.org"
 arch="noarch"
-license="GPL2"
+license="GPL-3.0-or-later"
 depends="devicepkg-utils"
 source="
 	30-unl0kr-test.sh

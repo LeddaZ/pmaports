@@ -1,13 +1,13 @@
 maintainer=""
 pkgname=postmarketos-mkinitfs-hook-verbose-initfs
 pkgver=0.1.0
-pkgrel=1
+pkgrel=2
 pkgdesc="Print all shell commands executed by initramfs to the console"
 url="https://postmarketos.org"
 depends="postmarketos-mkinitfs"
 source="10-verbose-initfs.sh"
 arch="noarch"
-license="GPL2"
+license="GPL-3.0-or-later"
 
 package() {
 	install -Dm644 "$srcdir"/10-verbose-initfs.sh \

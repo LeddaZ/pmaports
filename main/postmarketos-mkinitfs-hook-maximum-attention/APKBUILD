@@ -1,13 +1,13 @@
 maintainer=""
 pkgname=postmarketos-mkinitfs-hook-maximum-attention
 pkgver=0.2.0
-pkgrel=0
+pkgrel=1
 pkgdesc="Script to activate all user-visible outputs from the initramfs (to confirm working kernel, for debugging only)"
 url="https://postmarketos.org"
 depends="postmarketos-mkinitfs"
 source="00-maximum-attention.sh"
 arch="noarch"
-license="GPL2"
+license="GPL-3.0-or-later"
 
 package() {
 	install -Dm644 "$srcdir"/00-maximum-attention.sh \

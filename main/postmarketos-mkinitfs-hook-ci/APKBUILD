@@ -1,7 +1,7 @@
 maintainer="Casey Connolly <kcxt@postmarketos.org>"
 pkgname=postmarketos-mkinitfs-hook-ci
 pkgver=2
-pkgrel=0
+pkgrel=1
 pkgdesc="Hook for doing automated CI tests in the initramfs"
 url="https://postmarketos.org"
 source="
@@ -9,7 +9,7 @@ source="
 	05-ci.files
 "
 arch="noarch"
-license="GPL2"
+license="GPL-3.0-or-later"
 options="!check"
 
 package() {
