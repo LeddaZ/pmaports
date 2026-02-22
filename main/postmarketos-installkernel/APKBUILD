@@ -9,7 +9,7 @@ pkgrel=4
 pkgdesc="postmarketOS script for installing mainline kernels"
 url="https://gitlab.postmarketos.org/postmarketOS/pmaports/tree/main/postmarketos-installkernel"
 arch="noarch"
-license="GPL-2.0"
+license="GPL-3.0-or-later"
 options="!check" # no test suite
 provides="installkernel=3.5-r1"
 provider_priority=100
