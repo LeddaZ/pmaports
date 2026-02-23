@@ -2,7 +2,7 @@
 maintainer="Aelin <aelin@postmarketos.org>"
 pkgname=linux-postmarketos-lts
 pkgver=6.18.13
-pkgrel=0
+pkgrel=1
 _kver=${pkgver%.*}
 pkgdesc="LTS Kernel"
 # armhf: pmbootstrap cannot dynamically choose a defconfig, so it ends up using multi_v7_defconfig which isn't correct
@@ -46,7 +46,10 @@ makedepends="
 	sed
 	zstd
 "
-replaces="linux-lts"
+replaces="
+	linux-lts
+	linux-postmarketos-qcom-sc7180
+"
 
 # Source
 source="
@@ -86,14 +89,24 @@ prepare() {
 
 build() {
 	unset LDFLAGS
-	make ARCH="$_carch" LLVM=1 \
-		KBUILD_BUILD_VERSION="$((pkgrel + 1 ))-$_flavor"
+	case "$CARCH" in
+		aarch64)
+			make ARCH="$_carch" LLVM=1 \
+				KBUILD_BUILD_VERSION="$((pkgrel + 1 ))-$_flavor" \
+				Image.gz vmlinuz.efi modules dtbs
+			;;
+		*)
+		make ARCH="$_carch" LLVM=1 \
+			KBUILD_BUILD_VERSION="$((pkgrel + 1 ))-$_flavor"
+			;;
+		esac
 }
 
 package() {
 	local _install
 	case "$CARCH" in
-		arm*|aarch64|riscv*) _install="zinstall dtbs_install" ;;
+		arm*|aarch64) _install="dtbs_install" ;;
+		riscv*) _install="zinstall dtbs_install" ;;
 		*) _install="install" ;;
 	esac
 
@@ -109,12 +122,22 @@ package() {
 
 	install -D "$builddir"/include/config/kernel.release \
 		"$pkgdir"/usr/share/kernel/$_flavor/kernel.release
+
+	case "$CARCH" in
+		aarch64)
+			install -D "$builddir"/arch/"$_carch"/boot/vmlinuz.efi \
+				"$pkgdir"/boot/linux.efi
+			install -D "$builddir"/arch/"$_carch"/boot/Image.gz \
+				"$pkgdir"/boot/vmlinuz
+			;;
+		*) ;;
+	esac
 }
 
 sha512sums="
 cc33f4a83116c0ac91b2c3288eaa6224096f11860aca1ad7ac2ffa5f464bcc5d8dab0df0b3dc4e87c0d5adb905928fad3f96e42084b008836f1c3790d3fde639  patch-6.18.13.patch.xz
 88599ffdec96d150c1feb9b261ba93bb0301a9d0e1ad6bef7aeab1f5372cbfc57d8b43c7e902bd8f76921d1dbd8189663c142ea869e51d0e2b483b150ee00fe0  linux-6.18.tar.xz
-1cf476dba9d836efb15f769ca7a07eae44acbe7d81089b22f65f1af6f3c9a867483a9672fc238831b8ee5c4e92bd35ba838cecaf7f694def682a97f429587be8  config-lts.aarch64
+d28517894f3f313df9eb8ae2f77dfb8c18d10b8275d2c99f0cb0d650deb365eab5ce5855232ce2921a8cb092e4505578976dff18d219ab60375fdc43f1077bee  config-lts.aarch64
 fe73496c838738727cd320de34b60c7ccd4073d0208e60997f6fc50d82125c07d4620ca6b37a79ba17d9f7ebc4bde2a236d4f2c832de7dbc62963042eb6f7a38  config-lts.armv7
 c59e9d68fe3e78fd08a1ee10d3e25a1bdc5cd1e5c0b49a08d04c7d2dffddcd13d135027f4e39b404396e4170820847a3084c43e2dae27413c18cf14576bd1cb4  config-lts.loongarch64
 c645edd46d13cd10610eeff2ae1b704a48041c6389d063ee267c62032ee621dec226869419363c36453fdad139a6117d81c85759da616807448d24c2a2824ff3  config-lts.ppc64le

@@ -10,12 +10,54 @@
 # Aelin <aelin@postmarketos.org>
 # Achill Gilgenast <achill@achill.org>
 
+# Clock Controllers
+["category:clock".">=0.0.0"."aarch64"]
+SC_CAMCC_7180 = "m"
+SC_DISPCC_7180 = "m"
+SC_GPUCC_7180 = "m"
+SC_LPASS_CORECC_7180 = "m"
+SC_VIDEOCC_7180 = "m"
+
+# Network device drivers
+["category:network".">=0.0.0"."aarch64 armv7"]
+RT2400PCI = "m"
+RT2500PCI = "m"
+RT2500USB = "m"
+RT2800PCI = "m"
+RT2800USB = "m"
+RT2X00 = "m"
+RT61PCI = "m"
+RT73USB = "m"
+RTL8187 = "m"
+RTL8723BS = "m"
+
+# Trusted Platform Modules
+["category:tpm".">=0.0.0"."aarch64 armv7"]
+TCG_TIS_SPI = "m"
+TCG_TIS_I2C = "m"
+TCG_TIS = "m"
+TCG_TIS_I2C_CR50 = "m"
+
+["category:usb".">=0.0.0"."aarch64 armv7"]
+CHARGER_CROS_USBPD = "m"
+
+# Power-related drivers
+["category:power".">=4.19.138"."aarch64"]
+EC_ACER_ASPIRE1 = "m"
+
 # display controllers, bridges, panels, etc.
-["category:graphics".">=6.19_rc1"."aarch64 armv7"]
+["category:graphics".">=6.19_rc1"."aarch64 armv7 riscv64"]
 DRM_PANEL_SAMSUNG_S6E8AA5X01_AMS561RA01 = "m"
 DRM_PANEL_SYNAPTICS_TDDI = "m"
-["category:graphics".">=0.0.0"."aarch64 armv7"]
-EXYNOS_IOMMU = "y"
+["category:graphics".">=0.0.0"."aarch64 armv7 riscv64"]
+DRM_PANEL_BOE_TV101WUM_NL6 = "m"
+DRM_PANEL_INNOLUX_P079ZCA = "m"
+DRM_PANEL_KINGDISPLAY_KD097D04 = "m"
+DRM_PANEL_VISIONOX_RM69299 = "m"
+BACKLIGHT_PWM = "y"
+["category:graphics".">=0.0.0"."all"]
+BACKLIGHT_CLASS_DEVICE = "y"
+BACKLIGHT_GPIO = "y"
 
 # input devices
 ["category:input".">=0.0.0"."all"]
@@ -25,10 +67,19 @@ INPUT_TOUCHSCREEN = "y"
 TOUCHSCREEN_ZINITIX = "m"
 RMI4_CORE = "m"
 RMI4_I2C = "m"
+RMI4_SMB = "m"
+RMI4_SPI = "m"
+RMI4_F34 = "y"
+RMI4_F55 = "y"
 IIO_ST_ACCEL_3AXIS = "m"
 IIO_ST_ACCEL_I2C_3AXIS = "m"
 IIO_ST_ACCEL_SPI_3AXIS = "m"
 STK3310 = "m"
+
+["category:input".">=0.0.0"."aarch64 armv7"]
+HID_GOOGLE_HAMMER = "m"
+HID_VIVALDI = "m"
+I2C_HID_OF_GOODIX = "m"
 
 # localversion
 ["category:localversion".">=0.0.0"."all"]
@@ -62,6 +113,9 @@ FB_EFI = "y"
 
 ["category:virtio".">=0.0.0"."aarch64 x86 x86_64"]
 VIRTIO_IOMMU = "m"
+
+["category:misc".">=3.1.0"."aarch64 armv7"]
+EXYNOS_IOMMU = "y"
 
 # useful ppc64le configs, taken from Alpine
 ["category:misc".">=0.0.0"."ppc64le"]

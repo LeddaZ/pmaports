@@ -3,7 +3,7 @@
 maintainer="Alicja Michalska <ellyqw@mainlining.org>"
 pkgname=device-google-trogdor
 pkgdesc="Google Trogdor Chromebooks"
-pkgver=10
+pkgver=11
 pkgrel=0
 url="https://postmarketos.org"
 license="MIT"
@@ -12,14 +12,40 @@ options="!check !archcheck"
 depends="
 	alsa-ucm-conf
 	depthcharge-tools
-	linux-postmarketos-qcom-sc7180
 	postmarketos-base
 	postmarketos-cros-common
 	soc-qcom-sc7180
 "
 
 makedepends="devicepkg-dev"
-subpackages="$pkgname-nonfree-firmware:nonfree_firmware"
+subpackages="
+	$pkgname-nonfree-firmware:nonfree_firmware
+	$pkgname-kernel-stable:kernel_stable
+	$pkgname-kernel-lts:kernel_lts
+	$pkgname-kernel-mainline:kernel_mainline
+"
+_pmb_recommends="
+	$pkgname-kernel-lts
+"
+
+kernel_stable() {
+	pkgdesc="Stable kernel (recommended, best balance between stability and features)"
+	depends="linux-postmarketos-stable"
+	devicepkg_subpackage_kernel $startdir $pkgname $subpkgname
+}
+
+kernel_lts() {
+	pkgdesc="Long-term maintainance kernel (most stability, not all security fixes & new features)"
+	depends="linux-postmarketos-lts"
+	devicepkg_subpackage_kernel $startdir $pkgname $subpkgname
+}
+
+kernel_mainline() {
+	pkgdesc="Upstream development kernel (regular breakage, latest features)"
+	depends="linux-postmarketos-mainline"
+	devicepkg_subpackage_kernel $startdir $pkgname $subpkgname
+}
+
 source="
 	deviceinfo
 	kernel-cmdline.conf
@@ -59,6 +85,6 @@ openrc() {
 sha512sums="
 40911658bfc9b70dd96c70b71ddbece4f08d0e618f0ad7816e48ce66f683dc11ffe7d57d16822228f206e0576db7832d96b66659b3a72f3f4aa7959dd8cb82e5  deviceinfo
 14b67d4842a2f1cc637c56ca50a1f6d4a18a4e0524ce4cd9cdd9d0becbf7c4d9dcb9be33251c31bf6e8c452c1a08d6c113b231980593a6b418d731f09ea8f9f4  kernel-cmdline.conf
-edb968bb96d935483f043ebc9a539b790ae777640e955f9e961573c48d65e7cf3182f1614955cb893c8cfbf75233ee08359177c2d64f2f4b29c9d6c55a419090  modules-initfs
+289640f33d16372b84f92a3ec6e201c5f659e85c1e87069f21caf6fd09640ef3c8ab56557fa6a281d8ee3d1e018f11e7eadcccc3ae2c37679e83c65759ee3e8f  modules-initfs
 c9e0be258575e2af67509b55d373a5e4da00ba338e6ff30859926e20aabe60a0ea657002e5b47bd579b55ff3be75a772c1f63d3adc05feb0a0d23c1fc52292b8  99-google-trogdor-accel.rules
 "
