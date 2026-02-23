@@ -28,7 +28,7 @@ makedepends="
 "
 
 # Source
-_commit="adecfcfa7b498ec16c80f6b92e6543b98763ae96"
+_commit="1202cd9d4ce3ee53bc5b818ce94c79f5dd801105"
 source="
 	$pkgname-$_commit.tar.gz::https://github.com/alghiffaryfa19/sm8550-mainline/archive/$_commit.tar.gz
 	config-postmarketos-qcom-sm8550.aarch64
