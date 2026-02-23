@@ -1,0 +1,13 @@
+diff --git a/process_pipeline.c b/process_pipeline.c
+index 64003a2..f56ad56 100644
+--- a/process_pipeline.c
++++ b/process_pipeline.c
+@@ -448,7 +448,7 @@ mp_process_pipeline_process_image(MPImage image)
+ }
+
+ static void
+-capture()
++capture(MPPipeline *pipeline, const void *data)
+ {
+        char template[] = "/tmp/megapixels.XXXXXX";
+        char *tempdir;
