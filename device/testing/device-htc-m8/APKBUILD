@@ -2,7 +2,7 @@
 maintainer=""
 pkgname=device-htc-m8
 pkgdesc="HTC One M8"
-pkgver=6
+pkgver=7
 pkgrel=0
 url="https://postmarketos.org"
 license="MIT"
