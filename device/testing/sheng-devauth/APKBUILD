@@ -32,6 +32,10 @@ package() {
     install -m 0755 xiaomi_devauth $pkgdir/usr/bin
     mkdir -p $pkgdir/usr/lib/systemd/system
     install -m 0644 $srcdir/sheng-devauth.service $pkgdir/usr/lib/systemd/system
+
+    mkdir -p "$pkgdir/etc/systemd/system/sysinit.target.wants"
+    ln -s /usr/lib/systemd/system/sheng-devauth.service \
+    "$pkgdir/etc/systemd/system/sysinit.target.wants/sheng-devauth.service"
 }
 
 sha512sums="
