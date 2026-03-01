@@ -182,9 +182,9 @@ x11() {
 	install -D -m644 "$srcdir"/acpi.map \
 		"$pkgdir"/etc/acpi.map
 	install -D -m644 "$srcdir"/40-xkb.conf \
-		"$subpkgdir"/etc/X11/xorg.conf.d/40-xkb.conf
+		"$subpkgdir"/usr/share/X11/xorg.conf.d/40-xkb.conf
 	install -D -m644 "$srcdir"/xorg.conf \
-		"$subpkgdir"/etc/X11/xorg.conf.d/11-n900.conf
+		"$subpkgdir"/usr/share/X11/xorg.conf.d/11-n900.conf
 	install -Dm755 "$srcdir"/lock.sh \
 		"$subpkgdir"/usr/bin/lock.sh
 	install -Dm644 "$srcdir"/xresources \
