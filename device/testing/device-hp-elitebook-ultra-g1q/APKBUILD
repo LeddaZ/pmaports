@@ -63,7 +63,7 @@ kernel_next() {
 }
 
 kernel_mainline() {
-	pkgdesc="Mainline postmarketOS kernel (linux-postmarketos-mainline)"
+	pkgdesc="Upstream development kernel (regular breakage, latest features)"
 	depends="linux-postmarketos-mainline"
 	devicepkg_subpackage_kernel $startdir $pkgname $subpkgname
 }
@@ -89,13 +89,13 @@ kernel_postmarketos_qcom_laptop() {
 }
 
 kernel_postmarketos_stable() {
-	pkgdesc="Stable postmarketOS kernel (linux-postmarketos-stable)"
+	pkgdesc="Stable kernel (recommended, best balance between stability and features)"
 	depends="linux-postmarketos-stable"
 	devicepkg_subpackage_kernel $startdir $pkgname $subpkgname
 }
 
 kernel_postmarketos_lts() {
-	pkgdesc="Long term support (LTS) postmarketOS kernel (linux-postmarketos-lts)"
+	pkgdesc="Long-term maintainance kernel (most stability, not all security fixes & new features)"
 	depends="linux-postmarketos-lts"
 	devicepkg_subpackage_kernel $startdir $pkgname $subpkgname
 }
