@@ -2,7 +2,7 @@
 maintainer=""
 pkgname=device-asus-flo
 pkgver=6
-pkgrel=0
+pkgrel=1
 pkgdesc="Google Nexus 7 2013 (flo)"
 url="https://postmarketos.org"
 arch="armv7"
