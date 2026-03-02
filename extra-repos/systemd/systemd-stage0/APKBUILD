@@ -5,7 +5,7 @@ maintainer="Casey Connolly <kcxt@postmarketos.org>"
 pkgname=systemd-stage0
 pkgver=259.1
 _pkgver="${pkgver/_/-}"
-pkgrel=0
+pkgrel=2
 pkgdesc="Minimal systemd bootstrap package"
 url="https://github.com/systemd/systemd"
 # armhf: pmb#2618
@@ -80,6 +80,7 @@ build() {
 		-Dsysext=true \
 		-Dsysusers=true \
 		-Dselinux=disabled \
+		-Dinstall-sysconfdir=false \
 		\
 		-Dsystem-alloc-uid-min=101 \
 		-Dsystem-alloc-gid-min=101 \
@@ -101,6 +102,10 @@ build() {
 
 package() {
 	DESTDIR="$pkgdir" meson install --no-rebuild -C build
+
+	# TODO: This is an upstream packaging bug. Drop on the next release. See:
+	# https://github.com/systemd/systemd/commit/9013347ba956c0c2f34f011c54f421a13912b7ab
+	rm -r "$pkgdir"/var
 }
 
 sha512sums="
