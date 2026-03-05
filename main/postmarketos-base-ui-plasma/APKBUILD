@@ -2,7 +2,7 @@
 maintainer="Bart Ribbers <bribbers@disroot.org>"
 pkgname=postmarketos-base-ui-plasma
 pkgver=2
-pkgrel=21
+pkgrel=22
 pkgdesc="Meta package for shared configuration for Plasma-based UIs"
 url="https://postmarketos.org"
 arch="noarch !armhf" # armhf is not supported
@@ -80,6 +80,7 @@ openrc() {
 		elogind-openrc
 		iio-sensor-proxy-openrc
 		openrc
+		postmarketos-base-ui-polkit
 		networkmanager-openrc
 		urfkill-openrc
 	"
