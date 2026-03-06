@@ -1,6 +1,7 @@
 image: registry.alpinelinux.org/img/alpine:latest
 stages:
   - build
+  - check package directories
   - hardware tests
 
 variables:
@@ -81,6 +82,12 @@ build:
     CI_TRON_FASTBOOT__BOOT_IMAGE__URL: "glartifact://${CI_TRON__PMB_BUILD_JOB}/${CI_TRON__PMB_EXPORT_PATH}/boot.img"
 
 # Include all the devices that need and can to be tested
+
+check-package-directories:
+  stage: check package directories
+  interruptible: true
+  script:
+    - .ci/check-package-dirs.sh
 
 {% for device in devices_under_test if device.is_present_in_ci %}
 prepare-{{ device.name }}:
