@@ -4,7 +4,7 @@ maintainer="Newbyte <newbie13xd@gmail.com>"
 _flavor="postmarketos-qcom-msm8226"
 pkgname=linux-$_flavor
 pkgver=6.15.2
-pkgrel=0
+pkgrel=2
 _tag="v${pkgver/_/-}-msm8226"
 pkgdesc="Mainline kernel fork for Qualcomm APQ8026/MSM8226/MSM8926 devices"
 arch="armv7"
@@ -65,5 +65,5 @@ package() {
 
 sha512sums="
 fcc51b32f987afb4f0a09ba18418f099fb14d2fece395a0b1044551106c9e468885c0143af2df73f5d880707cf87ffe853a1161cb3e0122009a762c409e48704  linux-v6.15.2-msm8226.tar.gz
-2ca0d6aee757d65eb10e3653e089a77848f3fd9aa107926196f82214226577ff7f9654b0a681c08e5edd9acc57ab83bcf178e37a74f6c73c29021cb412a00b53  config-postmarketos-qcom-msm8226.armv7
+8e7eda496ede0431b9c4f75620b59a2d161cb9eb130ca1905ef0beb17a6a10f59aa08641a472131f09f3df4e66fc466792b4238e4b85743ccd28a5189a61e997  config-postmarketos-qcom-msm8226.armv7
 "
