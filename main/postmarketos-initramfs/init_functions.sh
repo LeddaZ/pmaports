@@ -1223,9 +1223,44 @@ check_keys() {
 }
 
 # $1: Message to show
+show_ascii_logo() {
+	# Clear the tty
+	echo -e '\033\0143' > /dev/tty0
+	# Show the splash
+	echo "                                         " > /dev/tty0
+	echo "                    8                    " > /dev/tty0
+	echo "                   888                   " > /dev/tty0
+	echo "                  88888                  " > /dev/tty0
+	echo "                 8888888                 " > /dev/tty0
+	echo "                888888888                " > /dev/tty0
+	echo "               88888888888               " > /dev/tty0
+	echo "               888888888888              " > /dev/tty0
+	echo "             8  888888888888             " > /dev/tty0
+	echo "            888      88888888            " > /dev/tty0
+	echo "           88888888   88888888           " > /dev/tty0
+	echo "          88888888     88888888          " > /dev/tty0
+	echo "         88888888       88888888         " > /dev/tty0
+	echo "        88888888         88888888        " > /dev/tty0
+	echo "       88888888           888            " > /dev/tty0
+	echo "      88888888             8  88888      " > /dev/tty0
+	echo "     88888888                8888888     " > /dev/tty0
+	echo "    88888888                 88888888    " > /dev/tty0
+	echo "   88888888888  8888888888888888888888   " > /dev/tty0
+	echo "  8888888888888  8888888888888888888888  " > /dev/tty0
+	echo " 8888888888888  888888888888888888888888 " > /dev/tty0
+	echo "8888888888888  88888888888888888888888888" > /dev/tty0
+	echo "                                         " > /dev/tty0
+	echo "$1                                       " > /dev/tty0
+	echo "                                         " > /dev/tty0
+}
+
+# $1: Message to show
 show_splash() {
 	info "SPLASH: $1"
 	if [ "$nosplash" = "y" ]; then
+		# show pretty ascii logo instead of pbsplash
+		# shellcheck disable=SC2059
+		show_ascii_logo "$(printf "$1")"
 		return
 	fi
 
@@ -1235,6 +1270,10 @@ show_splash() {
 	/usr/bin/pbsplash -s /usr/share/pbsplash/pmos-logo-text.svg \
 		-b "$VERSION | Linux $(uname -r) | $deviceinfo_codename" \
 		-m "$(printf "$1")" >/dev/null &
+
+	# show pretty ascii logo in-case pbsplash doesn't run
+	# shellcheck disable=SC2059
+	show_ascii_logo "$(printf "$1")"
 }
 
 hide_splash() {
