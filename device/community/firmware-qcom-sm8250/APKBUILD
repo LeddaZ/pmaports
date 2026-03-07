@@ -1,0 +1,43 @@
+# Contributor Alexey Andreyev <dev@aa13q.ru>
+pkgname=firmware-qcom-sm8250
+pkgver=20260110
+pkgrel=0
+pkgdesc="Qualcomm SM8250 (Snapdragon 865) firmware from linux-firmware"
+url="https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/"
+arch="aarch64"
+license="custom"
+options="!check !strip !archcheck !tracedeps pmb:cross-native"
+replaces="linux-firmware-qcom"
+source="https://gitlab.com/kernel-firmware/linux-firmware/-/archive/$pkgver/linux-firmware-$pkgver.tar.gz"
+builddir="$srcdir/linux-firmware-$pkgver"
+
+_fwdir="/lib/firmware/qcom"
+
+package() {
+	install -Dm644 "$builddir"/LICENSE.qcom \
+		"$pkgdir"/usr/share/licenses/$pkgname/LICENSE
+	install -Dm644 "$builddir"/qcom/NOTICE.txt \
+		"$pkgdir"/usr/share/licenses/$pkgname/NOTICE
+
+	# SM8250 DSP firmware
+	install -Dm644 "$builddir"/qcom/sm8250/adsp.mbn \
+		"$pkgdir/$_fwdir"/sm8250/adsp.mbn
+	install -Dm644 "$builddir"/qcom/sm8250/cdsp.mbn \
+		"$pkgdir/$_fwdir"/sm8250/cdsp.mbn
+
+	# SM8250 DSP config files
+	install -Dm644 "$builddir"/qcom/sm8250/adspr.jsn \
+		"$pkgdir/$_fwdir"/sm8250/adspr.jsn
+	install -Dm644 "$builddir"/qcom/sm8250/adspua.jsn \
+		"$pkgdir/$_fwdir"/sm8250/adspua.jsn
+	install -Dm644 "$builddir"/qcom/sm8250/cdspr.jsn \
+		"$pkgdir/$_fwdir"/sm8250/cdspr.jsn
+
+	# GPU ZAP shader (signed for SM8250 reference devices)
+	install -Dm644 "$builddir"/qcom/sm8250/a650_zap.mbn \
+		"$pkgdir/$_fwdir"/sm8250/a650_zap.mbn
+}
+
+sha512sums="
+b0c39fd52a84f695ff94cda6d93465b5a192ed3a663275a94b4df30e4126643ca2c9d59a3252df6efdb71a2506d607efd70b0871ec188576f34e1f661731db02  linux-firmware-20260110.tar.gz
+"

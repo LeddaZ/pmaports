@@ -1,0 +1,48 @@
+#!/bin/sh
+# Post-install script for Retroid Pocket 5
+# Ensures GPU firmware is accessible in both standard and postmarketos paths
+
+# Create postmarketos firmware directories
+mkdir -p /lib/firmware/postmarketos/qcom/sm8250
+
+# Copy GPU firmware to postmarketos path if it exists in standard path
+if [ -f /lib/firmware/qcom/a650_sqe.fw ]; then
+	echo "Setting up GPU firmware for early boot..."
+
+	# Unpack any compressed firmware files
+	for file in /lib/firmware/qcom/a650*.zst /lib/firmware/qcom/sm8250/*.zst /lib/firmware/qcom/venus-5.4/*.zst; do
+		if [ -f "$file" ]; then
+			unzstd -q "$file" 2>/dev/null || true
+		fi
+	done
+
+	# Create Venus firmware symlinks
+	if [ -f /lib/firmware/qcom/venus-5.4/venus.mbn ] && [ ! -f /lib/firmware/qcom/venus-5.4/venus.mdt ]; then
+		ln -sf venus.mbn /lib/firmware/qcom/venus-5.4/venus.mdt 2>/dev/null || true
+	fi
+
+	# Copy to postmarketos paths
+	mkdir -p /lib/firmware/postmarketos/qcom/venus-5.4
+	cp -f /lib/firmware/qcom/a650_sqe.fw /lib/firmware/postmarketos/qcom/ 2>/dev/null || true
+	cp -f /lib/firmware/qcom/a650_gmu.bin /lib/firmware/postmarketos/qcom/ 2>/dev/null || true
+	cp -f /lib/firmware/qcom/a650_zap.mbn /lib/firmware/postmarketos/qcom/ 2>/dev/null || true
+	cp -f /lib/firmware/qcom/sm8250/a650_zap.mbn /lib/firmware/postmarketos/qcom/sm8250/ 2>/dev/null || true
+	cp -f /lib/firmware/qcom/venus-5.4/venus.mbn /lib/firmware/postmarketos/qcom/venus-5.4/ 2>/dev/null || true
+	ln -sf venus.mbn /lib/firmware/postmarketos/qcom/venus-5.4/venus.mdt 2>/dev/null || true
+
+	echo "GPU firmware setup complete."
+fi
+
+# Enable services
+if command -v systemctl >/dev/null 2>&1; then
+	# DSP services for audio and compute
+	systemctl enable pd-mapper 2>/dev/null || true
+	systemctl enable tqftpserv 2>/dev/null || true
+	# Fan control
+	systemctl enable fancontrol 2>/dev/null || true
+elif command -v rc-update >/dev/null 2>&1; then
+	rc-update add pd-mapper default 2>/dev/null || true
+	rc-update add tqftpserv default 2>/dev/null || true
+fi
+
+exit 0

@@ -1,0 +1,29 @@
+# Reference: <https://postmarketos.org/deviceinfo>
+# Please use double quotes only. You can source this file in shell
+# scripts.
+
+deviceinfo_format_version="0"
+deviceinfo_name="Retroid Pocket 5"
+deviceinfo_manufacturer="Moorechip"
+deviceinfo_codename="retroidpocket-rp5"
+deviceinfo_year="2024"
+deviceinfo_arch="aarch64"
+deviceinfo_dtb="qcom/sm8250-retroidpocket-rp5"
+
+# Device related
+deviceinfo_gpu_accelerated="true"
+deviceinfo_chassis="tablet"
+
+# Display configuration
+deviceinfo_screen_width="1920"
+deviceinfo_screen_height="1080"
+
+# Storage
+deviceinfo_external_storage="true"
+
+# Bootloader related
+deviceinfo_flash_method="none"
+deviceinfo_kernel_cmdline="console=tty0 clk_ignore_unused pd_ignore_unused fbcon=rotate:1 PMOS_FORCE_PARTITION_RESIZE"
+deviceinfo_generate_grub_config="true"
+deviceinfo_boot_filesystem="fat32"
+deviceinfo_partition_type="gpt"

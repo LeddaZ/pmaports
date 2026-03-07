@@ -1,0 +1,5 @@
+/lib/firmware/qcom/a650_sqe.fw
+/lib/firmware/qcom/a650_gmu.bin
+/lib/firmware/qcom/sm8250/a650_zap.mbn
+/lib/firmware/qcom/sm8250/adsp.mbn
+/lib/firmware/qcom/sm8250/cdsp.mbn

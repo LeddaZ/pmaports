@@ -1,0 +1,42 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Daniel Martin <dmanlfc@gmail.com>
+Date: Thu, 30 Oct 2025 18:30:14 +1000
+Subject: [PATCH] arm64: dts: qcom: sm8250-retroidpocket: add volume up button
+ pinctrl
+
+Add pinctrl configuration for volume up button to work with custom
+u-boot implementations.
+Co-Authored-By: Alexey Andreev <dev@aa13q.ru>
+---
+ .../boot/dts/qcom/sm8250-retroidpocket-common.dtsi     | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/qcom/sm8250-retroidpocket-common.dtsi b/arch/arm64/boot/dts/qcom/sm8250-retroidpocket-common.dtsi
+--- a/arch/arm64/boot/dts/qcom/sm8250-retroidpocket-common.dtsi
++++ b/arch/arm64/boot/dts/qcom/sm8250-retroidpocket-common.dtsi
+@@ -50,6 +50,8 @@ fan: pwm-fan {
+
+ 	gpio-keys {
+ 		compatible = "gpio-keys";
++		pinctrl-names = "default";
++		pinctrl-0 = <&volume_up_default>;
+
+ 		key-vol-up {
+ 			label = "Volume Up";
+@@ -902,6 +904,14 @@ wifi-therm@1 {
+ 	};
+ };
+
++&pm8150_gpios {
++	volume_up_default: volume-up-default {
++		pins = "gpio6";
++		function = "normal";
++		bias-pull-up;
++	};
++};
++
+ &pm8150b_adc {
+ 	channel@4f {
+ 		reg = <ADC5_AMUX_THM3_100K_PU>;
+--
+2.43.0

@@ -1,0 +1,11 @@
+[Unit]
+Description=PWM Fan Control Service
+After=local-fs.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/fancontrol
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

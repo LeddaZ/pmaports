@@ -1,0 +1,8 @@
+cqhci
+mmc_block
+mmc_core
+sd
+sd_mod
+sdhci
+sdhci_acpi
+sdhci_pci

@@ -1,0 +1,10 @@
+/dts-v1/;
+
+/ {
+	model = "Retroid Pocket 5";
+	compatible = "retroidpocket,rp5", "qcom,kona", "qcom,sm8250";
+	chassis-type = "tablet";
+
+	qcom,msm-id = <356 0x20001>;
+	qcom,board-id = <0x01001F 0x01>;
+};

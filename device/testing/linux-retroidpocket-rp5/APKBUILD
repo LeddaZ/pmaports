@@ -1,0 +1,111 @@
+# Reference: <https://postmarketos.org/vendorkernel>
+# Kernel config based on: arch/arm64/configs/vendor/kona_defconfig
+
+pkgname=linux-retroidpocket-rp5
+pkgver=6.17.0
+pkgrel=1
+pkgdesc="Retroid Pocket 5 kernel fork"
+arch="aarch64"
+_carch="arm64"
+_flavor="retroidpocket-rp5"
+url="https://kernel.org"
+license="GPL-2.0-only"
+options="!strip !check !tracedeps pmb:cross-native"
+makedepends="
+	bash
+	bc
+	bison
+	devicepkg-dev
+	dtc
+	flex
+	linux-headers
+	openssl-dev
+	perl
+	python3
+	xz
+"
+
+# Source
+_host="gitlab.postmarketos.org"
+_repository="soc/qualcomm-sm8250/linux"
+_tag="sm8250-$pkgver"
+_config="config-$_flavor.$arch"
+
+source="
+	$pkgname-$_tag.tar.gz::https://$_host/$_repository/-/archive/$_tag/linux-$_tag.tar.gz
+	$_config
+	0000-sm8250-retroidpocket-common.patch
+	0004-pm8150b-haptics.patch
+	0005-sm8250-uart.patch
+	0007-panel-ddic-ch13726a.patch
+	0008-retroid-gamepad.patch
+	0009-qcom-spmi-haptics.patch
+	0010-leds-htr3212.patch
+	0012-ASoC-qcom-q6asm-dai-Change-some-default-periods.patch
+	0013-add-force-feedback.patch
+	0014-fix-wifi-and-bt-mac.patch
+	0016-fix-vol-up-with-custom-uboot.patch
+	0017-drm-panel-ddic-ch13726a-add-support-for-rpminiv2.patch
+	0020-panel-ddic-ch13726a-dsi-init.patch
+	0101-mdss-core-reset.patch
+	0018-arm64-dts-qcom-sm8250-add-support-for-Retroid-Pocket.patch
+	0019-arm64-dts-qcom-sm8250-add-support-for-Retroid-Pocket.patch
+	9997-set-boot-fanspeed.patch
+	9998-gpu-opp-table.patch
+	9999-remove-log-spam.patch
+"
+builddir="$srcdir/linux-$_tag"
+_outdir="out"
+
+prepare() {
+	default_prepare
+	REPLACE_GCCH=0 . downstreamkernel_prepare
+	ln -sf "$builddir/$_outdir/kernel" "$builddir/kernel"
+}
+
+build() {
+	unset LDFLAGS
+	make O="$_outdir" ARCH="$_carch" CC="${CC:-gcc}" \
+		KBUILD_BUILD_VERSION="$((pkgrel + 1 ))-postmarketOS" \
+		V=1
+}
+
+package() {
+	downstreamkernel_package \
+		"$builddir" "$pkgdir" "$_carch" "$_flavor" "$_outdir"
+
+	make O="$_outdir" \
+		ARCH="$_carch" \
+		INSTALL_MOD_STRIP=1 \
+		INSTALL_MOD_PATH="$pkgdir" \
+		modules_install
+
+	make O="$_outdir" \
+		ARCH="$_carch" \
+		INSTALL_DTBS_PATH="$pkgdir/boot/dtbs" \
+		dtbs_install
+}
+
+sha512sums="
+6dd2e97474cfbcb92f3a1c8b28efb8efbe19da1acbe3f5cb0c1f3133ff9aa5f6a07027bfe06e3447121ece127aeb810280ddcc0c3ee0d6a1792f15c4d20353c7  linux-retroidpocket-rp5-sm8250-6.17.0.tar.gz
+6ac5f2c360f82f06b035a2e69234b841f2bf4b09eb4a0ec9f50d32f03a934ed07e3fb0e60f7cf80b3eeba2cc7f0b7b68bfc7794a22c344b7a704414343b00d1b  config-retroidpocket-rp5.aarch64
+66df36ca7a08a63006f36bec1d176e17ff13128417b41677fe927b9d7c58981dc0d0cc220daa4673dae3c9543466fe99e601c85a6ba7caf6f569836eb49eb8c2  0000-sm8250-retroidpocket-common.patch
+1fb6d5375892050254276f0b81eb8cdd9fca73c6d21e6f73a9272da74e40f5e8e605974748755b0b24e3f754c35567fb3a2ba6e36c045f9ec9b91147dd91a9be  0004-pm8150b-haptics.patch
+4af5a287b96dd41bb31dd0dd04c0357251a1c6965c041322326051b471ae68441d7b431b3880c77c22af58a27ac41ec9ab5b2997b4fb94974b5e4be01b6b8aea  0005-sm8250-uart.patch
+6627bf163c3abe88205b3e4a3fa36481fb602d0e2c536417d32bb1b6cdbf7421405affaf603d8c5d4775ba89f1991b01371dbaf346a186ce0fbbc68ec467ef25  0007-panel-ddic-ch13726a.patch
+68844066713b11d3382ffed1d69edd55c7f71c365a107f26c5878367123d0f958990e7bfff81dd9fd7e1c7cbc90c6437cf49ad541eab9e8f3d9b6e9811ae2c9a  0008-retroid-gamepad.patch
+e11f23d576919ca280bcfc5d22f9e01cf8692792a6b7dd1965dd612bd9cb3177a461324cb36e6c112e3366ce7f9a87c27f8a68ef73e9fab1c3164960d3b9ad95  0009-qcom-spmi-haptics.patch
+f1ccb64e40fb33ebd0e0d0c16f9f843ca5a381a4a49f09ba0dfa4b3b73dd861f5ebf836a27ea3b077d83654c7e5b24c186a846fbdc67fc1fd3425159b4176036  0010-leds-htr3212.patch
+03541c85f3a8e136bd9e78f52a78f4cd76179092bca57e31a8128b6efa79ef323b223861b61f1ecd78e4e3acbd28d35fa83faba6ea1fda3c2ee117e248fba09b  0012-ASoC-qcom-q6asm-dai-Change-some-default-periods.patch
+f9c8597dfe5bef0a0c1e39bb25555badf6d3f88c3cd8e6880b4e29f0ce70596767b372ea2950a61f6fc959489f704c9e5254a4ae5d101147f029d884058938bb  0013-add-force-feedback.patch
+e39ea8c017f49a656da64b9d3ac751361ebdfd28283f2ee9e3098aef0eb20ffd831ca811b8168ea3f8dabb52a41351b37836674e4160b25440104d5230e67ba5  0014-fix-wifi-and-bt-mac.patch
+2f4b06c34249741d9980489efaff72711e2a3bc2dca1c2ade7486a2c419da8a10184d3d69cc168aaa02088173deaea22a3511e3a1f04d5d0203cefad16201d3d  0016-fix-vol-up-with-custom-uboot.patch
+526b3e1dd989ff20c6cc8fb7dffb053b5887c7231bf3570321cafe2c2d7d39055f143875526caeaedf53e16e4edf4b2b78a191e172b44bca142464dade8e2538  0017-drm-panel-ddic-ch13726a-add-support-for-rpminiv2.patch
+2bcc084230b93b35acf9e83279a77636ffc16e87fb277afeb57c24c4657276bd5665ff91bf158b4b056254cc04d61bfcf594c3ce0a4977818361006abd3e09f4  0020-panel-ddic-ch13726a-dsi-init.patch
+d71bd46ec850ac053344de86a7382eb13426a74277b2352d2a0e55c85e1dc9eb6cb8415b0ec4ee6ef2430ba9d8b89f9ad82e078b04910d651421563533b04783  0101-mdss-core-reset.patch
+4b5673e70a7e0eb2f7d9e86636b4dc540ebbea24296a348311882b320e462d3770635d154e3590133562d2f9c26bb66acc30ba74b3e07edb1b1be2db94eb44c5  0018-arm64-dts-qcom-sm8250-add-support-for-Retroid-Pocket.patch
+a239cbbca99ed9f5a0bde8fe4157f1d6ac0b8616d5d6ab51d78263614ec7278a9507dcfc1a4ab1c9844a2bb4a6674f5ea713f02cdc5c3a308cb317df0e223e0a  0019-arm64-dts-qcom-sm8250-add-support-for-Retroid-Pocket.patch
+bf1801c930eeb3e360b5f89e3c627dd5eecc7b7cbbb255027d613afd016c585b62f167c7c4e51604220052b6c2c3319984d8a745a7ba272e1f917a22e150d58c  9997-set-boot-fanspeed.patch
+fa1d0ee15106c8b98d604a9dc9d087bc2196e43430e4b2b4d040aa025f9a2e42bc7e07a44a9225b4a39a411229b05ddfd4c2a8b00a423d83febf03afb5111bae  9998-gpu-opp-table.patch
+559b5bf8fde9f9d98235db40a03e6c21a53e57d1e4a9352b6754bb7ee31893a83bbd2fcf12bd8213844efaf7b31365e83232957e8fa18f4bcd55876e240e3346  9999-remove-log-spam.patch
+"

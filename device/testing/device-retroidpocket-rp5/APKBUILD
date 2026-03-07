@@ -1,0 +1,146 @@
+# Reference: <https://postmarketos.org/devicepkg>
+# Contributor: Alexey Andreyev <dev@aa13q.ru>
+pkgname=device-retroidpocket-rp5
+pkgdesc="Retroid Pocket 5"
+pkgver=1
+pkgrel=0
+url="https://postmarketos.org"
+license="MIT"
+arch="aarch64"
+# pmb:strict is required for grub
+options="!check !archcheck pmb:strict"
+depends="
+	postmarketos-base
+	systemd-boot
+"
+makedepends="
+	devicepkg-dev
+	dtc
+	grub
+	grub-efi
+"
+source="deviceinfo modules-initfs.mainline sm8250-retroidpocket-rp5-empty.dts
+	qcom-gpu-firmware.files
+	$pkgname.post-install
+	ucm/HiFi-RP.conf
+	ucm/RetroidPocket.conf
+	ucm/wsa881x-init.conf
+	99-retroid-gamepad.rules
+	fancontrol.sh
+	fancontrol.service
+"
+install="$pkgname.post-install"
+# TODO: 	$pkgname-kernel-mainline:kernel_mainline
+subpackages="
+	$pkgname-kernel-downstream:kernel_downstream
+	$pkgname-nonfree-firmware:nonfree_firmware
+"
+
+build() {
+	devicepkg_build $startdir $pkgname
+	grub-mkimage \
+		--prefix="/grub" \
+		--output="$srcdir/bootaa64.efi" \
+		--format="arm64-efi" \
+		--compression="xz" \
+		\
+		all_video \
+		cat \
+		configfile \
+		disk \
+		echo \
+		efi_gop \
+		fat \
+		gzio \
+		help \
+		iso9660 \
+		linux \
+		ls \
+		normal \
+		part_gpt \
+		part_msdos \
+		search \
+		search_label \
+		test \
+		true
+}
+
+package() {
+	devicepkg_package $startdir $pkgname
+
+	# Grub / bootloader
+	install -Dm644 -t "$pkgdir"/boot/EFI/Boot \
+		"$srcdir"/bootaa64.efi
+
+	# Install post-install script
+	install -Dm755 "$srcdir"/$pkgname.post-install \
+		"$pkgdir"/usr/share/post-install/$pkgname.post-install
+
+	# ALSA UCM config (author: Teguh Sobirin <teguh@sobir.in>)
+	install -Dm644 -t "$pkgdir"/usr/share/alsa/ucm2/Qualcomm/sm8250 \
+		"$srcdir"/HiFi-RP.conf \
+		"$srcdir"/RetroidPocket.conf
+	install -Dm644 "$srcdir"/wsa881x-init.conf \
+		"$pkgdir"/usr/share/alsa/ucm2/codecs/wsa881x/init.conf
+	mkdir -p "$pkgdir"/usr/share/alsa/ucm2/conf.d/sm8250
+	ln -s /usr/share/alsa/ucm2/Qualcomm/sm8250/RetroidPocket.conf \
+		"$pkgdir"/usr/share/alsa/ucm2/conf.d/sm8250/retroidpocket-RetroidPocket5-.conf
+
+	# Gamepad udev rule (source: Batocera/ROCKNIX)
+	install -Dm644 "$srcdir"/99-retroid-gamepad.rules \
+		"$pkgdir"/usr/lib/udev/rules.d/99-retroid-gamepad.rules
+
+	# Fan control (source: JELOS/ROCKNIX)
+	install -Dm755 "$srcdir"/fancontrol.sh \
+		"$pkgdir"/usr/bin/fancontrol
+	install -Dm644 "$srcdir"/fancontrol.service \
+		"$pkgdir"/usr/lib/systemd/system/fancontrol.service
+}
+
+kernel_downstream() {
+	pkgdesc="Downstream kernel (recommended, close to mainline until not upstreamed)"
+	depends="linux-retroidpocket-rp5"
+	devicepkg_subpackage_kernel $startdir $pkgname $subpkgname
+}
+
+kernel_mainline() {
+	pkgdesc="Mainline kernel (not recommended yet)"
+	depends="linux-postmarketos-qcom-sm8250"
+
+	dtc -O dtb -o "$srcdir/dtbo.img" -I dts "$srcdir/sm8250-retroidpocket-rp5-empty.dts"
+	install -Dm644 "$srcdir/dtbo.img" "$subpkgdir/boot/dtbo.img"
+	devicepkg_subpackage_kernel $startdir $pkgname $subpkgname
+}
+
+nonfree_firmware() {
+	pkgdesc="GPU, Modem, DSP, WiFi, Bluetooth and other firmware"
+	depends="
+		firmware-qcom-adreno-a650
+		firmware-qcom-sm8250
+		linux-firmware-qcom
+		linux-firmware-ath11k
+		linux-firmware-rtl_nic
+		linux-firmware-qca
+		pd-mapper
+		tqftpserv
+	"
+	mkdir "$subpkgdir"
+
+	# Install mkinitfs hook to include GPU firmware in initramfs
+	install -Dm644 "$srcdir"/qcom-gpu-firmware.files \
+		"$subpkgdir"/etc/mkinitfs/files/qcom-gpu-firmware.files
+}
+
+sha512sums="
+90fde21bc652bf841d121346b9520fe9b2f7de1fedb68e4f8fd05785144d43015dbde2cbb574ffa809dab1d4c8227d542aa01b46145c69668702d990c833160f  deviceinfo
+ddd5089e5fe0d54ab7d4431c42beb473c68025047f9c29e60da6177f825206dbeb51bdc3b5a2e11587796818d636ab446311a1ac7e217409261f6c2649ccba64  modules-initfs.mainline
+0bbb6d7a75c83c8655c91ae6d91d4655aa67a3143cc5efae86ee708329f142b8119834fc0496cfa4d1f12499723978fb912caff5b22377581c10ce9d8f7dc549  sm8250-retroidpocket-rp5-empty.dts
+5c845eaeb0df562e91287c0f8a1a5e92ce1a0cd4fdca19fbc14e35fb2ed978d008319edcbc68e98361f520462a3aabc8df0f6e206b5b66f6b16b5b9233cd100c  qcom-gpu-firmware.files
+1e37d062664a1cda188806a9bcd5bc0873fa10a87dfb6f4e39c0e8859347563aa1ad701e1e8a9df6cd7cda5dc9922771d6dff9188a40bf7eacaefc0e7ae49fcf  device-retroidpocket-rp5.post-install
+158b7fd1b7a50d14fc4abca32fc64a2aa408acc9e06fb35b985f6dd1dcbe1292c63e67d140291a9d0020fad13f6fa75ff17a796291609d9a302c942f4be7ec88  HiFi-RP.conf
+498f804ee501ad1febfa7e16c5af14e00953a0af31cbd6ac3877211b49a1fc8038c2eae487f069ff1f4f345c22f0e6732e216f0f4339f1872c6945f3d31cc40a  RetroidPocket.conf
+e32acd12e3b1bf9dcbcb161610535f366bb0f59c8d7ffe299c8b2e70d650d4cdfdd7f4bd08f9035d02aa8b5ab5ad6388fb5ebe6cf405695d72862b8836970b97  wsa881x-init.conf
+83bd69c200a8e6a5faa35207b99e9caee2fc39f96f68109585c6a8a00732c6b62131e1ed73a7745767f75095b56bc7c356d6b26ac3d3a1c49e10b5999253745c  99-retroid-gamepad.rules
+3b5695028afc5568ecb96caa73e3dc62002a22525ec3df7966dcef6034c9446506de71f84413cb81c451a8486150a521215f09bde45945dfeff5eb0396a32bcb  fancontrol.sh
+01950587c1950ed7fa92116f815423128ed8615c49d159a066dac7d00c2826af4bf6efe90cda84ea0470c6f1704251b967e7c8d5e5646738e6e7d3f311325f3a  fancontrol.service
+"
