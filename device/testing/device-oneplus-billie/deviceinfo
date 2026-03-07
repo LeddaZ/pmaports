@@ -19,7 +19,7 @@ deviceinfo_drm="true"
 
 # Bootloader related
 deviceinfo_flash_method="fastboot"
-kernel-cmdline.d="lpm_levels.sleep_disabled=1 msm_rtb.filter=0x237 service_locator.enable=1 swiotlb=2048 loop.max_part=7 skip_override pmos.debug-shell service_locator.enable=1 pmos_boot=dont_mount_subpartitions"
+
 deviceinfo_generate_bootimg="true"
 deviceinfo_flash_pagesize="4096"
 deviceinfo_rootfs_image_sector_size="4096"
