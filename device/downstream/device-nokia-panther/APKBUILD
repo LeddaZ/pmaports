@@ -1,4 +1,5 @@
 # Reference: <https://postmarketos.org/devicepkg>
+maintainer=""
 pkgname=device-nokia-panther
 pkgdesc="Nokia 4.2"
 pkgver=5

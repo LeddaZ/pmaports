@@ -1,5 +1,6 @@
 # Reference: <https://postmarketos.org/vendorkernel>
 
+maintainer=""
 pkgname=linux-nokia-panther
 pkgver=4.9.186
 pkgrel=0
