@@ -1,6 +1,6 @@
 maintainer=""
 pkgname=devicepkg-dev
-pkgver=0.22.1
+pkgver=0.22.2
 pkgrel=0
 pkgdesc="Provides default device package functions"
 url="https://postmarketos.org"
@@ -13,6 +13,8 @@ source="
 	downstreamkernel_prepare.sh
 	downstreamkernel_package.sh
 	devicepkg_subpackage_kernel.sh
+	mainlinekernel_prepare.sh
+	mainlinekernel_package.sh
 	testdata/deviceinfo
 	testdata/expected-deviceinfo-downstream
 	testdata/expected-deviceinfo-mainline
@@ -67,6 +69,10 @@ package() {
 		"$pkgdir/usr/bin/downstreamkernel_prepare"
 	install -Dm755 "$srcdir/downstreamkernel_package.sh" \
 		"$pkgdir/usr/bin/downstreamkernel_package"
+	install -Dm755 "$srcdir/mainlinekernel_prepare.sh" \
+		"$pkgdir/usr/bin/mainlinekernel_prepare"
+	install -Dm755 "$srcdir/mainlinekernel_package.sh" \
+		"$pkgdir/usr/bin/mainlinekernel_package"
 	install -Dm755 "$srcdir/devicepkg_subpackage_kernel.sh" \
 		"$pkgdir/usr/bin/devicepkg_subpackage_kernel"
 	install -Dm644 "$srcdir/compiler-gcc.h" \
@@ -79,6 +85,8 @@ a2b9848480e3200d2a4053ce18989e5d711b95abf3e383f5ad67bda5e2e5c1d63c1e9b142d6c02be
 f81e74e45ae8e55686ae459f550e229e7398daeafa72bd023c2d8c3a0d50e60bf53d5bbdfec931e9fbabe1cd71de57b2192805aaef091ab90bc7203cbaf66ba6  downstreamkernel_prepare.sh
 107242a3da38a574c46cb779e0c75afbeef4cfe659e1b85971973ac55843df06f70f53a5985ca623d4123f05f2984f5dace4a53a3509ecefd7dfdc3c8b705cfe  downstreamkernel_package.sh
 4b807ea2e773a66f699bba9f76fbb6349b0ca6f6fc6d867b540c2327b304f82d57365a0e9f5b7cae30ad5c5990553162152d1947aca5335a53e641b0c6b08ef6  devicepkg_subpackage_kernel.sh
+5ec33690916c1543648dfb055bf8f847f20b90134239a061e28b3a94859520c6fcdc6423b48dc812a9738e7b8d7d743ddd017f38a2090be81d8a86c25599eaf2  mainlinekernel_prepare.sh
+034aafb583dd06fc17c13ea573aae4151b8c1d0682ff75e1de56909b054bec619b58595ecb178e2e4cbd5a9ab49826f994b97e2ee3969b46c8a75eceac4e3e71  mainlinekernel_package.sh
 ca330f9f6771bdb13fe973c9a57a7718958b515e81ddb8a1ce54c4f8c7ef5907c8ab346e7aa1628e237945fccab0b3b70bf782c00ad318f71f0adcd839c1d966  deviceinfo
 9df20672cd7e6ee836a821cb671ec333beef4dfc1160c81d2afa007d1abe04a27798678a0a9def9ab4e9046e334fe7c4373b453994ffdc852b454db112702a9d  expected-deviceinfo-downstream
 a37dd9e355abf74d47f8e365fcd4876d99ef9a63bbb7be9e529057cb1e91778433d83e99339ee6401003f77cbc40ad3f14562bf9716b107ebad9da84b19ced0d  expected-deviceinfo-mainline
