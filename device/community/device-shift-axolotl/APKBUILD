@@ -4,7 +4,7 @@
 maintainer="Alexander Martinz <amartinz@shiftphones.com>"
 pkgname=device-shift-axolotl
 pkgdesc="SHIFT6mq"
-pkgver=20
+pkgver=21
 pkgrel=0
 url="https://postmarketos.org"
 license="MIT"
@@ -20,6 +20,9 @@ depends="
 	soc-qcom-pd-mapper
 	soc-qcom-qbootctl
 	fwupd>=1.8.6
+	systemd-boot
+	make-dynpart-mappings
+	unl0kr-fbforcerefresh
 "
 makedepends="devicepkg-dev"
 source="
@@ -76,8 +79,8 @@ pmtest() {
 }
 
 sha512sums="
-c53336de1a7e97bf90650986fa1bf436fe464e47a66a5a448d7057c5bb4010d075c821e6f1fcc42b0bdafbe51b069651d4862aa896db06ef2dfe0a6a040c4f1c  deviceinfo
-f16e550f623522be29027954c69a956eb6543f2f608a4c6b37c1a3983403a3edaa24e70aa42dbe88e76216991aba867b48c7341c9b8a81f675902d6223937b51  kernel-cmdline.conf
+2d6f14f81cc37f4ab454b44c202bfdca4ed875adf144ad9bf690fe86eb85ba6ac0ff5f3e4f093c70e9e292c97d7ac1521721242e045793a2e7f6f61e609e33e0  deviceinfo
+08be70e33bdb9ef327e79a4373be0ac1a0a21bcdba0fb79002f6a8a6a951f18012f07ccbe008eb295ffed92a350cfb0aa08aa4b3809d3102b90f888201b944fa  kernel-cmdline.conf
 5966325963a3a62c919b5f39f7bc56e1785f192f50c40a6cc644a2fea0c9b8dd083e287ef43c59c2b9cab5c88d65266b0cd9cf1f5110924950bd250be5385622  hexagonrpcd.confd
 4dc84207c5ca84b33b74139c8b0c9ce5baa8bcb1068df9943c478c02abcf8daccb88e06af63f120a434a115e277008e899305bd5239d8669436cb269889040e9  modules-initfs
 2a3cbdad5aa91181d24a4e56e63986af6accf887c64fa4d1b6ddad1926e29050243c4b1e2fd892d38ca7c16e24dff8545a16552e5749ae31b6d01bf428468e51  q6voiced.conf
