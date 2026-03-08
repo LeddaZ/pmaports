@@ -1,0 +1,64 @@
+# Reference: <https://postmarketos.org/devicepkg>
+# Maintainer: Fauzan Amir <alghiffaryfa19@gmail.com>
+pkgname=device-xiaomi-sheng
+pkgdesc="Xiaomi Pad 6s Pro"
+pkgver=1
+pkgrel=0
+url="https://postmarketos.org"
+license="MIT"
+arch="aarch64"
+options="
+	!check
+	!archcheck
+	!strip
+	"
+depends="
+	alsa-ucm-conf
+	firmware-xiaomi-sheng
+	sheng-devauth
+	linux-postmarketos-qcom-sm8550
+	make-dynpart-mappings
+	mkbootimg
+	soc-qcom-modem
+	postmarketos-base
+	soc-qcom
+	soc-qcom-qbootctl
+"
+makedepends="devicepkg-dev"
+source="
+	deviceinfo
+	HiFi.conf
+	Xiaomi-Pad6SPro.conf
+	XiaomiPad6SPro.conf
+"
+
+subpackages="
+	$pkgname-openrc
+"
+
+build() {
+	devicepkg_build	$startdir $pkgname
+}
+
+package() {
+	devicepkg_package $startdir $pkgname
+
+	install -Dm644 "$srcdir/HiFi.conf" \
+		"$pkgdir/usr/share/alsa/ucm2/Xiaomi/sheng/HiFi.conf"
+
+	install -Dm644 "$srcdir/Xiaomi-Pad6SPro.conf" \
+		"$pkgdir/usr/share/alsa/ucm2/Xiaomi/sheng/Xiaomi-Pad6SPro.conf"
+
+	mkdir -p "$pkgdir/usr/share/alsa/ucm2/conf.d/sm8550"
+	ln -s ../../Xiaomi/sheng/Xiaomi-Pad6SPro.conf \
+		"$pkgdir/usr/share/alsa/ucm2/conf.d/sm8550/Xiaomi-Pad6SPro.conf"
+}
+
+openrc() {
+	install_if="$pkgname=$pkgver-r$pkgrel openrc"
+	install="$subpkgname.post-install"
+	depends="
+		qbootctl-openrc
+		"
+	mkdir -p "$subpkgdir"
+}
