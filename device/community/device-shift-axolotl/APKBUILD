@@ -11,17 +11,17 @@ license="MIT"
 arch="aarch64"
 options="!check !archcheck"
 depends="
+	alsa-ucm-conf-sdm845
+	fwupd>=1.8.6
 	linux-postmarketos-qcom-sdm845
+	make-dynpart-mappings
 	make-dynpart-mappings
 	mkbootimg
 	postmarketos-base
-	alsa-ucm-conf-sdm845
 	soc-qcom
 	soc-qcom-pd-mapper
 	soc-qcom-qbootctl
-	fwupd>=1.8.6
 	systemd-boot
-	make-dynpart-mappings
 	unl0kr-fbforcerefresh
 "
 makedepends="devicepkg-dev"
