@@ -47,7 +47,6 @@ source="
 	0016-fix-vol-up-with-custom-uboot.patch
 	0017-drm-panel-ddic-ch13726a-add-support-for-rpminiv2.patch
 	0020-panel-ddic-ch13726a-dsi-init.patch
-	0101-mdss-core-reset.patch
 	0018-arm64-dts-qcom-sm8250-add-support-for-Retroid-Pocket.patch
 	0019-arm64-dts-qcom-sm8250-add-support-for-Retroid-Pocket.patch
 	9997-set-boot-fanspeed.patch
@@ -102,7 +101,6 @@ e39ea8c017f49a656da64b9d3ac751361ebdfd28283f2ee9e3098aef0eb20ffd831ca811b8168ea3
 2f4b06c34249741d9980489efaff72711e2a3bc2dca1c2ade7486a2c419da8a10184d3d69cc168aaa02088173deaea22a3511e3a1f04d5d0203cefad16201d3d  0016-fix-vol-up-with-custom-uboot.patch
 526b3e1dd989ff20c6cc8fb7dffb053b5887c7231bf3570321cafe2c2d7d39055f143875526caeaedf53e16e4edf4b2b78a191e172b44bca142464dade8e2538  0017-drm-panel-ddic-ch13726a-add-support-for-rpminiv2.patch
 2bcc084230b93b35acf9e83279a77636ffc16e87fb277afeb57c24c4657276bd5665ff91bf158b4b056254cc04d61bfcf594c3ce0a4977818361006abd3e09f4  0020-panel-ddic-ch13726a-dsi-init.patch
-d71bd46ec850ac053344de86a7382eb13426a74277b2352d2a0e55c85e1dc9eb6cb8415b0ec4ee6ef2430ba9d8b89f9ad82e078b04910d651421563533b04783  0101-mdss-core-reset.patch
 4b5673e70a7e0eb2f7d9e86636b4dc540ebbea24296a348311882b320e462d3770635d154e3590133562d2f9c26bb66acc30ba74b3e07edb1b1be2db94eb44c5  0018-arm64-dts-qcom-sm8250-add-support-for-Retroid-Pocket.patch
 a239cbbca99ed9f5a0bde8fe4157f1d6ac0b8616d5d6ab51d78263614ec7278a9507dcfc1a4ab1c9844a2bb4a6674f5ea713f02cdc5c3a308cb317df0e223e0a  0019-arm64-dts-qcom-sm8250-add-support-for-Retroid-Pocket.patch
 bf1801c930eeb3e360b5f89e3c627dd5eecc7b7cbbb255027d613afd016c585b62f167c7c4e51604220052b6c2c3319984d8a745a7ba272e1f917a22e150d58c  9997-set-boot-fanspeed.patch
