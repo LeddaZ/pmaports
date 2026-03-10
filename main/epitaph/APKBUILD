@@ -1,0 +1,37 @@
+# Maintainer: Ferass El Hafidi <funderscore@postmarketos.org>
+pkgname=epitaph
+pkgver=1.0.3
+pkgrel=0
+pkgdesc="Wayland mobile panel"
+url="https://catacombing.org/"
+arch="all"
+license="GPL-3.0"
+options="net" # cargo deps download
+depends="libxkbcommon udev"
+makedepends="
+	cargo
+	curl
+	eudev-dev
+	fontconfig-dev
+	libpulse
+	libxkbcommon-dev
+	rust
+"
+source="epitaph-v$pkgver.tar.gz::https://github.com/catacombing/epitaph/archive/refs/tags/v$pkgver.tar.gz"
+
+prepare() {
+	default_prepare
+	cargo fetch --target="$CTARGET" --locked
+}
+
+build() {
+	cargo build --release --locked
+}
+
+package() {
+	mkdir -p "$pkgdir"/usr/bin/
+	install -Dm755 target/release/epitaph -t "$pkgdir"/usr/bin/
+}
+sha512sums="
+6b34fe10bf89395e57b415c543231b60d17a380b7813f5ff9771ec311a87e21d2878d6320f8c4ba5fa392659e086be0ea4f20adff47e28b77bc7177e5f7d0f84  epitaph-v1.0.3.tar.gz
+"

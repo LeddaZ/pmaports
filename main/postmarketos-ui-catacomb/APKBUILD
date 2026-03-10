@@ -1,0 +1,43 @@
+# Reference: https://postmarketos.org/uipkg
+# Maintainer: Ferass El Hafidi <funderscore@postmarketos.org>
+pkgname=postmarketos-ui-catacomb
+pkgver=1
+pkgrel=0
+pkgdesc="(Wayland) Lightweight Mobile interface optimized to run on low-end hardware"
+url="https://catacombing.org"
+arch="noarch"
+license="GPL-3.0-or-later"
+depends="
+	catacomb
+	dnsmasq
+	elogind
+	epitaph
+	tinydm
+	mesa-egl
+	polkit-elogind
+	postmarketos-base-ui
+	postmarketos-base-ui-audio
+	postmarketos-base-ui-networkmanager
+	postmarketos-artwork-wallpapers
+	"
+_pmb_recommends="
+	grim
+	slurp
+	squeekboard
+	swayidle
+	tabula
+	tzompantli
+"
+install="postmarketos-ui-catacomb-openrc.post-install postmarketos-ui-catacomb-openrc.post-upgrade"
+subpackages="postmarketos-ui-catacomb-openrc"
+options="!check pmb:drm"
+
+package() {
+	mkdir -p "$pkgdir"
+}
+
+openrc() {
+	default_openrc
+	mkdir -p "$subpkgdir"
+}
+

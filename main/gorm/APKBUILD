@@ -1,0 +1,37 @@
+# Maintainer: Ferass El Hafidi <funderscore@postmarketos.org>
+pkgname=gorm
+pkgver=1.2.0
+pkgrel=0
+pkgdesc="Wayland mobile GUI for Wi-Fi settings"
+url="https://catacombing.org/"
+arch="all"
+license="GPL-3.0"
+options="net" # cargo deps download
+depends="libxkbcommon pango"
+makedepends="
+	cargo
+	curl
+	fontconfig-dev
+	glib-dev
+	libxkbcommon-dev
+	pango-dev
+	rust
+"
+source="gorm-v$pkgver.tar.gz::https://github.com/catacombing/gorm/archive/refs/tags/v$pkgver.tar.gz"
+
+prepare() {
+	default_prepare
+	cargo fetch --target="$CTARGET" --locked
+}
+
+build() {
+	cargo build --release --locked
+}
+
+package() {
+	mkdir -p "$pkgdir"/usr/bin/
+	install -Dm755 target/release/gorm -t "$pkgdir"/usr/bin/
+}
+sha512sums="
+a000f72e80af22ba9d6490bbb136e67bae322d8d1ea49bd672b5d6a45eea86bf076374d15e77b919cb4fb220269e424cbbb475aa2170c181cfc3085c992cbbcd  gorm-v1.2.0.tar.gz
+"

@@ -1,0 +1,47 @@
+# Maintainer: Ferass El Hafidi <funderscore@postmarketos.org>
+pkgname=catacomb
+pkgver=1.0.6
+pkgrel=0
+pkgdesc="Wayland Mobile Compositor optimized to run on low-end hardware with limited battery life"
+url="https://catacombing.org/"
+arch="all"
+license="GPL-3.0"
+depends="
+	libxkbcommon
+	libinput
+	seatd
+"
+makedepends="
+	rust
+	cargo
+	libxkbcommon-dev
+	libinput-dev
+	libseat-dev
+	wayland-dev
+	mesa-dev
+"
+source="catacomb-v$pkgver.tar.gz::https://github.com/catacombing/catacomb/archive/refs/tags/v$pkgver.tar.gz
+	break-auto-rotation-support.patch debugging-rotation.patch initrc.patch"
+
+prepare() {
+	default_prepare
+	cargo fetch --target="$CTARGET" --locked
+}
+
+build() {
+	cargo build --release --locked
+}
+
+package() {
+	install -Dm755 target/release/catacomb -t "$pkgdir"/usr/bin/
+	install -Dm755 initrc "$pkgdir"/etc/catacomb/initrc
+	install -Dm755 session/catacomb-session -t "$pkgdir"/usr/bin/
+	install -Dm644 session/catacomb.desktop -t "$pkgdir"/usr/share/wayland-sessions/
+}
+
+sha512sums="
+ce7650752a79dc6b681c9585767cc1dcbb525a53c8c8c7a9805a7f53a38f48ebd7d8472e41dc569677685537807d346fd223d1a3749eac5e1ae77df7a502d4bc  catacomb-v1.0.6.tar.gz
+023f644209a47c403bd4f60ab0635ee443d44e3fb0372615e0f601f709c9baba4993d9b4c7f42a8d99998e8e948a77c669437d1e2795633343967075dd169855  break-auto-rotation-support.patch
+ede7de00443db90c011e5cca0fa26ede502b22d2709c49029240dc65b6ac46a9d76d02fa8af0e6e437601fb1488be5599e74853c9836918d4415d3662694e696  debugging-rotation.patch
+10b1c184c5c167974d790839c995c9beca2298e41db0942b169e851893da06ad37ee4f4ce60d3150e2dbe5cbe42d2ac9b0626069ad66375f7af3c727f85cf954  initrc.patch
+"
